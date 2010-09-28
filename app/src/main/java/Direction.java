@@ -1,101 +1,93 @@
-// Direction.cpp: implementation of the Direction class.
-//
-//////////////////////////////////////////////////////////////////////
+import java.util.Random;
 
-#include "Stdafx.h"
-#include "OpenGL.h"
+public class Direction {
 
-#include "Inkludy.h"
+    public static int NORTH = 2;
+    public static int EAST = 3;
+    public static int SOUTH = 0;
+    public static int WEST = 1;
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+    private static Random random = new Random();
 
+    public int getDirectionByName(String direction)
+    {
+        if (direction != null) {
+            if("NORTH".equals(direction))
+                return 0;
+            if("EAST".equals(direction))
+                return 1;
+            if("SOUTH".equals(direction))
+                return 2;
+            if("WEST".equals(direction))
+                return 3;
+        }
+        return -1;
+    }
 
+    public static void computePosition(Position position, int direction)
+    {
+        if (direction == NORTH)
+            position.y--;
+        else if (direction == EAST)
+            position.x++;
+        else if (direction == SOUTH)
+            position.y++;
+        else if (direction == WEST)
+            position.x--;
+    }
 
-int Direction::NORTH = 2;
-int Direction::EAST = 3;
-int Direction::SOUTH = 0;
-int Direction::WEST = 1;
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+    public float computeRotation(int direction)
+    {
+        if (direction == NORTH)
+            return 0.0f;
+        else if (direction == EAST)
+            return 90.0f;
+        else if (direction == SOUTH)
+            return 180.0f;
+        else if (direction == WEST)
+            return 270.f;
+        else {
+            System.exit(997);
+            return 0.0f;
+        }
+    }
 
-//DEL int Direction::turnLeft(int direction)
-//DEL {
-//DEL 	return 	(direction + 1) % 4;
-//DEL }
+    public int randDirection()
+    {
+        return random.nextInt(4);
+    }
 
-//DEL int Direction::turnRight(int direction)
-//DEL {
-//DEL 	return (direction + 3) % 4;
-//DEL }
+    public static int getLeft(int direction)
+    {
+        return 	(direction + 1) % 4;
+    }
 
-int Direction::getDirectionByName(char *direction)
-{
- 	if (direction != NULL) {
- 		if(!strcmp(direction,"NORTH"))
- 			return 0;
- 		if(!strcmp(direction,"EAST"))
- 			return 1;
-		if(!strcmp(direction,"SOUTH"))
- 			return 2;
- 		if(!strcmp(direction,"WEST"))
- 			return 3;
-	}
- 	return -1;
-}
+    public static int getRight(int direction)
+    {
+        return (direction + 3) % 4;
+    }
 
-void Direction::computePosition(Position* p, int direction)
-{
-	if (direction == NORTH)
-		p->y--;
-	else if (direction == EAST)
-		p->x++;
-	else if (direction == SOUTH)
-		p->y++;
-	else if (direction == WEST)
-		p->x--;
-}
+    public int getBackward(int direction)
+    {
+        return direction % 4;
+    }
 
-float Direction::computeRotation(int direction)
-{
-	if (direction == NORTH)
-		return 0.0f;
-	else if (direction == EAST)
-		return 90.0f;
-	else if (direction == SOUTH)
-		return 180.0f;
-	else if (direction == WEST)
-		return 270.f;
-	else 
-		exit(997);
-}
+    public int getForward(int direction)
+    {
+        return (direction + 2) % 4;
+    }
 
-int Direction::randDirection()
-{
-	int	choice = rand() % 4;
-	return choice;
-}
+    public static int computeDirection(Position from, Position to)
+    {
+        if(from.y > to.y )
+            return NORTH;
+        if(from.y < to.y )
+            return SOUTH;
+        if(from.x > to.x )
+            return EAST;
+        if(from.x < to.x )
+            return WEST;
+        return -1;
+    }
 
-int Direction::getLeft(int direction)
-{
-	return 	(direction + 1) % 4;
-}
-
-int Direction::getRight(int direction)
-{
-	return (direction + 3) % 4;
-}
-
-int Direction::getBackward(int direction)
-{
-	return direction % 4;
-}
-
-int Direction::getForward(int direction)
-{
-	return (direction + 2) % 4;
 }

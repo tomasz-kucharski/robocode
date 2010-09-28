@@ -1,79 +1,64 @@
-// RobotBattery.cpp: implementation of the RobotBattery class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "Stdafx.h"
-#include "OpenGL.h"
+public class RobotBattery {
 
-#include "Inkludy.h"
+    private 	int capacity;
+    private final int maxCapacity;
+    private int actualDischarge;
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+    public RobotBattery(int capacity)
+    {
+        maxCapacity = capacity;
+        if(capacity < 100 )
+            this.capacity = 100;
+        else
+            this.capacity = capacity;
+        actualDischarge = 0;
+    }
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+    public int getCapacity()
+    {
+        return capacity;
+    }
 
-RobotBattery::RobotBattery(int capacity)
-: maxCapacity(capacity)
-{
-	if(capacity < 100 )
-		this->capacity = 100;
-	else 
-		this->capacity = capacity;
-	actualDischarge = 0;
+
+    private void discharge(int amount)
+    {
+        capacity -= amount;
+        if (capacity < 0 )
+            capacity = 0;
+    }
+
+    public void charge(Depot depot)
+    {
+
+    }
+
+    public int getMaxCapacity()
+    {
+        return maxCapacity;
+    }
+
+    public int getDischargeLevel()
+    {
+        return (maxCapacity*100)/capacity;
+    }
+
+
+    public boolean isEmpty()
+    {
+        return (capacity == 0) ? true : false;
+    }
+
+    //todo return int ref
+    public int plug()
+    {
+        return  actualDischarge;
+    }
+
+    public void unplug()
+    {
+        //discharge(actualDischarge);
+        actualDischarge = 0;
+    }
+
+
 }
-
-RobotBattery::~RobotBattery()
-{
-
-}
-
-int RobotBattery::getCapacity()
-{
-	return capacity;
-}
-
-
-void RobotBattery::discharge(int amount)
-{
-	capacity -= amount;
-	if (capacity < 0 ) 
-		capacity = 0;
-}
-
-void RobotBattery::charge(Depot *depot)
-{
-
-}
-
-const int RobotBattery::getMaxCapacity()
-{
-	return maxCapacity;
-}
-
-int RobotBattery::getDischargeLevel()
-{
-	return (maxCapacity*100)/capacity;
-}
-
-
-bool RobotBattery::isEmpty()
-{
-	return (capacity == 0) ? true : false;
-}
-
-int& RobotBattery::plug()
-{
-	return  actualDischarge;
-}
-
-void RobotBattery::unplug()
-{
-	//discharge(actualDischarge);
-	actualDischarge = 0;
-}
-
-

@@ -1,59 +1,25 @@
-// WorldObjectList.cpp: implementation of the WorldObjectList class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "Stdafx.h"
-#include "OpenGL.h"
-
-#include "Inkludy.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-WorldObjectList::WorldObjectList()
-{
-
-}
-
-WorldObjectList::~WorldObjectList()
-{
-	
-}
-
-WorldObject* WorldObjectList::getNext()
-{
-	return (WorldObject *)( List::getNext());
-}
+public class WorldObjectList extends List<WorldObject> {
 
 
-bool WorldObjectList::isObjectByName(int className)
-{
-	bool check = false;
-	WorldObject* temp;
-	if (!setToFirst()) return false;
-	while  ( (temp = getNext() ) != NULL )
-		if (temp->getClassName() == className)
-			check = true;
-	return check;
-}
+    public boolean isObjectByName(int className)
+    {
+        boolean check = false;
+        WorldObject temp;
+        if (!setToFirst()) return false;
+        while  ( (temp = getNext() ) != null )
+            if (temp.getClassName() == className)
+                check = true;
+        return check;
+    }
 
-WorldObject* WorldObjectList::getObject()
-{
-	return (WorldObject*) List::getObject();
-}
 
-WorldObject* WorldObjectList::getObjectByName(int className)
-{
-	WorldObject* temp;
-	if (!setToFirst()) return NULL;
-	while  ( (temp = getNext() ) != NULL )
-		if (temp->getClassName() == className) 
-			return temp;
-	return NULL;
+    public WorldObject getObjectByName(int className)
+    {
+        WorldObject temp;
+        if (!setToFirst()) return null;
+        while  ( (temp = getNext() ) != null )
+            if (temp.getClassName() == className)
+                return temp;
+        return null;
+    }
 }

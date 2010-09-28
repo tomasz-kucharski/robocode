@@ -1,35 +1,20 @@
-// IntelligentObject.cpp: implementation of the IntelligentObject class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "Stdafx.h"
-#include "OpenGL.h"
+import org.apache.commons.lang.mutable.MutableInt;
 
-#include "Inkludy.h"
+public abstract class IntelligentObject extends WorldObject {
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+    String name;
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+    public IntelligentObject(int className, Position p, boolean  flat, boolean movable,boolean slide, String name) {
+        super(className,p,flat,true,movable,slide);
+        this.name = name;
+    }
 
-IntelligentObject::IntelligentObject(int className, Position* p, bool flat, 
-									 bool movable,bool slide, char* name)
-:WorldObject(className,p,flat,true,movable,slide)
-{
-	this->name = new char [ strlen(name) + 1 ];
-	strcpy(this->name, name);
-}
 
-IntelligentObject::~IntelligentObject()
-{
-	delete name;
-}
+    public void evolve()
+    {
+        think();
+    }
 
-void IntelligentObject::evolve()
-{
-	think();
+    public abstract void think();
+
 }

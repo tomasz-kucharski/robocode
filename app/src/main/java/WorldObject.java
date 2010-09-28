@@ -1,72 +1,67 @@
-// WorldObject.cpp: implementation of the WorldObject class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "Stdafx.h"
-#include "OpenGL.h"
+import org.apache.commons.lang.mutable.MutableInt;
 
-#include "Inkludy.h"
+public abstract class WorldObject {
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+//	friend class World;
+    //	friend class Eter;
+    World world;
+    int className;
+    Position position;
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+    protected boolean moved;
+    protected boolean deleteMe;
+    private boolean flat;
+    private boolean movable;
+    private boolean intelligent;
+    private boolean slide;
 
-WorldObject::WorldObject(int className, Position* p, bool flat, bool intelligent, 
-						 bool movable, bool slide)
-{
-	this->flat = flat;
-	this->intelligent = intelligent;
-	this->movable = movable;
-	this->slide = slide;
-	this->className = className;
+    public WorldObject(int className, Position p, boolean flat, boolean intelligent, boolean movable, boolean slide)
+    {
+        this.flat = flat;
+        this.intelligent = intelligent;
+        this.movable = movable;
+        this.slide = slide;
+        this.className = className;
 
-	this->p = new Position(p->x, p->y);
-	deleteMe = false;
-	moved = false;
-	world = NULL;
-}
+        this.position = new Position(p.x, p.y);
+        deleteMe = false;
+        moved = false;
+    }
 
-WorldObject::~WorldObject()
-{
-	delete p;
-}
+    public boolean isSlide()
+    {
+        return slide;
+    }
 
-bool WorldObject::isSlide()
-{
-	return slide;
-}
+    public boolean isFlat()
+    {
+        return flat;
+    }
 
-bool WorldObject::isFlat()
-{
-	return flat;
-}
+    public boolean isMovable()
+    {
+        return movable;
+    }
 
-bool WorldObject::isMovable()
-{
-	return movable;
-}
+    public boolean isIntelligent()
+    {
+        return intelligent;
+    }
 
-bool WorldObject::isIntelligent()
-{
-	return intelligent;
-}
+    public int getClassName()
+    {
+        return className;
+    }
 
-int WorldObject::getClassName()
-{
-	return className;
-}
+    public World getWorld()
+    {
+        return world;
+    }
 
-World* WorldObject::getWorld()
-{
-	return world;
-}
+    public Position getPosition()
+    {
+        return position;
+    }
 
-Position* const WorldObject::getPosition()
-{
-	return this->p;
+    public abstract boolean conditionalMovement(final WorldObject worldObject, final int direction, final int maxPower, MutableInt usedPower); 
 }

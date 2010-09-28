@@ -1,47 +1,32 @@
-// Depot.cpp: implementation of the Depot class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "Stdafx.h"
-#include "OpenGL.h"
-#include "Inkludy.h"
+import org.apache.commons.lang.mutable.MutableInt;
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+public class Depot extends WorldObject {
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+    private int efficiency;
+    private boolean lighted;
 
-Depot::Depot(Position* p, int slippery)
-: WorldObject(WorldObjectVerifier::DEPOT,p,true,false,false,true)
-{	
-	if( efficiency < 0 )
-		this->efficiency = 100;
-	else 
-		this->efficiency = efficiency;
-	lighted = false;
-}
+    public Depot(Position p, int slippery) {
+        super(WorldObjectVerifier.DEPOT.getIntValue(),p,true,false,false,true);
+        if( efficiency < 0 )
+            this.efficiency = 100;
+        else
+            this.efficiency = efficiency;
+        lighted = false;
+    }
 
-Depot::~Depot()
-{
+    public boolean conditionalMovement(final WorldObject worldObject, final int direction, final int MaxPower, MutableInt usedPower)
+    {
+        return true;
+    }
 
-}
+    public void evolve()
+    {
+        lighted = !lighted;
+    }
 
-bool Depot::conditionalMovement(WorldObject* const worldObject, 
-			const int direction,const int MaxPower, int& usedPower)
-{
-	return true;
-}
+    public boolean getLighted()
+    {
+        return lighted;
+    }
 
-void Depot::evolve()
-{
-	lighted = !lighted;
-}
-
-bool Depot::getLighted()
-{
-	return lighted;
 }

@@ -1,183 +1,163 @@
-// World.cpp: implementation of the World class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "Stdafx.h"
-#include "OpenGL.h"
+import java.util.Random;
 
-#include "Inkludy.h"
+public class World {
+    WorldObjectList world[][];
+    private int columns;
+    private int rows;
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+    Random random;
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+    public World(int columns, int rows)
+    {
+        this.columns = columns;
+        this.rows = rows;
 
-World::World(int columns, int rows)
-{
-	this->columns = columns;
-	this->rows = rows;
+        world = new WorldObjectList [columns][rows];
+        for (int i=0; i<columns; i++) {
+            for (int j=0; j<rows; j++)
+                world[i][j] = new WorldObjectList();
+        }
+        random = new Random();
+    }
 
-	world = new WorldObjectList** [columns];
-	for (int i=0; i<columns; i++) {
-		world[i] = new WorldObjectList*[rows];
-		for (int j=0; j<rows; j++)
-			world[i][j] = new WorldObjectList();
-	}
-	srand( (unsigned)time( NULL ) );
-}
+    public int getColumns()
+    {
+        return columns;
+    }
 
-World::~World()
-{
-	WorldObject* object;
+    public int getRows()
+    {
+        return rows;
+    }
 
-	for (int i=0; i<columns; i++) {
-		for(int j=0; j<rows; j++)
-			if (world[i][j] != NULL) {
-				world[i][j]->setToFirst();
-				while( object = world[i][j]->getNext() )
-					delete object;
-				delete world[i][j];
-			}
-		if(world [i] != NULL) delete[] world[i];
-	}
-	if(world != NULL) delete[] world;
-}
+    public WorldObjectList getCell(Position p)
+    {
+        if(!checkPosition(p)) return null;
+        else
+            return world[p.x][p.y];
+    }
 
-int World::getColumns()
-{
-	return columns;
-}
+    public boolean checkPosition(Position p)
+    {
+        if ((p.x < 0) || (p.x >= columns) || (p.y < 0) || (p.y >= rows))
+            return false;
+        else
+            return true;
+    }
 
-int World::getRows()
-{
-	return rows;
-}
+    public boolean setCell(Position p, WorldObject object)
+    {
+        if (!checkPosition(p))
+            return false;
+        else {
+            world[p.x][p.y].add(object);
+            object.world = this;
+            return true;
+        }
+    }
 
-WorldObjectList* World::getCell(Position* p)
-{
-	if(!checkPosition(p)) return NULL;
-	else 
-		return world[p->x][p->y];
-}
+    public boolean checkValidate()
+    {
+        for(int i=0; i<columns; i++)
+            for(int j=0; j<rows; j++)
+                if(!world[i][j].isObjectByName(WorldObjectVerifier.FLOOR.getIntValue()))
+        return false;
+        return true;
+    }
 
-bool World::checkPosition(Position* p)
-{
-	if ((p->x < 0) || (p->x >= columns) || (p->y < 0) || (p->y >= rows))
-		return false;
-	else 
-		return true;
-}
+    private boolean moveObject(WorldObject object, int direction)
+    {
+        Position p = new Position(0,0);
+        p.x = object.position.x;
+        p.y = object.position.y;
 
-bool World::setCell(Position* p, WorldObject *object)
-{
-	if (!checkPosition(p))
-		return false;
-	else {
-		world[p->x][p->y]->add(object);
-		object->world = this;
-		return true;
-	}
-}
+        WorldObjectList listFrom;
+        WorldObjectList listTo;
+        listFrom = world[p.x][p.y];
+        Direction.computePosition(p,direction);
+        if (!checkPosition(p)) {
+            return false;
+        }
+        listTo = world[p.x][p.y];
+        if (!listFrom.remove(object)) {
+            System.exit(60);
+        }
+        object.position.x = p.x;
+        object.position.y = p.y;
+        listTo.add(object);
 
-bool World::checkValidate()
-{
-	for(int i=0; i<columns; i++)
-		for(int j=0; j<rows; j++)
-			if(!world[i][j]->isObjectByName(WorldObjectVerifier::FLOOR))
-				return false;
-	return true;
-}
+        return true;
+    }
 
-bool World::moveObject(WorldObject* object, int direction)
-{
-	Position p(0,0);
-	p.x = object->p->x;
-	p.y = object->p->y;
+    //todo usedPower by ref
+    public boolean move(final WorldObject worldObject, final int direction, final int maxPower, int usedPower)
+    {
+        Position p = new Position(0,0);
+        WorldObject object;
 
-	WorldObjectList* listFrom;
-	WorldObjectList* listTo;
-	listFrom = world[p.x][p.y];
-	Direction::computePosition(&p,direction);
-	if (!checkPosition(&p))
-		return false;
-	listTo = world[p.x][p.y];
-	if (!listFrom->remove(object))
-		exit(60);
-	object->p->x = p.x;
-	object->p->y = p.y;
-	listTo->add(object);
-	
-	return true;
-}
+        WorldObjectList list;
+        if ( maxPower < usedPower)
+            return false;
+        p.x = worldObject.position.x;
+        p.y = worldObject.position.y;
 
-bool World::move(WorldObject* const worldObject, const int direction,
-				 const int maxPower, int& usedPower)
-{
-	Position p(0,0);
-	WorldObject *object;
+        Direction.computePosition(p,direction);
+        if (!checkPosition(p)){
+            return false;
+        }
 
-	WorldObjectList* list;
-	if ( maxPower < usedPower)
-		return false;
-	p.x = worldObject->p->x;
-	p.y = worldObject->p->y;
+        list = world[p.x][p.y];
+        list.setToFirst();
+        while((object = list.getNext()) != null ) {
+            if(!object.conditionalMovement(worldObject,direction,maxPower,usedPower)) {
+                return false;
+            }
+        }
+        if(!moveObject(worldObject,direction)) {
+            return false;
+        }
+        return true;
+    }
 
-	Direction::computePosition(&p,direction);
-	if (checkPosition(&p) == false ) 
-		return false;
+    public boolean deleteMe(final WorldObject worldObject)
+    {
+        worldObject.deleteMe = true;
+        return true;
+    }
 
-	list = world[p.x][p.y];
-	list->setToFirst();
-	while(object = list->getNext())
-		if(!object->conditionalMovement(worldObject,direction,maxPower,usedPower))
-			return false;
-		if(!moveObject(worldObject,direction))
-			return false;
-	return true;
-}
+    public void clearWorld()
+    {
+        WorldObject object;
+        for (int i=0; i<columns; i++)
+            for(int j=0; j<rows; j++) {
+                world[i][j].setToFirst();
+                while((object = world[i][j].getNext()) != null) {
+                    object.moved = false;
+                    if (object.deleteMe) {
+//                        if(!world[i][j].remove(object))
+//                            exit(200);
+//                        delete object;
+                    }
+                }
 
-bool World::deleteMe(WorldObject *const worldObject)
-{
-	worldObject->deleteMe = true;
-	return true;
-}
+            }
+    }
 
-void World::clearWorld()
-{
-	WorldObject* object;
-	for (int i=0; i<columns; i++) 
-		for(int j=0; j<rows; j++) {
-			world[i][j]->setToFirst();
-			while( object = world[i][j]->getNext() ) {
-				object->moved = false;
-				if (object->deleteMe) {
-					if(!world[i][j]->remove(object))
-						exit(200);
-					delete object;
-				}
-			}
+    public WorldObject getObject(Position p, int className)
+    {
+        if(!checkPosition(p))
+            return null;
+        else
+            return world[p.x][p.y].getObjectByName(className);
+    }
 
-		}
-}
+    public void setMoved(WorldObject object)
+    {
+        object.moved = true;
+    }
 
-WorldObject* World::getObject(Position *p, int className)
-{
-	if(!checkPosition(p))
-		return NULL;
-	else
-		return world[p->x][p->y]->getObjectByName(className);
-}
-
-void World::setMoved(WorldObject *object)
-{
-	object->moved = true;
-}
-
-bool World::getMoved(WorldObject *object)
-{
-	return object->moved;
+    public boolean getMoved(WorldObject object)
+    {
+        return object.moved;
+    }
 }

@@ -1,75 +1,55 @@
-// ProgramList.cpp: implementation of the ProgramList class.
-//
-//////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "OpenGL.h"
-#include "Inkludy.h"
+public class ProgramList extends List<Instruction> {
+    public boolean jump;
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-ProgramList::ProgramList()
-{
-	jump = true;
-}
-
-ProgramList::~ProgramList()
-{	
-	Instruction* instruction;
-	setToFirst();
-	while( instruction = (Instruction*)getNext() )
-		delete instruction;
-}
-
-Instruction* ProgramList::getInstruction()
-{
-	if (jump)
-	{
-		return (Instruction *)getNext();
-		jump = false;
-	}
-	else
-		return (Instruction *)next();
-}
-
-bool ProgramList::gotoInstruction(int label)
-{
-	jump = true;
-	Instruction* temp;
-	if (!setToFirst()) 
-		return false;
-	temp = (Instruction*)getObject();
-	if( temp->getLabel() == label)
-		return true;
-	while  ( (temp = (Instruction*)next()) != NULL )
-	{
-		if ( temp->getLabel() == label) 
-			return true;
-	}
-	return false;
-}
+    public ProgramList()
+    {
+        jump = true;
+    }
 
 
-bool ProgramList::returnInstruction(int line)
-{
-	Instruction* temp;
-	if (!setToFirst()) 
-		return false;
-	temp = (Instruction*)getObject();
-	if( temp->getLine() == line)
-		return true;
-	while  ( (temp = (Instruction*)next()) != NULL )
-	{
-		if ( temp->getLine() == line) 
-			return true;
-	}
-	return false;
+    public Instruction getInstruction()
+    {
+        if (jump)
+        {
+            return getNext();
+//            jump = false;
+        }
+        else
+            return next();
+    }
+
+    boolean gotoInstruction(int label)
+    {
+        jump = true;
+        Instruction temp;
+        if (!setToFirst())
+            return false;
+        temp = getObject();
+        if( temp.getLabel() == label)
+            return true;
+        while  ( (temp = next()) != null)
+        {
+            if ( temp.getLabel() == label)
+                return true;
+        }
+        return false;
+    }
+
+
+    boolean returnInstruction(int line)
+    {
+        Instruction temp;
+        if (!setToFirst())
+            return false;
+        temp = getObject();
+        if( temp.getLine() == line)
+            return true;
+        while  ( (temp = next()) != null )
+        {
+            if ( temp.getLine() == line)
+                return true;
+        }
+        return false;
+    }
 }
