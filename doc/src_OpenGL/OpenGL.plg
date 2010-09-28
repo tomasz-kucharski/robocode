@@ -1,0 +1,128 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: OpenGL - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\TOMASZ~1\LOCALS~1\Temp\RSP22.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/OpenGL.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /Zm250 /c 
+"D:\Projects\UAM\PRP322\OpenGL\Controller.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\TOMASZ~1\LOCALS~1\Temp\RSP22.tmp" 
+Creating temporary file "C:\DOCUME~1\TOMASZ~1\LOCALS~1\Temp\RSP23.tmp" with contents
+[
+OpenGL32.lib GLu32.lib GLaux.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/OpenGL.pdb" /debug /machine:I386 /out:"Debug/OpenGL.exe" /pdbtype:sept 
+.\Debug\Controller.obj
+.\Debug\DeployWorld.obj
+.\Debug\Depot.obj
+.\Debug\DepotGL.obj
+.\Debug\Direction.obj
+.\Debug\Eter.obj
+.\Debug\Floor.obj
+.\Debug\FloorGL.obj
+.\Debug\Furniture.obj
+.\Debug\FurnitureGL.obj
+.\Debug\Instruction.obj
+.\Debug\IntelligentObject.obj
+.\Debug\LightGL.obj
+.\Debug\List.obj
+.\Debug\ListNode.obj
+.\Debug\Message.obj
+.\Debug\Object.obj
+.\Debug\ObjectGL.obj
+.\Debug\OpenGL.obj
+.\Debug\OpenGLDlg.obj
+.\Debug\PathObject.obj
+.\Debug\Position.obj
+.\Debug\ProgramList.obj
+.\Debug\Robot.obj
+.\Debug\RobotBattery.obj
+.\Debug\RobotGL.obj
+.\Debug\RobotMemory.obj
+.\Debug\RobotPath.obj
+.\Debug\RobotProcessor.obj
+.\Debug\RobotProgramLoader.obj
+.\Debug\RobotScaner.obj
+.\Debug\Rubbish.obj
+.\Debug\RubbishGL.obj
+.\Debug\Stack.obj
+.\Debug\StackObject.obj
+.\Debug\StdAfx.obj
+.\Debug\TableGL.obj
+.\Debug\Wall.obj
+.\Debug\WallGL.obj
+.\Debug\World.obj
+.\Debug\WorldGL.obj
+.\Debug\WorldObject.obj
+.\Debug\WorldObjectList.obj
+.\Debug\WorldObjectVerifier.obj
+.\Debug\WorldService.obj
+.\Debug\OpenGL.res
+]
+Creating command line "link.exe @C:\DOCUME~1\TOMASZ~1\LOCALS~1\Temp\RSP23.tmp"
+<h3>Output Window</h3>
+Compiling...
+Controller.cpp
+Linking...
+Creating temporary file "C:\DOCUME~1\TOMASZ~1\LOCALS~1\Temp\RSP24.tmp" with contents
+[
+/nologo /o"Debug/OpenGL.bsc" 
+.\Debug\StdAfx.sbr
+.\Debug\Controller.sbr
+.\Debug\DeployWorld.sbr
+.\Debug\Depot.sbr
+.\Debug\DepotGL.sbr
+.\Debug\Direction.sbr
+.\Debug\Eter.sbr
+.\Debug\Floor.sbr
+.\Debug\FloorGL.sbr
+.\Debug\Furniture.sbr
+.\Debug\FurnitureGL.sbr
+.\Debug\Instruction.sbr
+.\Debug\IntelligentObject.sbr
+.\Debug\LightGL.sbr
+.\Debug\List.sbr
+.\Debug\ListNode.sbr
+.\Debug\Message.sbr
+.\Debug\Object.sbr
+.\Debug\ObjectGL.sbr
+.\Debug\OpenGL.sbr
+.\Debug\OpenGLDlg.sbr
+.\Debug\PathObject.sbr
+.\Debug\Position.sbr
+.\Debug\ProgramList.sbr
+.\Debug\Robot.sbr
+.\Debug\RobotBattery.sbr
+.\Debug\RobotGL.sbr
+.\Debug\RobotMemory.sbr
+.\Debug\RobotPath.sbr
+.\Debug\RobotProcessor.sbr
+.\Debug\RobotProgramLoader.sbr
+.\Debug\RobotScaner.sbr
+.\Debug\Rubbish.sbr
+.\Debug\RubbishGL.sbr
+.\Debug\Stack.sbr
+.\Debug\StackObject.sbr
+.\Debug\TableGL.sbr
+.\Debug\Wall.sbr
+.\Debug\WallGL.sbr
+.\Debug\World.sbr
+.\Debug\WorldGL.sbr
+.\Debug\WorldObject.sbr
+.\Debug\WorldObjectList.sbr
+.\Debug\WorldObjectVerifier.sbr
+.\Debug\WorldService.sbr]
+Creating command line "bscmake.exe @C:\DOCUME~1\TOMASZ~1\LOCALS~1\Temp\RSP24.tmp"
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+OpenGL.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

@@ -1,0 +1,19 @@
+#to jest wysokosc i szerokosc
+#begin 10 10 0 empty.bmp
+#PRZYJETO NASTEPUJACA NUMERACJE
+#0 - Pole puste
+#1 - Robot
+#2 - Sciana
+#3 - Przeszkoda
+#4 - Smiec
+#x y TYPE data data2 DIRECTION NAME
+#data = capacity
+#data2 = zakres 
+columns__ 3
+rows_____ 2
+0 0 ROBOT____ 3 5 NORTH____ Stanislaw
+0 1 FLOOR____ 4
+1 0 FLOOR____ 7
+1 1 FLOOR____ 17
+2 0 FLOOR____ 20
+2 1 FLOOR____ 20

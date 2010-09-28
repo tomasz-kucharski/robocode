@@ -1,0 +1,24 @@
+// Position.cpp: implementation of the Position class.
+//
+//////////////////////////////////////////////////////////////////////
+#include "Stdafx.h"
+#include "OpenGL.h"
+
+#include "Inkludy.h"
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[]=__FILE__;
+#define new DEBUG_NEW
+#endif
+
+//////////////////////////////////////////////////////////////////////
+// Construction/Destruction
+//////////////////////////////////////////////////////////////////////
+
+Position::Position(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+}
+

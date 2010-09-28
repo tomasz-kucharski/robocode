@@ -1,0 +1,80 @@
+3D Studio dataset of a 83 Honda ATC-200 all-terrain cycle
+by Viewpoint DataLabs
+
+Mesh Objects: Total vertices:   9381
+              Total faces:     18088
+
+  Object    Verts  Faces      Material        Mapping   Hidden
+----------  -----  -----  ----------------  ----------- ------
+boots02       820   1600  BLACK MATTE       None         No
+headligh02     58    112  RED MATTE         None         No
+                          VP WHITE HALOGEN  None         
+frontfla02      8     10  BLACK MATTE       None         No
+pegs02         28     64  BLUE FRAME        None         No
+ffender02      67    212  RED MATTE         None         No
+frame02       119    222  BLUE FRAME        None         No
+grips02        96    172  BLACK MATTE       None         No
+hbars02       774   1522  NEW CHROME        None         No
+rhub02        856   1576  NEW CHROME        None         No
+rtire02       900   1680  BLACK MATTE       None         No
+gascap02       56     94  BLACK MATTE       None         No
+rfenders02    389    722  RED MATTE         None         No
+                          RED PLASTIC       None         
+rearflap02     80    120  BLACK MATTE       None         No
+gears02        50     88  BLUE FRAME        None         No
+rack02         60    112  NEW CHROME        None         No
+engine02     2464   4964  NEW CHROME        None         No
+fhub02        428    788  NEW CHROME        None         No
+ftire02       450    840  BLACK MATTE       None         No
+tank02        504    990  RED MATTE         None         No
+seat01         56     86  BLACK MATTE       None         No
+frame03        52    104  BLUE FRAME        None         No
+forks01       424    776  NEW CHROME        None         No
+tubes01       642   1234  BLACK MATTE       None         No
+            -----  -----
+Total        9381  18088
+
+Save Time With Viewpoint Datasets(tm)
+Modeling or digitizing the 3D objects you want to place within your
+animation or real-time scenario is time consuming. That's where
+Viewpoint comes in. Go ahead, experiment with the sample Datasets
+provided here. Discover why many of the top animation and special-effects
+houses rely on accurate, modifiable Viewpoint data.
+
+Why re-invent 3D object data that has already been created? Especially
+when it can be yours right away. Viewpoint has hundreds of precision
+ready-to-use Datasets available for use with over fifty different 3D
+software packages, with more Datasets being added daily. We also can
+create custom Datasets to your specifications. Use Viewpoint on your next
+3D project and find out how we can simplify your life. 
+
+In the Format You Need
+Viewpoint Datasets(tm) can be imported into and manipulated with dozens
+of 3D software applications that run across a variety of hardware
+platforms. Over fifty major 3D applications and all platforms are
+supported by Viewpoint, allowing you to work in the computing
+environment that you are most comfortable with. 
+
+Available Now - DATASHOP (tm) CD ROM
+With fast overnight Dataset delivery, you can be animating tomorrow. Get
+Viewpoint's DataShop(tm) CD ROM, available for select software
+applications, and instant access to the data you need is only a phone call
+away. And you can reuse Datasets again and again. One Dataset can be used
+for several projects. The only restriction is that the data not be resold or
+redistributed in original or modified form. 
+
+
+Call 1 800 DATASET (328-2738) now and ask for your free Dataset catalog
+and DataShop (tm) CD ROM
+
+Demonstration Datasets included with this product are copyrighted
+commercial property of Viewpoint DataLabs, Inc. Users rights are limited
+to in-house use in one location. Users may not distribute these files in
+modified or unmodified form outside their organization or location
+without written permission from Viewpoint DataLabs, Inc.
+
+Viewpoint DataLabs
+870 West Center
+Orem, Utah  84057 
+Phone 801-224-2222 
+Fax 801-224-2272
