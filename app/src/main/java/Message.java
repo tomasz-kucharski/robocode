@@ -1,31 +1,14 @@
-// Message.cpp: implementation of the Message class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "Stdafx.h"
-#include "OpenGL.h"
 
-#include "Inkludy.h"
+public class Message {
+    public int information;
+    public WorldObject worldObject;
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+    public static final int CHECKED = 1;
+    public static final int CLEANED = 2;
+    public static final int HELP = 3;
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-const int Message::CHECKED = 1;
-const int Message::CLEANED = 2;
-const int Message::HELP = 3;
-
-Message::Message(WorldObject* worldObject, int information)
-{
-	this->worldObject = worldObject;
-	this->information = information;
-}
-
-Message::~Message()
-{
-
+    public Message(WorldObject worldObject, int information) {
+        this.worldObject = worldObject;
+        this.information = information;
+    }
 }

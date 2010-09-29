@@ -1,41 +1,23 @@
-// Floor.cpp: implementation of the Floor class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "Stdafx.h"
-#include "OpenGL.h"
+import org.apache.commons.lang.mutable.MutableInt;
 
-#include "Inkludy.h"
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+public class Floor extends WorldObject {
+    private int slippery; //od 1 do 10
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+    public Floor(Position p, int slippery) {
+        super(WorldObjectVerifier.FLOOR.getIntValue(),p,true,false,false,true);
+        if( (slippery > 0 ) && (slippery <= 10 ) )
+            this.slippery = slippery;
+        else this.slippery = 1;
+    }
 
-Floor::Floor(Position* p, int slippery)
-: WorldObject(WorldObjectVerifier::FLOOR,p,true,false,false,true)
-{	
-	if( (slippery > 0 ) && (slippery <= 10 ) )
-		this->slippery = slippery;
-	else this->slippery = 1;
-}
 
-Floor::~Floor()
-{
+    public boolean conditionalMovement(final WorldObject worldObject, final int direction,final int MaxPower, MutableInt usedPower) {
+        usedPower.add(slippery);
+        return true;
+    }
 
-}
+    public void evolve() {
 
-bool Floor::conditionalMovement(WorldObject* const worldObject, 
-			const int direction,const int MaxPower, int& usedPower)
-{
-	usedPower += slippery;
-	return true;
-}
-
-void Floor::evolve()
-{
+    }
 
 }

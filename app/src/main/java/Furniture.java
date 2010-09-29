@@ -1,55 +1,43 @@
-// Furniture.cpp: implementation of the Furniture class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "Stdafx.h"
-#include "OpenGL.h"
+import org.apache.commons.lang.mutable.MutableInt;
 
-#include "Inkludy.h"
+import java.util.Random;
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+public class Furniture extends WorldObject {
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+    private int weight;
+    private int direction;
+    private int type;
 
-Furniture::Furniture(Position* p, int weight)
-: WorldObject(WorldObjectVerifier::FURNITURE,p,false,false,true,true)
-{	
-	if( weight < 0 )
-		this->weight = 1;
-	else 
-		this->weight = weight;
-	direction = Direction::randDirection();
-	type = rand() % 4;
-	
-}
+    public Furniture(Position p, int weight) {
+        super(WorldObjectVerifier.FURNITURE.getIntValue(),p,false,false,true,true);
+        if( weight < 0 ) {
+            this.weight = 1;
+        }
+        else {
+            this.weight = weight;
+        }
+        direction = Direction.randDirection();
+        type = new Random().nextInt(4);
 
-Furniture::~Furniture()
-{
+    }
 
-}
-void Furniture::evolve()
-{
+    public void evolve() {
 
-}
+    }
 
-bool Furniture::conditionalMovement(WorldObject* const worldObject, const int direction,
-		const int MaxPower,	int& usedPower)
-{
-	usedPower += weight;
-	return getWorld()->move(this,direction,MaxPower,usedPower);
-}
+    public boolean conditionalMovement(final WorldObject worldObject, final int direction,final int MaxPower, MutableInt usedPower) {
+        usedPower.add(weight);
+        return getWorld().move(this,direction,MaxPower,usedPower);
+    }
 
-int Furniture::getDirection()
-{
-	return direction;
-}
+    public int getDirection()
+    {
+        return direction;
+    }
 
-int Furniture::getType()
-{
-	return type;
+    public int getType()
+    {
+        return type;
+    }
+
 }

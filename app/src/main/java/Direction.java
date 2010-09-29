@@ -9,7 +9,7 @@ public class Direction {
 
     private static Random random = new Random();
 
-    public int getDirectionByName(String direction)
+    public static int getDirectionByName(String direction)
     {
         if (direction != null) {
             if("NORTH".equals(direction))
@@ -52,7 +52,7 @@ public class Direction {
         }
     }
 
-    public int randDirection()
+    public static int randDirection()
     {
         return random.nextInt(4);
     }

@@ -1,3 +1,5 @@
+import org.apache.commons.lang.mutable.MutableInt;
+
 import java.util.Random;
 
 public class World {
@@ -89,14 +91,13 @@ public class World {
         return true;
     }
 
-    //todo usedPower by ref
-    public boolean move(final WorldObject worldObject, final int direction, final int maxPower, int usedPower)
+    public boolean move(final WorldObject worldObject, final int direction, final int maxPower, MutableInt usedPower)
     {
         Position p = new Position(0,0);
         WorldObject object;
 
         WorldObjectList list;
-        if ( maxPower < usedPower)
+        if ( maxPower < usedPower.intValue())
             return false;
         p.x = worldObject.position.x;
         p.y = worldObject.position.y;
