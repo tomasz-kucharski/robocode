@@ -1,3 +1,4 @@
+import robot.object.WorldObject;
 
 public class Message {
     public int information;

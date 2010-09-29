@@ -1,3 +1,5 @@
+import robot.object.Depot;
+
 public class RobotBattery {
 
     private 	int capacity;

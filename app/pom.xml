@@ -8,6 +8,13 @@
 	<name>robot</name>
 	<dependencies>
         <dependency>
+          <groupId>net.java.dev.jogl</groupId>
+          <artifactId>jogl</artifactId>
+          <version>1.1.1-rc6</version>
+        </dependency>
+
+        
+        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.4</version>

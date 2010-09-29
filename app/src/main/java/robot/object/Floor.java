@@ -1,3 +1,5 @@
+package robot.object;
+
 import org.apache.commons.lang.mutable.MutableInt;
 
 public class Floor extends WorldObject {

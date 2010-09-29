@@ -1,3 +1,8 @@
+import robot.object.Floor;
+import robot.object.Furniture;
+import robot.object.Wall;
+import robot.object.WorldObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

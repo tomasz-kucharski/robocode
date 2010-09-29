@@ -1,3 +1,5 @@
+import robot.object.WorldObject;
+
 public class WorldObjectList extends List<WorldObject> {
 
 

@@ -1,4 +1,4 @@
-import org.apache.commons.lang.mutable.MutableInt;
+import robot.object.WorldObject;
 
 public abstract class IntelligentObject extends WorldObject {
 

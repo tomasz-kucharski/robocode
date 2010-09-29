@@ -1,3 +1,5 @@
+package robot.object;
+
 import org.apache.commons.lang.mutable.MutableInt;
 
 import java.util.Random;
