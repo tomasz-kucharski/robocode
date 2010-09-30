@@ -1,12 +1,14 @@
 package robot.object;
 
 import org.apache.commons.lang.mutable.MutableInt;
+import robot.Position;
+import robot.World;
 
 public abstract class WorldObject {
 
 //	friend class World;
     //	friend class Eter;
-//    public World world;
+    public World world;
     int className;
     public Position position;
 

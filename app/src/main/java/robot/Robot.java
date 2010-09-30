@@ -1,9 +1,12 @@
+package robot;
+
 import org.apache.commons.lang.mutable.MutableInt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import robot.object.WorldObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 
 public class Robot extends IntelligentObject {
@@ -29,7 +32,7 @@ public class Robot extends IntelligentObject {
 //    friend class RobotProcessor;
 
 
-    public Robot(Position p,int columns, int rows, String name, int direction, int capacity, int zakres, File fileName) {
+    public Robot(Position p,int columns, int rows, String name, int direction, int capacity, int zakres, File fileName) throws FileNotFoundException {
 
         super(WorldObjectVerifier.ROBOT.getIntValue(),p,false,true,true,name);
         memory = new RobotMemory(this,columns,rows,direction);

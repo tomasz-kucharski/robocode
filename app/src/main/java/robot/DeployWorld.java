@@ -1,4 +1,5 @@
-import robot.WorldMapLoader;
+package robot;
+
 import robot.object.*;
 
 import java.io.File;
@@ -130,7 +131,7 @@ public class DeployWorld {
 //    }
 
 
-    private boolean loadObject(String type, Position p, int data, int data2, String direction, String name, File fileName) {
+    private boolean loadObject(String type, Position p, int data, int data2, String direction, String name, File fileName) throws FileNotFoundException {
         WorldObject worldObject = null;
 
         int typeOfWorldObject = WorldObjectVerifier.getWorldObjectByName(type);

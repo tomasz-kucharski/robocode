@@ -1,6 +1,8 @@
 package robot.object;
 
 import org.apache.commons.lang.mutable.MutableInt;
+import robot.Position;
+import robot.WorldObjectVerifier;
 
 public class Floor extends WorldObject {
     private int slippery; //od 1 do 10

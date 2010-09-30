@@ -1,3 +1,5 @@
+package robot;
+
 import robot.object.WorldObject;
 
 import javax.media.opengl.GL;

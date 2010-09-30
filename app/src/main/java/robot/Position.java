@@ -1,3 +1,4 @@
+package robot;
 
 public class Position {
     public int x;

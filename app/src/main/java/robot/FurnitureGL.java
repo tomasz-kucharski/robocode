@@ -1,3 +1,5 @@
+package robot;
+
 import robot.object.Furniture;
 import robot.object.WorldObject;
 import robot.object.opengl.ObjectGL;

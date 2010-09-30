@@ -1,3 +1,5 @@
+package robot;
+
 import org.apache.commons.lang.mutable.MutableInt;
 import robot.object.WorldObject;
 

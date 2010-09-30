@@ -1,7 +1,8 @@
 package robot.object;
 
 import org.apache.commons.lang.mutable.MutableInt;
-import robot.object.WorldObject;
+import robot.Position;
+import robot.WorldObjectVerifier;
 
 public class Depot extends WorldObject {
 

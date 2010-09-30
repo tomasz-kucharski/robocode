@@ -1,6 +1,8 @@
 package robot.object;
 
 import org.apache.commons.lang.mutable.MutableInt;
+import robot.Position;
+import robot.WorldObjectVerifier;
 
 public class Wall extends WorldObject {
     private int strength;

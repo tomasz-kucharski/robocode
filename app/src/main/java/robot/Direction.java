@@ -1,3 +1,5 @@
+package robot;
+
 import java.util.Random;
 
 public class Direction {

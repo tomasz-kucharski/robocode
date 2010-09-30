@@ -1,6 +1,9 @@
 package robot.object;
 
 import org.apache.commons.lang.mutable.MutableInt;
+import robot.Direction;
+import robot.Position;
+import robot.WorldObjectVerifier;
 
 import java.util.Random;
 
