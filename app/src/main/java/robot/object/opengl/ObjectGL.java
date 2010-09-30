@@ -2,23 +2,27 @@ package robot.object.opengl;
 
 import robot.object.WorldObject;
 
+import javax.media.opengl.GL;
 import java.io.File;
+import java.nio.IntBuffer;
 
 public abstract class ObjectGL {
 
-    protected GLuint texture[1];
+    protected IntBuffer texture;
     protected AUX_RGBImageRec texture1 = null;
-    protected GLuint list;
+    protected int list;
 
-    abstract void draw(WorldObject object);
+    public abstract void draw(WorldObject object);
 
-    public GLvoid loadGLTextures(File file) {
+    public abstract void init();
+
+    protected void loadGLTextures(GL gl, File file) {
         texture1 = auxDIBImageLoad(file);
-        glGenTextures(1,&texture[0]);
-        glBindTexture(GL_TEXTURE_2D,texture[0]);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D,0,3,texture1.sizeX,texture1.sizeY,0,GL_RGB,GL_UNSIGNED_BYTE,texture1.data);
+        gl.glGenTextures(1,texture);
+        gl.glBindTexture(GL.GL_TEXTURE_2D,texture);
+        gl.glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MAG_FILTER,GL.GL_LINEAR);
+        gl.glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER,GL.GL_LINEAR);
+        glTexImage2D(GL.GL_TEXTURE_2D,0,3,texture1.sizeX,texture1.sizeY,0,GL.GL_RGB,GL.GL_UNSIGNED_BYTE,texture1.data);
     }
 
 }

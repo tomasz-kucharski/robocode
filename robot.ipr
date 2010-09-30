@@ -258,6 +258,28 @@
         <root url="jar://$MAVEN_REPOSITORY$/commons-lang/commons-lang/2.4/commons-lang-2.4-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: net.java.dev.jogl:jogl:1.1.1-rc6">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/net/java/dev/jogl/jogl/1.1.1-rc6/jogl-1.1.1-rc6.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/net/java/dev/jogl/jogl/1.1.1-rc6/jogl-1.1.1-rc6-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/net/java/dev/jogl/jogl/1.1.1-rc6/jogl-1.1.1-rc6-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: net.java.dev.gluegen:gluegen-rt:1.0b05">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/net/java/dev/gluegen/gluegen-rt/1.0b05/gluegen-rt-1.0b05.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/net/java/dev/gluegen/gluegen-rt/1.0b05/gluegen-rt-1.0b05-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/net/java/dev/gluegen/gluegen-rt/1.0b05/gluegen-rt-1.0b05-sources.jar!/" />
+      </SOURCES>
+    </library>
   </component>
 </project>
 
