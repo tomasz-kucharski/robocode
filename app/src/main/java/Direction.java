@@ -36,7 +36,7 @@ public class Direction {
             position.x--;
     }
 
-    public float computeRotation(int direction)
+    static public float computeRotation(int direction)
     {
         if (direction == NORTH)
             return 0.0f;
@@ -67,7 +67,7 @@ public class Direction {
         return (direction + 3) % 4;
     }
 
-    public int getBackward(int direction)
+    public static int getBackward(int direction)
     {
         return direction % 4;
     }

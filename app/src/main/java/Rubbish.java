@@ -1,50 +1,31 @@
-// Rubbish.cpp: implementation of the Rubbish class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "Stdafx.h"
-#include "OpenGL.h"
+import org.apache.commons.lang.mutable.MutableInt;
+import robot.object.WorldObject;
 
-#include "Inkludy.h"
+public class Rubbish extends WorldObject {
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+    private int type;
+	private int quantity;
+	private int direction;
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+    public Rubbish(Position p, int quantity) {
+        super(WorldObjectVerifier.RUBBISH.getIntValue(),p,true,false,false,true);
+        if( quantity <= 0 )
+            this.quantity = 1;
+        else
+            this.quantity = quantity;
+        type = 1;           //POPRAWIC
+        direction = Direction.randDirection();
+    }
 
-Rubbish::Rubbish(Position* p, int quantity)
-: WorldObject(WorldObjectVerifier::RUBBISH,p,true,false,false,true)
-{
-	if( quantity <= 0 )
-		this->quantity = 1;
-	else 
-		this->quantity = quantity;
-	type = 1;           //POPRAWIC
-	direction = Direction::randDirection();
-}
+    public void evolve() {
 
-Rubbish::~Rubbish()
-{
+    }
 
-}
+    public boolean conditionalMovement(final WorldObject worldObject, final int direction, final int MaxPower, MutableInt usedPower) {
+        return true;
+    }
 
-void Rubbish::evolve()
-{
-
-}
-
-bool Rubbish::conditionalMovement(WorldObject* const worldObject, const int direction,
-		const int MaxPower,	int& usedPower)
-{
-	return true;
-}
-
-void Rubbish::cleaning(const int maxPower, int &usedPower)
-{
+    void cleaning(final int maxPower, MutableInt usedPower) {
 /*	int maxCleaned,needEnergy;
 	if ( type == 1 ) 
 		maxCleaned = 20;
@@ -61,13 +42,14 @@ void Rubbish::cleaning(const int maxPower, int &usedPower)
 	else {
 		usedPower = needEnergy;
 		quantity -= maxCleaned;*/
-	quantity -= 20;
+        quantity -= 20;
 
-		if(quantity <= 0)
-			getWorld()->deleteMe(this);
-}
+        if(quantity <= 0)
+            getWorld().deleteMe(this);
+    }
 
-int Rubbish::getDirection()
-{
-	return direction;
+    public int getDirection() {
+        return direction;
+    }
+
 }

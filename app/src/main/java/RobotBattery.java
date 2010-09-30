@@ -1,10 +1,11 @@
+import org.apache.commons.lang.mutable.MutableInt;
 import robot.object.Depot;
 
 public class RobotBattery {
 
     private 	int capacity;
     private final int maxCapacity;
-    private int actualDischarge;
+    private MutableInt actualDischarge;
 
     public RobotBattery(int capacity)
     {
@@ -13,7 +14,7 @@ public class RobotBattery {
             this.capacity = 100;
         else
             this.capacity = capacity;
-        actualDischarge = 0;
+        actualDischarge = new MutableInt(0);
     }
 
     public int getCapacity()
@@ -50,8 +51,7 @@ public class RobotBattery {
         return (capacity == 0) ? true : false;
     }
 
-    //todo return int ref
-    public int plug()
+    public MutableInt plug()
     {
         return  actualDischarge;
     }
@@ -59,7 +59,7 @@ public class RobotBattery {
     public void unplug()
     {
         //discharge(actualDischarge);
-        actualDischarge = 0;
+        actualDischarge.setValue(0);
     }
 
 

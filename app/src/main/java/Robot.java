@@ -15,14 +15,14 @@ public class Robot extends IntelligentObject {
     public static int TURNSTATE = 2;
 
 
-    private RobotMemory  memory;
-    private RobotScanner  scaner;
-    private RobotBattery battery;
+    public RobotMemory  memory;
+    public RobotScanner  scaner;
+    public RobotBattery battery;
     private RobotProcessor processor;
 
-    private int stateMove;
+    public int stateMove;
     private int stateClean;
-    private int stateScaner;
+    public int stateScaner;
     private int stateTurn;
     private int stateProgram;
 

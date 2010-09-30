@@ -1,7 +1,14 @@
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Random;
 import java.util.Stack;
 
 public class RobotProcessor {
+    private static final Logger log = LoggerFactory.getLogger(RobotProcessor.class);
+
     public static final int REGISTRYSIZE = 40;
     public static final int CYCLE = 5;
     //ROZKAZY
@@ -50,27 +57,23 @@ public class RobotProcessor {
 
     private ProgramList program;
     private Instruction instruction;
-    private Stack stack;
+    private Stack<Integer> methodStack = new Stack<Integer>();
     private Robot r;
     private int PC;
-    private int registry;
+    private int[] registry;
     private boolean done;
     private boolean external;
     private boolean error;
     private int rozkaz;
     private int cycle;
 
-    public RobotProcessor(Robot r, File fileName)
-    {
+    public RobotProcessor(Robot r, File fileName) throws FileNotFoundException {
         registry = new int[REGISTRYSIZE];
         for (int i=0; i<REGISTRYSIZE; i++)
             registry[i] = 0;
-        this->r = r;
+        this.r = r;
         program = new ProgramList();
         RobotProgramLoader load = new RobotProgramLoader(fileName,program);
-        delete load;
-        instruction = NULL;
-        stack = new Stack();
 
         done = true;
         external = false;
@@ -78,112 +81,105 @@ public class RobotProcessor {
         rozkaz = -1;
     }
 
-    RobotProcessor::~RobotProcessor()
-    {
-        delete[] registry;
-        delete program;
-        delete stack;
-    }
-
     public static int getInstructionByName(String name)
     {
-        if (name != NULL) {
-            if(!strcmp(name,"SCAN"))
+        if (name != null) {
+            if(name.equals("SCAN"))
                 return SCAN;
-            if(!strcmp(name,"CLEAN"))
+            if(name.equals("CLEAN"))
                 return CLEAN;
-            if(!strcmp(name,"MOVE"))
+            if(name.equals("MOVE"))
                 return MOVE;
-            if(!strcmp(name,"MEMLEFT"))
+            if(name.equals("MEMLEFT"))
                 return MEMLEFT;
-            if(!strcmp(name,"MEMRIGHT"))
+            if(name.equals("MEMRIGHT"))
                 return MEMRIGHT;
-            if(!strcmp(name,"MEMBACK"))
+            if(name.equals("MEMBACK"))
                 return MEMBACK;
-            if(!strcmp(name,"MEMFRONT"))
+            if(name.equals("MEMFRONT"))
                 return MEMFRONT;
-            if(!strcmp(name,"TURNLEFT"))
+            if(name.equals("TURNLEFT"))
                 return TURNLEFT;
-            if(!strcmp(name,"TURNRIGHT"))
+            if(name.equals("TURNRIGHT"))
                 return TURNRIGHT;
-            if(!strcmp(name,"RECEIVE"))
+            if(name.equals("RECEIVE"))
                 return RECEIVE;
-            if(!strcmp(name,"FINDPATH"))
+            if(name.equals("FINDPATH"))
                 return FINDPATH;
-            if(!strcmp(name,"RAND"))
+            if(name.equals("RAND"))
                 return RAND;
-            if(!strcmp(name,"STORE"))
+            if(name.equals("STORE"))
                 return STORE;
-            if(!strcmp(name,"LOAD"))
+            if(name.equals("LOAD"))
                 return LOAD;
-            if(!strcmp(name,"READ"))
+            if(name.equals("READ"))
                 return READ;
-            if(!strcmp(name,"INC"))
+            if(name.equals("INC"))
                 return INC;
-            if(!strcmp(name,"DEC"))
+            if(name.equals("DEC"))
                 return DEC;
-            if(!strcmp(name,"JUMP"))
+            if(name.equals("JUMP"))
                 return JUMP;
-            if(!strcmp(name,"JEQUAL"))
+            if(name.equals("JEQUAL"))
                 return JEQUAL;
-            if(!strcmp(name,"JNEQUAL"))
+            if(name.equals("JNEQUAL"))
                 return JNEQUAL;
-            if(!strcmp(name,"JGT"))
+            if(name.equals("JGT"))
                 return JGT;
-            if(!strcmp(name,"JLT"))
+            if(name.equals("JLT"))
                 return JLT;
-            if(!strcmp(name,"JUMPF"))
+            if(name.equals("JUMPF"))
                 return JUMPF;
-            if(!strcmp(name,"JEQUALF"))
+            if(name.equals("JEQUALF"))
                 return JEQUALF;
-            if(!strcmp(name,"JNEQUALF"))
+            if(name.equals("JNEQUALF"))
                 return JNEQUALF;
-            if(!strcmp(name,"JGTF"))
+            if(name.equals("JGTF"))
                 return JGTF;
-            if(!strcmp(name,"JLTF"))
+            if(name.equals("JLTF"))
                 return JLTF;
-            if(!strcmp(name,"RETURN"))
+            if(name.equals("RETURN"))
                 return RETURN;
         }
         return -1;
     }
 
-    int RobotProcessor::getOperationByName(char *name)
+    public static int getOperationByName(String name)
     {
-        if (name != NULL)
+        if (name != null)
         {
-            if(!strcmp(name,"="))
+            if(name.equals("="))
                 return OPEQUAL;
-            if(!strcmp(name,"*"))
+            if(name.equals("*"))
                 return OPADR;
         }
         return -1;
     }
 
-    int RobotProcessor::getMemoryObjectByName(char *name)
+    int getMemoryObjectByName(String name)
     {
-        if (name != NULL) {
-            if(!strcmp(name,"UNKNOWN"))
+        if (name != null) {
+            if(name.equals("UNKNOWN"))
                 return UNKNOWN;
-            if(!strcmp(name,"EMPTY"))
+            if(name.equals("EMPTY"))
                 return EMPTY;
-            if(!strcmp(name,"RUBBISH"))
+            if(name.equals("RUBBISH"))
                 return RUBBISH;
-            if(!strcmp(name,"UNMOVABLE"))
+            if(name.equals("UNMOVABLE"))
                 return UNMOVABLE;
-            if(!strcmp(name,"VISITED"))
+            if(name.equals("VISITED"))
                 return VISITED;
-            if(!strcmp(name,"DEPOT"))
+            if(name.equals("DEPOT"))
                 return DEPOT;
-            if(!strcmp(name,"ROBOT"))
+            if(name.equals("ROBOT"))
                 return ROBOT;
-            if(!strcmp(name,"END"))
+            if(name.equals("END"))
                 return END;
         }
         return -1;
     }
 
-    int RobotProcessor::getTypeOfInstruction(int rozkaz)
+    public static int getTypeOfInstruction(int rozkaz)
     {
         switch(rozkaz)
         {
@@ -200,18 +196,16 @@ public class RobotProcessor {
             case FINDPATH:
             case RETURN:
                 return 0;  // brak argumentow
-            break;
+
             case INC:
             case DEC:
             case STORE:
             case JUMP:
             case JUMPF:
                 return 1; // 1 argument
-            break;
             case RAND:
             case LOAD:
                 return 2; // 1 argument + operator
-            break;
             case JEQUAL:
             case JNEQUAL:
             case JLT:
@@ -222,10 +216,8 @@ public class RobotProcessor {
             case JGTF:
             case READ:
                 return 3; // 2 argumenty + operator
-            break;
             default:
                 return -1;
-            break;
         }
     }
 
@@ -235,8 +227,8 @@ public class RobotProcessor {
     {
         if(error)
         {
-            TRACE("ERROR\n");
-            return false;;
+            log.info("ERROR");
+            return false;
         }
 
         if(!done)
@@ -247,10 +239,10 @@ public class RobotProcessor {
             cycle = 0; //ile cykli na takt - nie zaimplementowane
             while(!external)
             {
-                instruction = program->getInstruction();
-                if ( instruction == NULL )
+                instruction = program.getInstruction();
+                if ( instruction == null )
                 {
-                    exception(instruction->getLine(), "ERROR - END OF PROGRAM\n");
+                    exception(instruction.getLine(), "ERROR - END OF PROGRAM\n");
                     error = true;
                     break;
                 }
@@ -264,285 +256,285 @@ public class RobotProcessor {
         return true;
     }
 
-    void RobotProcessor::perform()
+    void perform()
     {
         int temp;
 
-        switch(instruction->getRozkaz())
+        switch(instruction.getRozkaz())
         {
             case MEMFRONT:
-                registry[0] = r->memory->lookAround(r->getPosition(),r->memory->getDirection());
+                registry[0] = r.memory.lookAround(r.getPosition(),r.memory.getDirection());
                 break;
             case MEMLEFT:
-                registry[0] = r->memory->lookAround(r->getPosition(),Direction::getLeft(r->memory->getDirection()));
+                registry[0] = r.memory.lookAround(r.getPosition(),Direction.getLeft(r.memory.getDirection()));
                 break;
             case MEMRIGHT:
-                registry[0] = r->memory->lookAround(r->getPosition(),Direction::getRight(r->memory->getDirection()));
+                registry[0] = r.memory.lookAround(r.getPosition(),Direction.getRight(r.memory.getDirection()));
                 break;
             case MEMBACK:
-                registry[0] = r->memory->lookAround(r->getPosition(),Direction::getBackward(r->memory->getDirection()));
+                registry[0] = r.memory.lookAround(r.getPosition(),Direction.getBackward(r.memory.getDirection()));
                 break;
             case INC:
-                temp = instruction->getValue1();
+                temp = instruction.getValue1();
                 if((temp >= REGISTRYSIZE) || ( temp < 0))
-                    exception(instruction->getLine(),"ERROR INC- REGISTRY NOT PROPER\n");
+                    exception(instruction.getLine(),"ERROR INC- REGISTRY NOT PROPER\n");
                 else
                     registry[temp]++;
                 break;
             case DEC:
-                temp = instruction->getValue1();
+                temp = instruction.getValue1();
                 if((temp >= REGISTRYSIZE) || ( temp < 0))
-                    exception(instruction->getLine(), "ERROR DEC- REGISTRY NOT PROPER\n");
+                    exception(instruction.getLine(), "ERROR DEC- REGISTRY NOT PROPER\n");
                 else
                     registry[temp]--;
                 break;
             case RAND:
-                registry[0] = rand()%instruction->getValue1();
+                registry[0] = new Random().nextInt(instruction.getValue1());
                 break;
             case JUMP:
-                if(!program->gotoInstruction(instruction->getValue1()))
-                    exception(instruction->getLine(), "ERROR JUMP= - LINE NOT EXIST\n");
+                if(!program.gotoInstruction(instruction.getValue1()))
+                    exception(instruction.getLine(), "ERROR JUMP= - LINE NOT EXIST\n");
                 break;
             case JEQUAL:
-                temp = instruction->getValue1();
-                if(instruction->getOperation() == OPEQUAL)
+                temp = instruction.getValue1();
+                if(instruction.getOperation() == OPEQUAL)
                 {
                     if(temp == registry[0])
                     {
-                        if(!program->gotoInstruction(instruction->getValue2()))
-                            exception(instruction->getLine(), "ERROR JEQUAL= - LINE NOT EXIST\n");
+                        if(!program.gotoInstruction(instruction.getValue2()))
+                            exception(instruction.getLine(), "ERROR JEQUAL= - LINE NOT EXIST\n");
                     }
                 }
                 else
                 {
                     if((temp >= REGISTRYSIZE) || (temp < 0))
-                        exception(instruction->getLine(), "ERROR JEQUAL* - REGISTRY NOT PROPER\n");
+                        exception(instruction.getLine(), "ERROR JEQUAL* - REGISTRY NOT PROPER\n");
                     else
                     {
                         if(registry[temp] == registry[0])
                         {
-                            if(!program->gotoInstruction(instruction->getValue2()))
-                                exception(instruction->getLine(), "ERROR JEQUAL* - LINE NOT EXIST\n");
+                            if(!program.gotoInstruction(instruction.getValue2()))
+                                exception(instruction.getLine(), "ERROR JEQUAL* - LINE NOT EXIST\n");
                         }
                     }
                 }
                 break;
             case JNEQUAL:
-                temp = instruction->getValue1();
-                if(instruction->getOperation() == OPEQUAL)
+                temp = instruction.getValue1();
+                if(instruction.getOperation() == OPEQUAL)
                 {
                     if(temp != registry[0])
                     {
-                        if(!program->gotoInstruction(instruction->getValue2()))
-                            exception(instruction->getLine(), "ERROR JNEQUAL= - LINE NOT EXIST\n");
+                        if(!program.gotoInstruction(instruction.getValue2()))
+                            exception(instruction.getLine(), "ERROR JNEQUAL= - LINE NOT EXIST\n");
                     }
                 }
                 else
                 {
                     if((temp >= REGISTRYSIZE) || (temp < 0))
-                        exception(instruction->getLine(), "ERROR JNEQUAL* - REGISTRY NOT PROPER\n");
+                        exception(instruction.getLine(), "ERROR JNEQUAL* - REGISTRY NOT PROPER\n");
                     else
                     {
                         if(registry[temp] != registry[0])
                         {
-                            if(!program->gotoInstruction(instruction->getValue2()))
-                                exception(instruction->getLine(), "ERROR JNEQUAL* - LINE NOT EXIST\n");
+                            if(!program.gotoInstruction(instruction.getValue2()))
+                                exception(instruction.getLine(), "ERROR JNEQUAL* - LINE NOT EXIST\n");
                         }
                     }
                 }
                 break;
             case JGT:
-                temp = instruction->getValue1();
-                if(instruction->getOperation() == OPEQUAL)
+                temp = instruction.getValue1();
+                if(instruction.getOperation() == OPEQUAL)
                 {
                     if(temp == registry[0])
                     {
-                        if(!program->gotoInstruction(instruction->getValue2()))
-                            exception(instruction->getLine(), "ERROR JGT= - LINE NOT EXIST\n");
+                        if(!program.gotoInstruction(instruction.getValue2()))
+                            exception(instruction.getLine(), "ERROR JGT= - LINE NOT EXIST\n");
                     }
                 }
                 else
                 {
                     if((temp >= REGISTRYSIZE) || (temp < 0))
-                        exception(instruction->getLine(), "ERROR JGT* - REGISTRY NOT PROPER\n");
+                        exception(instruction.getLine(), "ERROR JGT* - REGISTRY NOT PROPER\n");
                     else
                     {
                         if(registry[temp] == registry[0])
                         {
-                            if(!program->gotoInstruction(instruction->getValue2()))
-                                exception(instruction->getLine(), "ERROR JGT* - LINE NOT EXIST\n");
+                            if(!program.gotoInstruction(instruction.getValue2()))
+                                exception(instruction.getLine(), "ERROR JGT* - LINE NOT EXIST\n");
                         }
                     }
                 }
                 break;
             case JLT:
-                temp = instruction->getValue1();
-                if(instruction->getOperation() == OPEQUAL)
+                temp = instruction.getValue1();
+                if(instruction.getOperation() == OPEQUAL)
                 {
                     if(temp == registry[0])
                     {
-                        if(!program->gotoInstruction(instruction->getValue2()))
-                            exception(instruction->getLine(), "ERROR JLT= - LINE NOT EXIST\n");
+                        if(!program.gotoInstruction(instruction.getValue2()))
+                            exception(instruction.getLine(), "ERROR JLT= - LINE NOT EXIST\n");
                     }
                 }
                 else
                 {
                     if((temp >= REGISTRYSIZE) || (temp < 0))
-                        exception(instruction->getLine(), "ERROR JLT* - REGISTRY NOT PROPER\n");
+                        exception(instruction.getLine(), "ERROR JLT* - REGISTRY NOT PROPER\n");
                     else
                     {
                         if(registry[temp] == registry[0])
                         {
-                            if(!program->gotoInstruction(instruction->getValue2()))
-                                exception(instruction->getLine(), "ERROR JLT* - LINE NOT EXIST\n");
+                            if(!program.gotoInstruction(instruction.getValue2()))
+                                exception(instruction.getLine(), "ERROR JLT* - LINE NOT EXIST\n");
                         }
                     }
                 }
                 break;
             case JUMPF:
-                if(!program->gotoInstruction(instruction->getValue1()))
-                    exception(instruction->getLine(), "ERROR JUMP= - LINE NOT EXIST\n");
+                if(!program.gotoInstruction(instruction.getValue1()))
+                    exception(instruction.getLine(), "ERROR JUMP= - LINE NOT EXIST\n");
                 else
-                    stack->push(instruction->getLine());
+                    methodStack.push(instruction.getLine());
                 break;
             case JEQUALF:
-                temp = instruction->getValue1();
-                if(instruction->getOperation() == OPEQUAL)
+                temp = instruction.getValue1();
+                if(instruction.getOperation() == OPEQUAL)
                 {
                     if(temp == registry[0])
                     {
-                        if(!program->gotoInstruction(instruction->getValue2()))
-                            exception(instruction->getLine(), "ERROR JEQUAL= - LINE NOT EXIST\n");
+                        if(!program.gotoInstruction(instruction.getValue2()))
+                            exception(instruction.getLine(), "ERROR JEQUAL= - LINE NOT EXIST\n");
                         else
-                            stack->push(instruction->getLine());
+                            methodStack.push(instruction.getLine());
                     }
                 }
                 else
                 {
                     if((temp >= REGISTRYSIZE) || (temp < 0))
-                        exception(instruction->getLine(), "ERROR JEQUAL* - REGISTRY NOT PROPER\n");
+                        exception(instruction.getLine(), "ERROR JEQUAL* - REGISTRY NOT PROPER\n");
                     else
                     {
                         if(registry[temp] == registry[0])
                         {
-                            if(!program->gotoInstruction(instruction->getValue2()))
-                                exception(instruction->getLine(), "ERROR JEQUAL* - LINE NOT EXIST\n");
+                            if(!program.gotoInstruction(instruction.getValue2()))
+                                exception(instruction.getLine(), "ERROR JEQUAL* - LINE NOT EXIST\n");
                             else
-                                stack->push(instruction->getLine());
+                                methodStack.push(instruction.getLine());
                         }
                     }
                 }
                 break;
             case JNEQUALF:
-                temp = instruction->getValue1();
-                if(instruction->getOperation() == OPEQUAL)
+                temp = instruction.getValue1();
+                if(instruction.getOperation() == OPEQUAL)
                 {
                     if(temp != registry[0])
                     {
-                        if(!program->gotoInstruction(instruction->getValue2()))
-                            exception(instruction->getLine(), "ERROR JNEQUAL= - LINE NOT EXIST\n");
+                        if(!program.gotoInstruction(instruction.getValue2()))
+                            exception(instruction.getLine(), "ERROR JNEQUAL= - LINE NOT EXIST\n");
                         else
-                            stack->push(instruction->getLine());
+                            methodStack.push(instruction.getLine());
                     }
                 }
                 else
                 {
                     if((temp >= REGISTRYSIZE) || (temp < 0))
-                        exception(instruction->getLine(), "ERROR JNEQUAL* - REGISTRY NOT PROPER\n");
+                        exception(instruction.getLine(), "ERROR JNEQUAL* - REGISTRY NOT PROPER\n");
                     else
                     {
                         if(registry[temp] != registry[0])
                         {
-                            if(!program->gotoInstruction(instruction->getValue2()))
-                                exception(instruction->getLine(), "ERROR JNEQUAL* - LINE NOT EXIST\n");
+                            if(!program.gotoInstruction(instruction.getValue2()))
+                                exception(instruction.getLine(), "ERROR JNEQUAL* - LINE NOT EXIST\n");
                             else
-                                stack->push(instruction->getLine());
+                                methodStack.push(instruction.getLine());
                         }
                     }
                 }
                 break;
             case JGTF:
-                temp = instruction->getValue1();
-                if(instruction->getOperation() == OPEQUAL)
+                temp = instruction.getValue1();
+                if(instruction.getOperation() == OPEQUAL)
                 {
                     if(temp == registry[0])
                     {
-                        if(!program->gotoInstruction(instruction->getValue2()))
-                            exception(instruction->getLine(), "ERROR JGT= - LINE NOT EXIST\n");
+                        if(!program.gotoInstruction(instruction.getValue2()))
+                            exception(instruction.getLine(), "ERROR JGT= - LINE NOT EXIST\n");
                         else
-                            stack->push(instruction->getLine());
+                            methodStack.push(instruction.getLine());
                     }
                 }
                 else
                 {
                     if((temp >= REGISTRYSIZE) || (temp < 0))
-                        exception(instruction->getLine(), "ERROR JGT* - REGISTRY NOT PROPER\n");
+                        exception(instruction.getLine(), "ERROR JGT* - REGISTRY NOT PROPER\n");
                     else
                     {
                         if(registry[temp] == registry[0])
                         {
-                            if(!program->gotoInstruction(instruction->getValue2()))
-                                exception(instruction->getLine(), "ERROR JGT* - LINE NOT EXIST\n");
+                            if(!program.gotoInstruction(instruction.getValue2()))
+                                exception(instruction.getLine(), "ERROR JGT* - LINE NOT EXIST\n");
                             else
-                                stack->push(instruction->getLine());
+                                methodStack.push(instruction.getLine());
                         }
                     }
                 }
                 break;
             case JLTF:
-                temp = instruction->getValue1();
-                if(instruction->getOperation() == OPEQUAL)
+                temp = instruction.getValue1();
+                if(instruction.getOperation() == OPEQUAL)
                 {
                     if(temp == registry[0])
                     {
-                        if(!program->gotoInstruction(instruction->getValue2()))
-                            exception(instruction->getLine(), "ERROR JLT= - LINE NOT EXIST\n");
+                        if(!program.gotoInstruction(instruction.getValue2()))
+                            exception(instruction.getLine(), "ERROR JLT= - LINE NOT EXIST\n");
                         else
-                            stack->push(instruction->getLine());
+                            methodStack.push(instruction.getLine());
                     }
                 }
                 else
                 {
                     if((temp >= REGISTRYSIZE) || (temp < 0))
-                        exception(instruction->getLine(), "ERROR JLT* - REGISTRY NOT PROPER\n");
+                        exception(instruction.getLine(), "ERROR JLT* - REGISTRY NOT PROPER\n");
                     else
                     {
                         if(registry[temp] == registry[0])
                         {
-                            if(!program->gotoInstruction(instruction->getValue2()))
-                                exception(instruction->getLine(), "ERROR JLT* - LINE NOT EXIST\n");
+                            if(!program.gotoInstruction(instruction.getValue2()))
+                                exception(instruction.getLine(), "ERROR JLT* - LINE NOT EXIST\n");
                             else
-                                stack->push(instruction->getLine());
+                                methodStack.push(instruction.getLine());
                         }
                     }
                 }
                 break;
             case RETURN:
-                temp = stack->pop();
+                temp = methodStack.pop();
                 if (temp == -1)
-                    exception(instruction->getLine(), "ERROR RETURN - STACK EMPTY\n");
-                if(!program->returnInstruction(temp))
-                    exception(instruction->getLine(), "ERROR RETURN - LINE NOT EXIST\n");
+                    exception(instruction.getLine(), "ERROR RETURN - STACK EMPTY\n");
+                if(!program.returnInstruction(temp))
+                    exception(instruction.getLine(), "ERROR RETURN - LINE NOT EXIST\n");
                 break;
             case STORE:
-                temp = instruction->getValue1();
+                temp = instruction.getValue1();
                 if((temp >= REGISTRYSIZE) || (temp < 0))
-                    exception(instruction->getLine(), "ERROR STORE - REGISTRY NOT PROPER\n");
+                    exception(instruction.getLine(), "ERROR STORE - REGISTRY NOT PROPER\n");
                 else
                 {
                     registry[temp] = registry[0];
                 }
                 break;
             case LOAD:
-                temp = instruction->getValue1();
-                if(instruction->getOperation() == OPEQUAL)
+                temp = instruction.getValue1();
+                if(instruction.getOperation() == OPEQUAL)
                 {
                     registry[0] = temp;
                 }
                 else
                 {
                     if((temp >= REGISTRYSIZE) || (temp < 0))
-                        exception(instruction->getLine(), "ERROR LOAD* - REGISTRY NOT PROPER\n");
+                        exception(instruction.getLine(), "ERROR LOAD* - REGISTRY NOT PROPER\n");
                     else
                     {
                         registry[0] = registry[temp];
@@ -551,20 +543,20 @@ public class RobotProcessor {
                 break;
             case READ:
                 int temp2;
-                temp = instruction->getValue1();
-                temp2 = instruction->getValue2();
+                temp = instruction.getValue1();
+                temp2 = instruction.getValue2();
                 if((temp >= REGISTRYSIZE) || (temp < 0))
-                    exception(instruction->getLine(), "ERROR READ= - REGISTRY NOT PROPER\n");
+                    exception(instruction.getLine(), "ERROR READ= - REGISTRY NOT PROPER\n");
                 else
                 {
-                    if(instruction->getOperation() == OPEQUAL)
+                    if(instruction.getOperation() == OPEQUAL)
                     {
                         registry[temp] = temp2;
                     }
                     else
                     {
                         if((temp2 >= REGISTRYSIZE) || (temp < 0))
-                            exception(instruction->getLine(), "ERROR READ* - REGISTRY NOT PROPER\n");
+                            exception(instruction.getLine(), "ERROR READ* - REGISTRY NOT PROPER\n");
                         else
                         {
                             registry[temp] = registry[temp2];
@@ -579,65 +571,64 @@ public class RobotProcessor {
         }
     }
 
-    void RobotProcessor::performExternal()
+    void performExternal()
     {
         external = false;
-        switch(instruction->getRozkaz())
+        switch(instruction.getRozkaz())
         {
             case SCAN:
-                r->stateScaner++;
-                r->stateScaner %= Robot::SCANERSTATE;
-                if(r->stateScaner == 1)
-                    r->scaner->scan();
-                if(r->stateScaner == 0)
+                r.stateScaner++;
+                r.stateScaner %= Robot.SCANERSTATE;
+                if(r.stateScaner == 1)
+                    r.scaner.scan();
+                if(r.stateScaner == 0)
                     done = true;
                 break;
             case TURNLEFT:
-                r->memory->turnLeft(r->battery->plug());
-                r->battery->unplug();
+                r.memory.turnLeft(r.battery.plug());
+                r.battery.unplug();
                 done = true;
                 break;
             case TURNRIGHT:
-                r->memory->turnRight(r->battery->plug());
-                r->battery->unplug();
+                r.memory.turnRight(r.battery.plug());
+                r.battery.unplug();
                 done = true;
                 break;
             case MOVE:
-                r->stateMove++;
-                r->stateMove %= Robot::MOVESTATE;
-                if(r->stateMove == 1)
+                r.stateMove++;
+                r.stateMove %= Robot.MOVESTATE;
+                if(r.stateMove == 1)
                 {
-                    if(!r->getWorld()->move(r,r->memory->getDirection(),r->battery->getMaxCapacity(),r->battery->plug()))
+                    if(!r.getWorld().move(r,r.memory.getDirection(),r.battery.getMaxCapacity(),r.battery.plug()))
                     {
-                        TRACE("PRZESZKODA!\n");
-                        r->stateMove = 0;
+                        log.debug("PRZESZKODA!");
+                        r.stateMove = 0;
                         registry[0] = 1;
                     }
                 }
-                if(r->stateMove == 0 )
+                if(r.stateMove == 0 )
                 {
-                    r->memory->setMemoryCell(r->getPosition(),VISITED);
+                    r.memory.setMemoryCell(r.getPosition(),VISITED);
                     done = true;
                     registry[0] = 0;
                 }
                 break;
             case CLEAN:
-                Rubbish* rubbish ;
-                rubbish = NULL;
-                if(r->scaner->scanMyCell(WorldObjectVerifier::RUBBISH) == NULL)
+                Rubbish rubbish = null;
+                if(r.scaner.scanMyCell(WorldObjectVerifier.RUBBISH.getIntValue()) == null)
             {
                 done = true;
-                r->memory->setMemoryCell(r->getPosition(),VISITED);
+                r.memory.setMemoryCell(r.getPosition(),VISITED);
             }
             else
             {
-                if((rubbish = (Rubbish*)r->scaner->scanMyCell(WorldObjectVerifier::RUBBISH)) != NULL)
+                if((rubbish = (Rubbish)r.scaner.scanMyCell(WorldObjectVerifier.RUBBISH.getIntValue())) != null)
                 {
-                    rubbish->cleaning(r->battery->getMaxCapacity(),r->battery->plug());
-                    r->battery->unplug();
+                    rubbish.cleaning(r.battery.getMaxCapacity(),r.battery.plug());
+                    r.battery.unplug();
                 }
                 else
-                exception(instruction->getLine(), "WRONG CLEAN INSTRUCTION!!!!!!!!!!!!");
+                exception(instruction.getLine(), "WRONG CLEAN INSTRUCTION!!!!!!!!!!!!");
             }
             break;
             case RECEIVE:
@@ -649,9 +640,9 @@ public class RobotProcessor {
         }
     }
 
-    void RobotProcessor::exception(int line, char* description)
+    void exception(int line, String description)
     {
-        TRACE("LINE %d : %s",line,description);
+        log.error("LINE %d : %s",line,description);
         error = true;
     }
 

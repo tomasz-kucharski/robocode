@@ -1,40 +1,21 @@
-// WallGL.cpp: implementation of the WallGL class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "Stdafx.h"
-#include "OpenGL.h"
+import robot.object.WorldObject;
+import robot.object.opengl.ObjectGL;
 
-#include "Inkludy.h"
+import javax.media.opengl.GL;
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+public class WallGL extends ObjectGL {
+    public WallGL()
+    {
+        list = 70;
+    }
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+    public void draw(GL gl, WorldObject object) {
+        gl.glCallList(list);
+    }
 
-WallGL::WallGL()
-{
-	list = 70;
-}
-
-WallGL::~WallGL()
-{
-
-}
-
-void WallGL::draw(WorldObject* object)
-{
-	glCallList(list);	
-}
-
-void WallGL::init()
-{
+    public void init(GL gl) {
 //this->loadGLTextures("wall.bmp");
-glNewList(list,GL_COMPILE);
+        gl.glNewList(list,GL.GL_COMPILE);
 
 /*		glColor3f(0.5f,0.5f,0.5f);
 	glBindTexture(GL_TEXTURE_2D,texture[0]);
@@ -91,6 +72,7 @@ glNewList(list,GL_COMPILE);
 			glTexCoord2f(1.0f,0.0f);	glVertex3f(0.5f,0.5f,0.0f);
 	glEnd();
 */
-#include "wall"
-glEndList();
+//        #include "wall"
+        gl.glEndList();
+    }
 }

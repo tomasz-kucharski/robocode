@@ -6,12 +6,12 @@ public abstract class WorldObject {
 
 //	friend class World;
     //	friend class Eter;
-    World world;
+//    public World world;
     int className;
-    Position position;
+    public Position position;
 
-    protected boolean moved;
-    protected boolean deleteMe;
+    public  boolean moved;
+    public boolean deleteMe;
     private boolean flat;
     private boolean movable;
     private boolean intelligent;
@@ -65,5 +65,7 @@ public abstract class WorldObject {
         return position;
     }
 
-    public abstract boolean conditionalMovement(final WorldObject worldObject, final int direction, final int maxPower, MutableInt usedPower); 
+    public abstract boolean conditionalMovement(final WorldObject worldObject, final int direction, final int maxPower, MutableInt usedPower);
+
+    public abstract void evolve();
 }
