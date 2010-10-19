@@ -1,10 +1,12 @@
-package robot;
+package robot.object.opengl;
 
+import robot.Direction;
 import robot.object.Furniture;
 import robot.object.WorldObject;
 import robot.object.opengl.ObjectGL;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 
 public class FurnitureGL extends ObjectGL {
 	private Furniture furniture;
@@ -19,7 +21,7 @@ public class FurnitureGL extends ObjectGL {
 	list3 = 43;
 }
 
-public void draw(GL gl, WorldObject object)
+public void draw(GL2 gl, WorldObject object)
 {
 	float mx;
 	furniture = (Furniture)object;
@@ -39,18 +41,18 @@ public void draw(GL gl, WorldObject object)
 	gl.glPopMatrix();
 }
 
-public void init(GL gl)
+public void init(GL2 gl)
 {
-	gl.glNewList(list,GL.GL_COMPILE);
+	gl.glNewList(list,GL2.GL_COMPILE);
 //		#include "furniture"
 	gl.glEndList();
-	gl.glNewList(list1,GL.GL_COMPILE);
+	gl.glNewList(list1,GL2.GL_COMPILE);
 //		#include "furniture2"
 	gl.glEndList();
-	gl.glNewList(list2,GL.GL_COMPILE);
+	gl.glNewList(list2,GL2.GL_COMPILE);
 //		#include "furniture3"
 	gl.glEndList();
-	gl.glNewList(list3,GL.GL_COMPILE);
+	gl.glNewList(list3,GL2.GL_COMPILE);
 //		#include "furniture4"
 	gl.glEndList();
 }

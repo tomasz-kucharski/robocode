@@ -1,4 +1,4 @@
-package robot;
+package robot.legacy;
 
 public class ListNode<T> {
     private T object;

@@ -7,11 +7,11 @@ import javax.media.opengl.GL;
 import java.nio.FloatBuffer;
 
 public class LightGL {
-    FloatBuffer LightAmbient;
-    FloatBuffer LightDiffuse;
-    FloatBuffer LightPosition;
-    FloatBuffer LightSpecular;
-    FloatBuffer LightShininess;
+    public FloatBuffer LightAmbient = FloatBuffer.allocate(4);
+    public FloatBuffer LightDiffuse = FloatBuffer.allocate(4);
+    public FloatBuffer LightPosition = FloatBuffer.allocate(4);
+    public FloatBuffer LightSpecular = FloatBuffer.allocate(4);
+    public FloatBuffer LightShininess = FloatBuffer.allocate(4);
 
     int filter;
 

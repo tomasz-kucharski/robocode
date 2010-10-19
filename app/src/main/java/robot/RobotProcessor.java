@@ -2,9 +2,11 @@ package robot;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import robot.object.Rubbish;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Stack;
 
@@ -69,13 +71,13 @@ public class RobotProcessor {
     private int rozkaz;
     private int cycle;
 
-    public RobotProcessor(Robot r, File fileName) throws FileNotFoundException {
+    public RobotProcessor(Robot r, BufferedReader program) throws IOException {
         registry = new int[REGISTRYSIZE];
         for (int i=0; i<REGISTRYSIZE; i++)
             registry[i] = 0;
         this.r = r;
-        program = new ProgramList();
-        RobotProgramLoader load = new RobotProgramLoader(fileName,program);
+        this.program = new ProgramList();
+        new RobotProgramLoader(program, this.program);
 
         done = true;
         external = false;
@@ -158,7 +160,7 @@ public class RobotProcessor {
         return -1;
     }
 
-    int getMemoryObjectByName(String name)
+    public static int getMemoryObjectByName(String name)
     {
         if (name != null) {
             if(name.equals("UNKNOWN"))

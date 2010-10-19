@@ -1,10 +1,11 @@
-package robot;
+package robot.object.opengl;
 
 import robot.object.Depot;
 import robot.object.WorldObject;
 import robot.object.opengl.ObjectGL;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import java.nio.FloatBuffer;
 
 public class DepotGL extends ObjectGL {
@@ -16,17 +17,17 @@ public class DepotGL extends ObjectGL {
     }
 
 
-    public void draw(GL gl, WorldObject object) {
+    public void draw(GL2 gl, WorldObject object) {
         gl.glCallList(list);
     }
 
-    public void init(GL gl) {
-        gl.glNewList(list, GL.GL_COMPILE);
+    public void init(GL2 gl) {
+        gl.glNewList(list, GL2.GL_COMPILE);
         draw(gl);
         gl.glEndList();
     }
 
-    public void draw(GL gl) {
+    public void draw(GL2 gl) {
         gl.glPushMatrix();
         gl.glRotatef(90.0f,1.0f,0.0f,0.0f);
 //glScalef(0.1f, 0.1f,0.1f);
@@ -45,11 +46,11 @@ public class DepotGL extends ObjectGL {
         FloatBuffer material04Spc = FloatBuffer.wrap(new float[]{0.0196080f,0.0352940f,0.552941f,1.0f});
         FloatBuffer material04Shn = FloatBuffer.wrap(new float[]{128.000f});
 
-        gl.glBegin(GL.GL_TRIANGLES);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, material03Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, material03Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, material03Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, material03Shn);
+        gl.glBegin(GL2.GL_TRIANGLES);
+        gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, material03Amb);
+        gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, material03Dif);
+        gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, material03Spc);
+        gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_SHININESS, material03Shn);
         gl.glNormal3f( 0.532634f, -0.718714f, -0.446936f );
 
         //todo needs to load depot file

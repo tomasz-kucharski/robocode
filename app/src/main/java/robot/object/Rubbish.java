@@ -1,6 +1,9 @@
-package robot;
+package robot.object;
 
 import org.apache.commons.lang.mutable.MutableInt;
+import robot.Direction;
+import robot.Position;
+import robot.WorldObjectVerifier;
 import robot.object.WorldObject;
 
 public class Rubbish extends WorldObject {
@@ -27,7 +30,7 @@ public class Rubbish extends WorldObject {
         return true;
     }
 
-    void cleaning(final int maxPower, MutableInt usedPower) {
+    public void cleaning(final int maxPower, MutableInt usedPower) {
 /*	int maxCleaned,needEnergy;
 	if ( type == 1 ) 
 		maxCleaned = 20;

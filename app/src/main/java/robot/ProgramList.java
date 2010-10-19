@@ -1,5 +1,7 @@
 package robot;
 
+import robot.legacy.List;
+
 public class ProgramList extends List<Instruction> {
     public boolean jump;
 

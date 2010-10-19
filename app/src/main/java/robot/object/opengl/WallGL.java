@@ -1,9 +1,10 @@
-package robot;
+package robot.object.opengl;
 
 import robot.object.WorldObject;
 import robot.object.opengl.ObjectGL;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 
 public class WallGL extends ObjectGL {
     public WallGL()
@@ -11,13 +12,13 @@ public class WallGL extends ObjectGL {
         list = 70;
     }
 
-    public void draw(GL gl, WorldObject object) {
+    public void draw(GL2 gl, WorldObject object) {
         gl.glCallList(list);
     }
 
-    public void init(GL gl) {
+    public void init(GL2 gl) {
 //this->loadGLTextures("wall.bmp");
-        gl.glNewList(list,GL.GL_COMPILE);
+        gl.glNewList(list,GL2.GL_COMPILE);
 
 /*		glColor3f(0.5f,0.5f,0.5f);
 	glBindTexture(GL_TEXTURE_2D,texture[0]);

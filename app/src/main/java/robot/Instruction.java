@@ -98,4 +98,16 @@ public class Instruction {
     public void setValue2(int value2) {
         this.value2 = value2;
     }
+
+    @Override
+    public String toString() {
+        return "Instruction{" +
+                "label=" + label +
+                ", line=" + line +
+                ", rozkaz=" + rozkaz +
+                ", operation=" + operation +
+                ", value1=" + value1 +
+                ", value2=" + value2 +
+                '}';
+    }
 }

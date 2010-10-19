@@ -1,5 +1,7 @@
 package robot;
 
+import robot.legacy.List;
+
 public class Eter extends List<Message> {
 
     public boolean sendMessage(Message message) {

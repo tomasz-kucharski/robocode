@@ -1,5 +1,6 @@
 package robot;
 
+import robot.legacy.List;
 import robot.object.WorldObject;
 
 public class WorldObjectList extends List<WorldObject> {

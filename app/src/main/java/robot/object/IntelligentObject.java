@@ -1,5 +1,6 @@
-package robot;
+package robot.object;
 
+import robot.Position;
 import robot.object.WorldObject;
 
 public abstract class IntelligentObject extends WorldObject {

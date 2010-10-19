@@ -1,9 +1,11 @@
-package robot;
+package robot.object.opengl;
 
+import robot.Direction;
+import robot.object.Rubbish;
 import robot.object.WorldObject;
-import robot.object.opengl.ObjectGL;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 
 public class RubbishGL extends ObjectGL {
 
@@ -12,7 +14,7 @@ public class RubbishGL extends ObjectGL {
         list = 20;
     }
 
-    public void draw(GL gl, WorldObject object)
+    public void draw(GL2 gl, WorldObject object)
     {
         float mx;
         rubbish = (Rubbish)object;
@@ -23,9 +25,9 @@ public class RubbishGL extends ObjectGL {
         gl.glPopMatrix();
     }
 
-    public void init(GL gl)
+    public void init(GL2 gl)
     {
-        gl.glNewList(list, GL.GL_COMPILE);
+        gl.glNewList(list, GL2.GL_COMPILE);
 //#include "rubbish"
         gl.glEndList();
     }

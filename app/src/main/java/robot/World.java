@@ -66,7 +66,7 @@ public class World {
         for(int i=0; i<columns; i++)
             for(int j=0; j<rows; j++)
                 if(!world[i][j].isObjectByName(WorldObjectVerifier.FLOOR.getIntValue()))
-        return false;
+                    return false;
         return true;
     }
 
