@@ -1,6 +1,5 @@
 package robot;
 
-import robot.object.WorldObject;
 import robot.object.opengl.*;
 
 //import javax.media.opengl.GL;
@@ -126,14 +125,19 @@ public class WorldGL {
     public void InitGL()
     {
 
+        new TextureLoader().loadTextures(gl);
 
-        gl.glClearColor(0, 0, 0, 0);
 //        gl.glMatrixMode(GL2.GL_PROJECTION);
 //        gl.glLoadIdentity();
 //        gl.glOrtho(0, 1, 0, 1, -1, 1);
-
-        gl.glClearColor(0.0f,0.0f,0.0f,0.0f);
+gl.glEnable(GL.GL_TEXTURE_2D);						// Enable Texture Mapping ( NEW )
+	gl.glShadeModel(GL2.GL_SMOOTH);		
+        gl.glClearColor(0, 0, 0, 0);
         gl.glClearDepth(1.0f);
+        gl.glEnable(GL.GL_DEPTH_TEST);						// Enables Depth Testing
+        gl.glDepthFunc(GL.GL_LEQUAL);							// The Type Of Depth Testing To Do
+        gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);			// Really Nice Perspective Calculations
+
 
 //	glDepthFunc(GL_LESS);
 //        gl.glEnable(GL.GL_DEPTH_TEST);
@@ -206,7 +210,7 @@ public class WorldGL {
         gl.glRotatef(transy,1.0f,0.0f,0.0f);
         gl.glRotatef(transz,0.0f,0.0f,1.0f);
 
-        drawTriangle();
+        drawScene();
 //        gl.glTranslatef(0f,0f,2f);
     }
 //
@@ -221,32 +225,19 @@ public class WorldGL {
 //    }
 
 
-    public void drawTriangle()
+    public void drawScene()
     {
         gl.glTranslatef(-0.5f,0f,-2f);
-
         rotateTest1 += 0.1f;
         gl.glRotatef(rotateTest1,0.0f,1.0f,0.0f);
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
         gl.glBegin(GL.GL_TRIANGLES);
 
-        gl.glColor3f(1, 0, 0);
-        gl.glVertex3f(0f, 1f, 0);
-        gl.glColor3f(0, 1, 0);
-        gl.glVertex3f(-1f, -1f, 0);
-        gl.glColor3f(0, 0, 1);
-        gl.glVertex3f(1f, -1f, 0);
-
-        gl.glEnd();
+        new CubeGL().draw(gl,null);
 
         gl.glRotatef(-rotateTest1,0.0f,1.0f,0.0f);
-        gl.glTranslatef(2f,0f,2f);
-        gl.glBegin(GL2.GL_QUADS);						// Draw A Quad
-		gl.glVertex3f(-1.0f, 1.0f, 0.0f);				// Top Left
-		gl.glVertex3f( 1.0f, 1.0f, 0.0f);				// Top Right
-		gl.glVertex3f( 1.0f,-1.0f, 0.0f);				// Bottom Right
-		gl.glVertex3f(-1.0f,-1.0f, 0.0f);				// Bottom Left
-	    gl.glEnd();
+        gl.glTranslatef(-2f,0f,-2f);
+        new TriangleGL().draw(gl,null);
 
         gl.glFlush();
 
@@ -293,14 +284,14 @@ public class WorldGL {
             gl.glEnable(GL.GL_BLEND);
             gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
             gl.glHint(GL.GL_LINE_SMOOTH_HINT,GL.GL_NICEST);
-            gl.glLineWidth(1.0f);
+            gl.glLineWidth(5.0f);
         }
         else {
             gl.glDisable(GL.GL_LINE_SMOOTH);
             gl.glDisable(GL.GL_BLEND);
             gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
             gl.glHint(GL.GL_LINE_SMOOTH_HINT,GL.GL_NICEST);
-            gl.glLineWidth(0.5f);
+            gl.glLineWidth(5f);
         }
     }
 
