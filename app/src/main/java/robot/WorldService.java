@@ -47,15 +47,15 @@ public class WorldService {
 //            int robotDirection = robot.getDirection();
 //            viewWorld.beginScene(robotPosition.x, robotPosition.y, robotDirection);
 //        }
-//        for(p.x=0; p.x<columns; p.x++)
-//            for(p.y=0; p.y<rows; p.y++) {
-//                list = modelWorld.getCell(p);
-//                list.setToFirst();
-//                while((object = list.getNext()) != null) {
-//                    if(!viewWorld.renderObject(p.x,p.y,object))
-//                        System.exit(50);
-//                }
-//            }
+        for(p.x=0; p.x<columns; p.x++)
+            for(p.y=0; p.y<rows; p.y++) {
+                list = modelWorld.getCell(p);
+                list.setToFirst();
+                while((object = list.getNext()) != null) {
+                    if(!viewWorld.renderObject(p.x,p.y,object))
+                        System.exit(50);
+                }
+            }
         viewWorld.endScene();
     }
 
@@ -128,8 +128,8 @@ public class WorldService {
         this.robotView = robotView;
     }
 
-    public void onInit()
+    public void onInit(int width, int height)
     {
-        viewWorld.InitGL();
+        viewWorld.InitGL(width,height);
     }
 }

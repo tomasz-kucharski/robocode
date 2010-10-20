@@ -1,5 +1,6 @@
 package robot;
 
+import robot.object.WorldObject;
 import robot.object.opengl.*;
 
 //import javax.media.opengl.GL;
@@ -27,7 +28,7 @@ public class WorldGL {
     private float transx;
     private float transy;
     private float transz;
-    private float scale;
+    private float scale = 1.0f;
 
     private int columns;
     private int rows;
@@ -50,7 +51,7 @@ public class WorldGL {
 
         movex = 0.0f;
         movey = 0.0f;
-        movez = -3.0f;
+        movez = -2.0f;
 
         transx = 0.0f;
         transy = 0.0f;
@@ -58,7 +59,7 @@ public class WorldGL {
 
         scale = 1.0f;
 
-        tableGL = new TableGL(columns,rows);
+        tableGL = new TableGL(rows,columns);
         robotGL = new RobotGL();
         floorGL = new FloorGL();
         wallGL = new WallGL();
@@ -79,12 +80,10 @@ public class WorldGL {
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         glu.gluPerspective(45.0f,(float)width/(float)height,0.1f,100.0f);
-	    gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT,GL2.GL_NICEST);
-
+        gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT,GL2.GL_NICEST);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
 
-//        gl.glDrawBuffer(GL.GL_BACK);
     }
 
 //    public void InitGL()
@@ -122,21 +121,72 @@ public class WorldGL {
 //
 //    }
 
-    public void InitGL()
+    public void InitGL(int width, int height)
     {
+        ReSizeGLScene(width,height);
 
         new TextureLoader().loadTextures(gl);
 
-//        gl.glMatrixMode(GL2.GL_PROJECTION);
-//        gl.glLoadIdentity();
 //        gl.glOrtho(0, 1, 0, 1, -1, 1);
-gl.glEnable(GL.GL_TEXTURE_2D);						// Enable Texture Mapping ( NEW )
-	gl.glShadeModel(GL2.GL_SMOOTH);		
-        gl.glClearColor(0, 0, 0, 0);
-        gl.glClearDepth(1.0f);
-        gl.glEnable(GL.GL_DEPTH_TEST);						// Enables Depth Testing
-        gl.glDepthFunc(GL.GL_LEQUAL);							// The Type Of Depth Testing To Do
-        gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);			// Really Nice Perspective Calculations
+        gl.glEnable(GL.GL_TEXTURE_2D);						// Enable Texture Mapping ( NEW )
+        gl.glShadeModel(GL2.GL_SMOOTH);
+
+        gl.glClearDepth(1.0f); // set up depth buffer
+        gl.glEnable(GL2.GL_NORMALIZE|GL.GL_DEPTH_TEST); // enable depth test
+        gl.glEnable(GL.GL_CULL_FACE);
+        gl.glDepthFunc(GL.GL_LEQUAL); // set depth func. this should be default val, anyway
+//        gl.glCullFace(GL.GL_BACK);
+
+        gl.glViewport(0,0, screenWidth, screenHeight);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
+        gl.glLoadIdentity();
+        glu.gluPerspective(45.0f,(float)screenWidth/(float)screenHeight,0.1f,100.0f);
+        gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT,GL2.GL_NICEST);
+
+
+
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glLoadIdentity();
+
+//        gl.glColor4f(1.0f,1.0f,1.0f,0.5f);			// Full Brightness, 50% Alpha ( NEW )
+//        gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE);		// Blending Function For Translucency Based On Source Alpha Value ( NEW )
+//        gl.glEnable(GL.GL_BLEND);
+
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_AMBIENT, LightGL.LightAmbient);
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, LightGL.LightDiffuse);
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION,LightGL.LightPosition);
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_SHININESS,LightGL.LightShininess);
+        gl.glEnable(GL2.GL_LIGHT1);
+        gl.glEnable(GL2.GL_LIGHT0);
+        gl.glEnable(GL2.GL_LIGHTING);								// Enable Lighting
+//        gl.glEnable(GL2.GL_COLOR_MATERIAL);							// Enable Material Coloring
+
+
+
+        listBox = gl.glGenLists(2);
+        gl.glNewList(listBox,GL2.GL_COMPILE);
+        new CubeGL().draw(gl,null);
+        gl.glEndList();
+        listTop = listBox + 1;
+        gl.glNewList(listTop,GL2.GL_COMPILE);
+        gl.glBegin(GL2.GL_QUADS);							// Start Drawing Quad
+        // Top Face
+        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Left Of The Texture and Quad
+        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(-1.0f,  1.0f,  1.0f);	// Bottom Left Of The Texture and Quad
+        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f( 1.0f,  1.0f,  1.0f);	// Bottom Right Of The Texture and Quad
+        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Right Of The Texture and Quad
+        gl.glEnd();								// Done Drawing Quad
+
+
+        gl.glEndList();
+//        tableGL.init(gl);
+        floorGL.init(gl);
+        wallGL.init(gl);
+        rubbishGL.init(gl);
+
+
+
+//        gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);			// Really Nice Perspective Calculations
 
 
 //	glDepthFunc(GL_LESS);
@@ -147,7 +197,7 @@ gl.glEnable(GL.GL_TEXTURE_2D);						// Enable Texture Mapping ( NEW )
 ////	glMatrixMode(GL_PROJECTION);
 ////		glLoadIdentity();
 ////		gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
-////	glMatrixMode(GL_MODELVIEW);
+//	gl.glMatrixMode(GL2.GL_MODELVIEW);
 //
 //        gl.glEnable(GL.GL_DEPTH_TEST);
 //        gl.glEnable(GL.GL_TEXTURE_2D);
@@ -189,29 +239,52 @@ gl.glEnable(GL.GL_TEXTURE_2D);						// Enable Texture Mapping ( NEW )
 //        gl.glTranslatef(-2.0f,0.0f,-6f);
 //    }
 
-    public void beginScene()
+    public void beginScene3()
     {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
         //---  WYKONAJ TRANSFORMACJE WYKONANE PRZEZ UZYTKOWNIKA
-        gl.glTranslatef(movex,movey,movez);
 
-        gl.glScalef(scale,scale,scale);
+//        gl.glScalef(scale,scale,scale);
 
         onWireframe();
         onAntialiasing();
 
 
-        //move back a little to start drawing
-        gl.glTranslatef(0f,0f,-2f);
-        
+        //move into the screen a little to start drawing
+
+        gl.glTranslatef(movex,movey,movez);
         gl.glRotatef(transx,0.0f,1.0f,0.0f);
         gl.glRotatef(transy,1.0f,0.0f,0.0f);
         gl.glRotatef(transz,0.0f,0.0f,1.0f);
 
-        drawScene();
+
+//        gl.glTranslatef(0f,0f,-2f);
+        drawScene2();
 //        gl.glTranslatef(0f,0f,2f);
+    }
+
+    public void beginScene() {
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+        gl.glLoadIdentity();
+
+        gl.glTranslatef(0.0f,0.0f,-15.0f);
+        gl.glTranslatef(0.0f,0.0f,movez);
+        gl.glRotatef(transx,0.0f,1.0f,0.0f);
+        gl.glRotatef(transy,1.0f,0.0f,0.0f);
+        gl.glRotatef(transz,0.0f,0.0f,1.0f);
+        gl.glScalef(scale,scale,scale);
+
+
+        gl.glTranslatef(movex,0.0f,0.0f);
+        gl.glTranslatef(0.0f,movey,0.0f);
+        new TriangleGL(1).draw(gl,null);
+        //---  RYSUJ PODKLAD
+        tableGL.draw(gl,null);
+        //---  USTAW WYSOKOSC PONAD STOLEM
+        gl.glTranslatef(0.0f,0.0f,0.3f);
+
     }
 //
 //
@@ -224,51 +297,93 @@ gl.glEnable(GL.GL_TEXTURE_2D);						// Enable Texture Mapping ( NEW )
 //
 //    }
 
+    static float boxcol[][]= new float[][]
+            {
+                    // Bright:  Red, Orange, Yellow, Green, Blue
+                    {1.0f,0.0f,0.0f},{1.0f,0.5f,0.0f},{1.0f,1.0f,0.0f},{0.0f,1.0f,0.0f},{0.0f,1.0f,1.0f}
+            };
+
+    static float topcol[][]= new float[][]
+            {
+                    // Dark:  Red, Orange, Yellow, Green, Blue
+                    {.5f,0.0f,0.0f},{0.5f,0.25f,0.0f},{0.5f,0.5f,0.0f},{0.0f,0.5f,0.0f},{0.0f,0.5f,0.5f}
+            };
+
+    int listBox;
+    int listTop;
+
+    public void drawScene2() {
+        gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[0]);
+
+        for (int yloop=1;yloop<6;yloop++)							// Loop Through The Y Plane
+        {
+            for (int xloop=0;xloop<yloop;xloop++)					// Loop Through The X Plane
+            {
+                gl.glLoadIdentity();						// Reset The View
+
+                float x = (1.4f+xloop*2.8f)-( yloop * 1.4f);
+
+                gl.glTranslatef(1.4f+(float)xloop*2.8f-((float)yloop*1.4f),((6.0f-(float)yloop)*2.4f)-7.0f,-20.0f); // Position The Cubes On The Screen
+                gl.glRotatef(45.0f-(2.0f*yloop)+transx,1.0f,0.0f,0.0f);		// Tilt The Cubes Up And Down
+                gl.glRotatef(45.0f+transy,0.0f,1.0f,0.0f);				// Spin Cubes Left And Right
+                gl.glColor3fv(boxcol[yloop-1],0);					// Select A Box Color
+
+                gl.glCallList(listBox);						// Draw The Box
+
+                gl.glColor3fv(topcol[yloop-1],0);					// Select The Top Color
+
+                gl.glTranslatef(0f,0.5f,0.0f); // Position The Cubes On The Screen
+                gl.glCallList(listTop);						// Draw The Top
+            }
+        }
+
+    }
 
     public void drawScene()
     {
-        gl.glTranslatef(-0.5f,0f,-2f);
+        gl.glTranslatef(-0.5f,0f,-5f);
         rotateTest1 += 0.1f;
         gl.glRotatef(rotateTest1,0.0f,1.0f,0.0f);
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-        gl.glBegin(GL.GL_TRIANGLES);
 
         new CubeGL().draw(gl,null);
 
         gl.glRotatef(-rotateTest1,0.0f,1.0f,0.0f);
-        gl.glTranslatef(-2f,0f,-2f);
-        new TriangleGL().draw(gl,null);
+
+        gl.glTranslatef(1.5f,1f,2f);
+        new TriangleGL(0).draw(gl,null);
+
+        gl.glTranslatef(-0.5f,0.5f,2f);
+        new TriangleGL(1).draw(gl,null);
 
         gl.glFlush();
-
     }
 
     public void endScene()  {
         gl.glLoadIdentity();
     }
 
-//    public boolean renderObject(int x, int y, WorldObject object) {
-//        int className = object.getClassName();
-//
-//        gl.glTranslatef(posX+x,posY+y, 0.0f);
-//        if (className == WorldObjectVerifier.FLOOR.getIntValue())
-//            floorGL.draw(gl,object);
-//        else if (className == WorldObjectVerifier.ROBOT.getIntValue())
-//            robotGL.draw(gl,object);
-//        else if (className == WorldObjectVerifier.WALL.getIntValue())
-//            wallGL.draw(gl,object);
-//        else if (className == WorldObjectVerifier.DEPOT.getIntValue())
-//            depotGL.draw(gl,object);
-//        else if (className == WorldObjectVerifier.RUBBISH.getIntValue())
-//            rubbishGL.draw(gl,object);
-//        else if (className == WorldObjectVerifier.FURNITURE.getIntValue())
-//            furnitureGL.draw(gl,object);
-//        else return false;
-//
-//        gl.glTranslatef(-posX-x,-posY-y,0.0f);
-//
-//        return true;
-//    }
+    public boolean renderObject(int x, int y, WorldObject object) {
+        int className = object.getClassName();
+
+        gl.glTranslatef(posX+x,posY+y, 0.0f);
+        if (className == WorldObjectVerifier.FLOOR.getIntValue())
+            floorGL.draw(gl,object);
+        else if (className == WorldObjectVerifier.ROBOT.getIntValue())
+            robotGL.draw(gl,object);
+        else if (className == WorldObjectVerifier.WALL.getIntValue())
+            wallGL.draw(gl,object);
+        else if (className == WorldObjectVerifier.DEPOT.getIntValue())
+            depotGL.draw(gl,object);
+        else if (className == WorldObjectVerifier.RUBBISH.getIntValue())
+            rubbishGL.draw(gl,object);
+        else if (className == WorldObjectVerifier.FURNITURE.getIntValue())
+            furnitureGL.draw(gl,object);
+        else return false;
+
+        gl.glTranslatef(-posX-x,-posY-y,0.0f);
+
+        return true;
+    }
 
     public void setWireframe(boolean wireframe) {
         this.wireframe = wireframe;

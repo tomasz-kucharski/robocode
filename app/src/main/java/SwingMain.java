@@ -94,9 +94,9 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
 
 
         worldService.setGL(gl);
-        worldService.onInit();
+        worldService.onInit(640,480);
 //        worldService.onWireframe(true);
-        worldService.onResize(640,480);
+//        worldService.onResize(640,480);
 
 //        GLU glu = new GLU();
 //

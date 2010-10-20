@@ -7,22 +7,8 @@ import javax.media.opengl.GL;
 import java.nio.FloatBuffer;
 
 public class LightGL {
-    public FloatBuffer LightAmbient = FloatBuffer.allocate(4);
-    public FloatBuffer LightDiffuse = FloatBuffer.allocate(4);
-    public FloatBuffer LightPosition = FloatBuffer.allocate(4);
-    public FloatBuffer LightSpecular = FloatBuffer.allocate(4);
-    public FloatBuffer LightShininess = FloatBuffer.allocate(4);
-
-    int filter;
-
-    public LightGL() {
-        LightAmbient.put(new float[]{0.4f, 0.4f, 0.4f, 1.0f});
-        LightDiffuse.put(new float[]{1.0f, 1.0f, 1.0f, 1.0f});
-        LightPosition.put(new float[]{10.0f, 10.0f, -10.0f, 5.0f});
-        LightSpecular.put(new float[]{0.8f, 0.8f, 0.8f, 1.0f});
-    }
-
-    void init() {
-
-    }
+    public static FloatBuffer LightAmbient = FloatBuffer.wrap(new float[]{0.5f, 0.5f, 0.5f, 1.0f});
+    public static FloatBuffer LightDiffuse = FloatBuffer.wrap(new float[]{1f, 1f, 1f, 1f});
+    public static FloatBuffer LightPosition = FloatBuffer.wrap(new float[]{0f, 0f, 2f, 1f});
+    public static FloatBuffer LightShininess = FloatBuffer.wrap(new float[]{0.5f, 0.5f, 0.5f, 1.0f});
 }

@@ -27,14 +27,14 @@ public class TableGL extends ObjectGL {
         loadGLTextures(gl, new File("table.bmp"));
         gl.glNewList(list,GL2.GL_COMPILE);
 
-        gl.glColor3f(1.0f,1.0f,1.0f);
+        gl.glColor3f(1.0f,.7f,1.0f);
 //	glBindTexture(GL.GL_TEXTURE_2D,texture[0]);
         gl.glBegin(GL2.GL_QUADS);
         gl.glNormal3f(0.0f,0.0f,1.0f);
         gl.glTexCoord2f(1.0f,1.0f);gl.glVertex3f(x,y,0.0f);
-        gl.glTexCoord2f(1.0f,0.0f);gl.glVertex3f(x,-y,0.0f);
-        gl.glTexCoord2f(0.0f,0.0f);gl.glVertex3f(-x,-y,0.0f);
         gl.glTexCoord2f(0.0f,1.0f);gl.glVertex3f(-x,y,0.0f);
+        gl.glTexCoord2f(0.0f,0.0f);gl.glVertex3f(-x,-y,0.0f);
+        gl.glTexCoord2f(1.0f,0.0f);gl.glVertex3f(x,-y,0.0f);
         gl.glEnd();
         gl.glEndList();
     }
