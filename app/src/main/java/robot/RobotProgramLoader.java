@@ -49,13 +49,20 @@ public class RobotProgramLoader {
     }
 
     private Instruction parseInstructionLine(String lineOfFile) {
-        String instructionParams[] = lineOfFile.split(INSTRUCTION_PARAMS_SEPARATOR);
-        int order = RobotProcessor.getInstructionByName(instructionParams[SECOND_ATTRIBUTE]);
-        if (order == -1) {
-            throw new IllegalArgumentException("Unknown order. Line:"+lineNumber);
-        } else {
-            InstructionLoader loader = instructionLoaders.get(order);
-            return loader.getInstruction(order,instructionParams);
+            String instructionParams[] = lineOfFile.split(INSTRUCTION_PARAMS_SEPARATOR);
+            int order = RobotProcessor.getInstructionByName(instructionParams[SECOND_ATTRIBUTE]);
+        int typeOfInstruction = RobotProcessor.getTypeOfInstruction(order);
+        try {
+            if (order == -1) {
+                throw new IllegalArgumentException("Unknown instruction. Line:"+lineNumber);
+            } else {
+                InstructionLoader loader = instructionLoaders.get(typeOfInstruction);
+                return loader.getInstruction(order,instructionParams);
+            }
+        } catch (RuntimeException e) {
+            System.out.println(lineOfFile);
+            System.out.println(order);
+            throw e;
         }
     }
 
@@ -65,7 +72,7 @@ public class RobotProgramLoader {
         instructionLoaders.put(0,new ZeroArgumentInstructionLoader());
         instructionLoaders.put(1,new OneArgumentInstructionLoader());
         instructionLoaders.put(2,new TwoArgumentsInstructionLoader());
-        instructionLoaders.put(2,new ThreeArgumentsInstructionLoader());
+        instructionLoaders.put(3,new ThreeArgumentsInstructionLoader());
     }
 
 

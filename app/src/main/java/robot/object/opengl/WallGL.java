@@ -5,7 +5,8 @@ import robot.object.WorldObject;
 import robot.object.opengl.ObjectGL;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
+import javax.media.opengl.GL;
+import java.nio.FloatBuffer;
 
 public class WallGL extends ObjectGL {
     public WallGL()
@@ -13,7 +14,7 @@ public class WallGL extends ObjectGL {
         list = 70;
     }
 
-    public void draw(GL2 gl, WorldObject object) {
+    public void draw(GL gl, WorldObject object) {
         gl.glPushMatrix();
         gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.BOX]);
         gl.glTranslatef(0f,0f,0.5f);
@@ -22,10 +23,10 @@ public class WallGL extends ObjectGL {
 
     }
 
-    public void init(GL2 gl) {
+    public void init(GL gl) {
         gl.glPushMatrix();
-        gl.glNewList(list,GL2.GL_COMPILE);
-        CubeGL.createCube(gl,0.8f);
+        gl.glNewList(list,GL.GL_COMPILE);
+        CubeGL.createCube(gl,0.9f,true);
         gl.glEndList();
         gl.glPopMatrix();
     }

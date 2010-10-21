@@ -5,11 +5,10 @@ import robot.object.opengl.*;
 
 //import javax.media.opengl.GL;
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 
 public class WorldGL {
-    GL2 gl;
+    GL gl;
     GLU glu = new GLU();
 
     TableGL tableGL;
@@ -51,7 +50,7 @@ public class WorldGL {
 
         movex = 0.0f;
         movey = 0.0f;
-        movez = -2.0f;
+        movez = 0.0f;
 
         transx = 0.0f;
         transy = 0.0f;
@@ -69,20 +68,33 @@ public class WorldGL {
         lightGL = new LightGL();
     }
 
-    public void setGl(GL2 gl) {
+    public void setGl(GL gl) {
         this.gl = gl;
     }
 
     public void ReSizeGLScene(int  width, int height) {
         screenWidth = width;
         screenHeight = height;
-        gl.glViewport(0,0, screenWidth, screenHeight);
-        gl.glMatrixMode(GL2.GL_PROJECTION);
+
+
+        height = (height == 0) ? 1 : height;
+
+        gl.glViewport(0, 0, width, height);
+        gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(45.0f,(float)width/(float)height,0.1f,100.0f);
-        gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT,GL2.GL_NICEST);
-        gl.glMatrixMode(GL2.GL_MODELVIEW);
+
+        glu.gluPerspective(45, (float) width / height, 1, 1000);
+        gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
+
+//        gl.glViewport(0,0, screenWidth, screenHeight);
+//        gl.glMatrixMode(GL.GL_PROJECTION);
+//        gl.glLoadIdentity();
+//        glu.gluPerspective(45.0f,(float)width/(float)height,0.1f,100.0f);
+//        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
+//        gl.glMatrixMode(GL.GL_MODELVIEW);
+//        gl.glLoadIdentity();
+//        gl.glEnable(GL.GL_NORMALIZE);
 
     }
 
@@ -92,7 +104,7 @@ public class WorldGL {
 //        gl.glClearDepth(1.0f);
 ////	glDepthFunc(GL_LESS);
 //        gl.glEnable(GL.GL_DEPTH_TEST);
-//        gl.glShadeModel(GL2.GL_SMOOTH);
+//        gl.glShadeModel(GL.GL_SMOOTH);
 //        gl.glCullFace(GL.GL_FRONT);
 ////	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
 ////	glMatrixMode(GL_PROJECTION);
@@ -102,14 +114,14 @@ public class WorldGL {
 //
 //        gl.glEnable(GL.GL_DEPTH_TEST);
 //        gl.glEnable(GL.GL_TEXTURE_2D);
-//        gl.glEnable(GL2.GL_LIGHTING);			// wlaczenie swiatla w ogole
+//        gl.glEnable(GL.GL_LIGHTING);			// wlaczenie swiatla w ogole
 //	      // wlaczenie materialu w proces tworzenia koloru
 ////ZALADOWANIE TEKSTUR
-//        gl.glLightfv(GL2.GL_LIGHT0,GL2.GL_AMBIENT,lightGL.LightAmbient);
-//        gl.glLightfv(GL2.GL_LIGHT0,GL2.GL_DIFFUSE,lightGL.LightDiffuse);
-//        gl.glLightfv(GL2.GL_LIGHT0,GL2.GL_POSITION,lightGL.LightPosition);
-//        gl.glLightfv(GL2.GL_LIGHT0,GL2.GL_SPECULAR, lightGL.LightSpecular);
-//        gl.glEnable(GL2.GL_LIGHT0);			// wlaczenie oswietlenia LIGHT0
+//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_AMBIENT,lightGL.LightAmbient);
+//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_DIFFUSE,lightGL.LightDiffuse);
+//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_POSITION,lightGL.LightPosition);
+//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_SPECULAR, lightGL.LightSpecular);
+//        gl.glEnable(GL.GL_LIGHT0);			// wlaczenie oswietlenia LIGHT0
 //
 //        floorGL.init(gl);
 //        wallGL.init(gl);
@@ -123,153 +135,79 @@ public class WorldGL {
 
     public void InitGL(int width, int height)
     {
-        ReSizeGLScene(width,height);
+//        ReSizeGLScene(width,height);
 
         new TextureLoader().loadTextures(gl);
 
-//        gl.glOrtho(0, 1, 0, 1, -1, 1);
-        gl.glEnable(GL.GL_TEXTURE_2D);						// Enable Texture Mapping ( NEW )
-        gl.glShadeModel(GL2.GL_SMOOTH);
-
-        gl.glClearDepth(1.0f); // set up depth buffer
-        gl.glEnable(GL2.GL_NORMALIZE|GL.GL_DEPTH_TEST); // enable depth test
-        gl.glEnable(GL.GL_CULL_FACE);
-        gl.glDepthFunc(GL.GL_LEQUAL); // set depth func. this should be default val, anyway
-//        gl.glCullFace(GL.GL_BACK);
-
-        gl.glViewport(0,0, screenWidth, screenHeight);
-        gl.glMatrixMode(GL2.GL_PROJECTION);
-        gl.glLoadIdentity();
-        glu.gluPerspective(45.0f,(float)screenWidth/(float)screenHeight,0.1f,100.0f);
-        gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT,GL2.GL_NICEST);
-
-
-
-        gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glEnable(GL.GL_TEXTURE_2D);                              // Enable Texture Mapping
+        gl.glShadeModel(GL.GL_SMOOTH);                              // Enable Smooth Shading
+        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);                    // Black Background
+        gl.glClearDepth(1.0f);                                      // Depth Buffer Setup
+        gl.glEnable(GL.GL_DEPTH_TEST);                              // Enables Depth Testing
+        gl.glDepthFunc(GL.GL_LEQUAL);                               // The Type Of Depth Testing To Do
+//        gl.glEnable(GL.GL_LIGHT0);                                  // Quick And Dirty Lighting (Assumes Light0 Is Set Up)
+        gl.glEnable(GL.GL_LIGHTING);                                // Enable Lighting
+        gl.glEnable(GL.GL_COLOR_MATERIAL);                          // Enable Material Coloring
+        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);  // Really Nice Perspective Calculations
         gl.glLoadIdentity();
 
 //        gl.glColor4f(1.0f,1.0f,1.0f,0.5f);			// Full Brightness, 50% Alpha ( NEW )
 //        gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE);		// Blending Function For Translucency Based On Source Alpha Value ( NEW )
 //        gl.glEnable(GL.GL_BLEND);
 
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_AMBIENT, LightGL.LightAmbient);
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, LightGL.LightDiffuse);
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION,LightGL.LightPosition);
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_SHININESS,LightGL.LightShininess);
-        gl.glEnable(GL2.GL_LIGHT1);
-        gl.glEnable(GL2.GL_LIGHT0);
-        gl.glEnable(GL2.GL_LIGHTING);								// Enable Lighting
-//        gl.glEnable(GL2.GL_COLOR_MATERIAL);							// Enable Material Coloring
+//        gl.glLightfv(GL.GL_LIGHT1, GL.GL_AMBIENT, LightGL.LightAmbient);
+//        gl.glLightfv(GL.GL_LIGHT1, GL.GL_DIFFUSE, LightGL.LightDiffuse);
+//        gl.glLightfv(GL.GL_LIGHT1, GL.GL_POSITION,LightGL.LightPosition);
+//        gl.glLightfv(GL.GL_LIGHT1, GL.GL_SHININESS,LightGL.LightShininess);
+//        gl.glEnable(GL.GL_LIGHT1);
+        gl.glEnable(GL.GL_LIGHT0);
+//        gl.glEnable(GL.GL_LIGHTING);								// Enable Lighting
+//        gl.glEnable(GL.GL_COLOR_MATERIAL);							// Enable Material Coloring
 
 
-
-        listBox = gl.glGenLists(2);
-        gl.glNewList(listBox,GL2.GL_COMPILE);
-        new CubeGL().draw(gl,null);
-        gl.glEndList();
-        listTop = listBox + 1;
-        gl.glNewList(listTop,GL2.GL_COMPILE);
-        gl.glBegin(GL2.GL_QUADS);							// Start Drawing Quad
-        // Top Face
-        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Left Of The Texture and Quad
-        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(-1.0f,  1.0f,  1.0f);	// Bottom Left Of The Texture and Quad
-        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f( 1.0f,  1.0f,  1.0f);	// Bottom Right Of The Texture and Quad
-        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Right Of The Texture and Quad
-        gl.glEnd();								// Done Drawing Quad
-
-
-        gl.glEndList();
-//        tableGL.init(gl);
         floorGL.init(gl);
         wallGL.init(gl);
         rubbishGL.init(gl);
+        depotGL.init(gl);
+        robotGL.init(gl);
+        furnitureGL.init(gl);
+        tableGL.init(gl);
 
 
 
-//        gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);			// Really Nice Perspective Calculations
+//        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);			// Really Nice Perspective Calculations
 
 
 //	glDepthFunc(GL_LESS);
 //        gl.glEnable(GL.GL_DEPTH_TEST);
-//        gl.glShadeModel(GL2.GL_SMOOTH);
+//        gl.glShadeModel(GL.GL_SMOOTH);
 //        gl.glCullFace(GL.GL_FRONT);
 ////	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
 ////	glMatrixMode(GL_PROJECTION);
 ////		glLoadIdentity();
 ////		gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
-//	gl.glMatrixMode(GL2.GL_MODELVIEW);
+//	gl.glMatrixMode(GL.GL_MODELVIEW);
 //
 //        gl.glEnable(GL.GL_DEPTH_TEST);
 //        gl.glEnable(GL.GL_TEXTURE_2D);
-//        gl.glEnable(GL2.GL_LIGHTING);			// wlaczenie swiatla w ogole
+//        gl.glEnable(GL.GL_LIGHTING);			// wlaczenie swiatla w ogole
 //	      // wlaczenie materialu w proces tworzenia koloru
 ////ZALADOWANIE TEKSTUR
-//        gl.glLightfv(GL2.GL_LIGHT0,GL2.GL_AMBIENT,lightGL.LightAmbient);
-//        gl.glLightfv(GL2.GL_LIGHT0,GL2.GL_DIFFUSE,lightGL.LightDiffuse);
-//        gl.glLightfv(GL2.GL_LIGHT0,GL2.GL_POSITION,lightGL.LightPosition);
-//        gl.glLightfv(GL2.GL_LIGHT0,GL2.GL_SPECULAR, lightGL.LightSpecular);
-//        gl.glEnable(GL2.GL_LIGHT0);			// wlaczenie oswietlenia LIGHT0
+//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_AMBIENT,lightGL.LightAmbient);
+//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_DIFFUSE,lightGL.LightDiffuse);
+//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_POSITION,lightGL.LightPosition);
+//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_SPECULAR, lightGL.LightSpecular);
+//        gl.glEnable(GL.GL_LIGHT0);			// wlaczenie oswietlenia LIGHT0
 
 
     }
 
-//    public void beginScene(int x, int y, int direction) {
-//        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-//        gl.glLoadIdentity();
-//
-//
-//        gl.glRotatef(-90.0f,0.0f,1.0f,0.0f);
-//        gl.glRotatef(-90.0f,1.0f,0.0f,0.0f);
-//        gl.glRotatef(35.0f,0.0f,1.0f,0.0f);
-//        gl.glRotatef(-Direction.computeRotation(direction),0.0f,0.0f,1.0f); //direction
-//        float X = -posX - (float)x;//posX-(float)x;
-//        float Y = -posY - (float)y;//posY -(float)y;
-//        gl.glTranslatef(X ,Y ,-2.0f);
-//
-//        gl.glRotatef(transx,0.0f,1.0f,0.0f);
-//        gl.glRotatef(transy,1.0f,0.0f,0.0f);
-//        gl.glRotatef(transz,0.0f,0.0f,1.0f);
-//        gl.glScalef(scale,scale,scale);
-//
-//        gl.glTranslatef(movex,movey,movez);
-//
-//        //---  RYSUJ PODKLAD
-//        tableGL.draw(gl,null);
-//        //---  USTAW WYSOKOSC PONAD STOLEM
-//        gl.glTranslatef(-2.0f,0.0f,-6f);
-//    }
-
-    public void beginScene3()
-    {
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-        gl.glLoadIdentity();
-
-        //---  WYKONAJ TRANSFORMACJE WYKONANE PRZEZ UZYTKOWNIKA
-
-//        gl.glScalef(scale,scale,scale);
-
-        onWireframe();
-        onAntialiasing();
-
-
-        //move into the screen a little to start drawing
-
-        gl.glTranslatef(movex,movey,movez);
-        gl.glRotatef(transx,0.0f,1.0f,0.0f);
-        gl.glRotatef(transy,1.0f,0.0f,0.0f);
-        gl.glRotatef(transz,0.0f,0.0f,1.0f);
-
-
-//        gl.glTranslatef(0f,0f,-2f);
-        drawScene2();
-//        gl.glTranslatef(0f,0f,2f);
-    }
 
     public void beginScene() {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
-        gl.glTranslatef(0.0f,0.0f,-15.0f);
+        gl.glTranslatef(0.0f,0.0f,-8.0f);
         gl.glTranslatef(0.0f,0.0f,movez);
         gl.glRotatef(transx,0.0f,1.0f,0.0f);
         gl.glRotatef(transy,1.0f,0.0f,0.0f);
@@ -284,79 +222,10 @@ public class WorldGL {
         tableGL.draw(gl,null);
         //---  USTAW WYSOKOSC PONAD STOLEM
         gl.glTranslatef(0.0f,0.0f,0.3f);
-
-    }
-//
-//
-//        gl.glTranslatef(movex,0.0f,0.0f);
-//        gl.glTranslatef(0.0f,movey,0.0f);
-//        //---  RYSUJ PODKLAD
-//        tableGL.draw(gl,null);
-//        //---  USTAW WYSOKOSC PONAD STOLEM
-//        gl.glTranslatef(0.0f,0.0f,0.3f);
-//
-//    }
-
-    static float boxcol[][]= new float[][]
-            {
-                    // Bright:  Red, Orange, Yellow, Green, Blue
-                    {1.0f,0.0f,0.0f},{1.0f,0.5f,0.0f},{1.0f,1.0f,0.0f},{0.0f,1.0f,0.0f},{0.0f,1.0f,1.0f}
-            };
-
-    static float topcol[][]= new float[][]
-            {
-                    // Dark:  Red, Orange, Yellow, Green, Blue
-                    {.5f,0.0f,0.0f},{0.5f,0.25f,0.0f},{0.5f,0.5f,0.0f},{0.0f,0.5f,0.0f},{0.0f,0.5f,0.5f}
-            };
-
-    int listBox;
-    int listTop;
-
-    public void drawScene2() {
-        gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[0]);
-
-        for (int yloop=1;yloop<6;yloop++)							// Loop Through The Y Plane
-        {
-            for (int xloop=0;xloop<yloop;xloop++)					// Loop Through The X Plane
-            {
-                gl.glLoadIdentity();						// Reset The View
-
-                float x = (1.4f+xloop*2.8f)-( yloop * 1.4f);
-
-                gl.glTranslatef(1.4f+(float)xloop*2.8f-((float)yloop*1.4f),((6.0f-(float)yloop)*2.4f)-7.0f,-20.0f); // Position The Cubes On The Screen
-                gl.glRotatef(45.0f-(2.0f*yloop)+transx,1.0f,0.0f,0.0f);		// Tilt The Cubes Up And Down
-                gl.glRotatef(45.0f+transy,0.0f,1.0f,0.0f);				// Spin Cubes Left And Right
-                gl.glColor3fv(boxcol[yloop-1],0);					// Select A Box Color
-
-                gl.glCallList(listBox);						// Draw The Box
-
-                gl.glColor3fv(topcol[yloop-1],0);					// Select The Top Color
-
-                gl.glTranslatef(0f,0.5f,0.0f); // Position The Cubes On The Screen
-                gl.glCallList(listTop);						// Draw The Top
-            }
-        }
+        gl.glColor3f(1f,1f,1f);
 
     }
 
-    public void drawScene()
-    {
-        gl.glTranslatef(-0.5f,0f,-5f);
-        rotateTest1 += 0.1f;
-        gl.glRotatef(rotateTest1,0.0f,1.0f,0.0f);
-
-        new CubeGL().draw(gl,null);
-
-        gl.glRotatef(-rotateTest1,0.0f,1.0f,0.0f);
-
-        gl.glTranslatef(1.5f,1f,2f);
-        new TriangleGL(0).draw(gl,null);
-
-        gl.glTranslatef(-0.5f,0.5f,2f);
-        new TriangleGL(1).draw(gl,null);
-
-        gl.glFlush();
-    }
 
     public void endScene()  {
         gl.glLoadIdentity();
@@ -424,9 +293,9 @@ public class WorldGL {
 
     public void onWireframe() {
         if(wireframe)
-            gl.glPolygonMode(GL.GL_FRONT_AND_BACK,GL2.GL_LINE);
+            gl.glPolygonMode(GL.GL_FRONT_AND_BACK,GL.GL_LINE);
         else
-            gl.glPolygonMode(GL.GL_FRONT_AND_BACK,GL2.GL_FILL);
+            gl.glPolygonMode(GL.GL_FRONT_AND_BACK,GL.GL_FILL);
     }
 
     public void onSetXYZMove(float x, float y, float z) {

@@ -5,7 +5,7 @@ import robot.object.Rubbish;
 import robot.object.WorldObject;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
+import javax.media.opengl.GL;
 import java.nio.FloatBuffer;
 
 public class RubbishGL extends ObjectGL {
@@ -15,7 +15,7 @@ public class RubbishGL extends ObjectGL {
         list = 20;
     }
 
-    public void draw(GL2 gl, WorldObject object)
+    public void draw(GL gl, WorldObject object)
     {
         float mx;
         rubbish = (Rubbish)object;
@@ -26,9 +26,9 @@ public class RubbishGL extends ObjectGL {
         gl.glPopMatrix();
     }
 
-    public void init(GL2 gl)
+    public void init(GL gl)
     {
-        gl.glNewList(list, GL2.GL_COMPILE);
+        gl.glNewList(list, GL.GL_COMPILE);
 
         gl.glPushMatrix();
         gl.glRotatef(90.0f,1.0f,0.0f,0.0f);
@@ -54,10 +54,10 @@ public class RubbishGL extends ObjectGL {
         FloatBuffer smiec4Shn = FloatBuffer.wrap(new float[]{128.000f});
 
         gl.glBegin(GL.GL_TRIANGLES);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec4Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec4Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec4Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec4Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec4Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec4Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec4Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec4Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( -0.444584f, 0.237654f, -0.223132f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -130,10 +130,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( -0.216189f, 0.00925900f, -0.426835f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( -0.216189f, 0.00925900f, -0.223132f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec1Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec1Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec1Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec1Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec1Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec1Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec1Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec1Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( -0.123596f, 0.126029f, -0.0523500f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -206,10 +206,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( -0.0124850f, 0.00565800f, -0.172720f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( -0.0124850f, 0.00565800f, -0.0523500f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec3Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec3Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec3Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec3Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec3Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec3Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec3Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec3Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( 0.0276380f, 0.136317f, -0.294119f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -282,10 +282,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( 0.160354f, 0.00360100f, -0.423749f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( 0.160354f, 0.00360100f, -0.294119f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec2Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec2Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec2Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec2Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec2Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec2Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec2Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec2Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( -0.166806f, 0.154835f, -0.246794f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -358,10 +358,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( -0.0649540f, 0.00977400f, -0.391856f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( -0.0649540f, 0.00977400f, -0.246794f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec2Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec2Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec2Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec2Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec2Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec2Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec2Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec2Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( -0.385942f, 0.295782f, 0.104029f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -434,10 +434,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( -0.194584f, 0.00874500f, -0.183008f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( -0.194584f, 0.00874500f, 0.104029f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec2Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec2Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec2Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec2Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec2Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec2Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec2Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec2Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( -0.0927320f, 0.169753f, 0.197650f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -510,10 +510,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( 0.0739350f, 0.00308600f, 0.108144f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( 0.0739350f, 0.00308600f, 0.197650f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec2Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec2Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec2Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec2Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec2Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec2Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec2Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec2Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( 0.333194f, 0.120370f, 0.489831f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -586,10 +586,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( 0.450478f, 0.00308600f, 0.428103f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( 0.450478f, 0.00308600f, 0.489831f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec3Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec3Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec3Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec3Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec3Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec3Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec3Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec3Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( 0.388749f, 0.0648150f, -0.394942f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -662,10 +662,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( 0.441218f, 0.00925900f, -0.450498f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( 0.441218f, 0.00925900f, -0.394942f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec1Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec1Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec1Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec1Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec1Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec1Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec1Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec1Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( 0.138749f, 0.201646f, 0.319049f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -738,10 +738,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( 0.327021f, 0.00411500f, 0.121519f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( 0.327021f, 0.00411500f, 0.319049f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec3Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec3Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec3Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec3Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec3Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec3Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec3Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec3Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( -0.398288f, 0.237654f, 0.436333f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -814,10 +814,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( -0.203843f, 0.00925900f, 0.207938f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( -0.203843f, 0.00925900f, 0.436333f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec1Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec1Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec1Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec1Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec1Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec1Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec1Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec1Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( -0.0989050f, 0.118827f, 0.456910f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -890,10 +890,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( 0.0152930f, 0.00463000f, 0.370490f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( 0.0152930f, 0.00463000f, 0.456910f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec4Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec4Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec4Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec4Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec4Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec4Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec4Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec4Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( -0.114337f, 0.173868f, 0.342712f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -966,10 +966,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( 0.0523300f, 0.00720200f, 0.243947f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( 0.0523300f, 0.00720200f, 0.342712f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec4Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec4Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec4Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec4Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec4Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec4Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec4Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec4Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( 0.00603300f, 0.251029f, 0.0268680f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -1042,10 +1042,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( 0.123317f, 0.00411500f, -0.220045f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( 0.123317f, 0.00411500f, 0.0268680f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec4Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec4Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec4Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec4Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec4Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec4Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec4Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec4Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( 0.209737f, 0.152263f, -0.210786f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
@@ -1118,10 +1118,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( 0.357885f, 0.00411500f, -0.331156f );
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( 0.357885f, 0.00411500f, -0.210786f );
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, smiec3Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, smiec3Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, smiec3Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, smiec3Shn);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, smiec3Amb);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, smiec3Dif);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, smiec3Spc);
+        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, smiec3Shn);
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );
         gl.glVertex3f( 0.259120f, 0.129115f, -0.00708200f );
         gl.glNormal3f( 0.000000f, 0.000000f, 1.00000f );

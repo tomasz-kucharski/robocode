@@ -4,7 +4,7 @@ import robot.TextureLoader;
 import robot.object.WorldObject;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
+import javax.media.opengl.GL;
 
 /**
  * @author tomekk
@@ -19,7 +19,7 @@ public class TriangleGL extends ObjectGL{
     }
 
     @Override
-    public void draw(GL2 gl, WorldObject object) {
+    public void draw(GL gl, WorldObject object) {
 
         gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[anInt]);
         gl.glBegin(GL.GL_TRIANGLES);
@@ -53,7 +53,7 @@ public class TriangleGL extends ObjectGL{
     }
 
     @Override
-    public void init(GL2 gl) {
+    public void init(GL gl) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 }

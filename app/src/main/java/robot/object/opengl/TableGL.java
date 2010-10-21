@@ -4,7 +4,7 @@ import robot.object.WorldObject;
 import robot.object.opengl.ObjectGL;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
+import javax.media.opengl.GL;
 import java.io.File;
 
 public class TableGL extends ObjectGL {
@@ -19,17 +19,17 @@ public class TableGL extends ObjectGL {
     }
 
 
-    public void draw(GL2 gl, WorldObject object) {
+    public void draw(GL gl, WorldObject object) {
         gl.glCallList(list);
     }
 
-    public void init(GL2 gl) {
+    public void init(GL gl) {
         loadGLTextures(gl, new File("table.bmp"));
-        gl.glNewList(list,GL2.GL_COMPILE);
+        gl.glNewList(list,GL.GL_COMPILE);
 
         gl.glColor3f(1.0f,.7f,1.0f);
 //	glBindTexture(GL.GL_TEXTURE_2D,texture[0]);
-        gl.glBegin(GL2.GL_QUADS);
+        gl.glBegin(GL.GL_QUADS);
         gl.glNormal3f(0.0f,0.0f,1.0f);
         gl.glTexCoord2f(1.0f,1.0f);gl.glVertex3f(x,y,0.0f);
         gl.glTexCoord2f(0.0f,1.0f);gl.glVertex3f(-x,y,0.0f);

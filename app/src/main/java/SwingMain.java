@@ -1,17 +1,14 @@
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import com.sun.opengl.util.Animator;
+import robot.WorldService;
 
 import javax.media.opengl.*;
-import javax.media.opengl.awt.GLCanvas;
-import javax.media.opengl.fixedfunc.GLLightingFunc;
-import javax.media.opengl.fixedfunc.GLMatrixFunc;
-import javax.media.opengl.glu.GLU;
 import javax.swing.*;
-
-import com.jogamp.opengl.util.Animator;
-import robot.LightGL;
-import robot.WorldService;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class SwingMain implements GLEventListener, KeyListener, MouseWheelListener, MouseMotionListener {
 
@@ -24,8 +21,9 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     private Point mousePoint;
 
     private void init() {
-        GLCapabilities caps = new GLCapabilities(GLProfile.getDefault());
+        GLCapabilities caps = new GLCapabilities();
         caps.setDoubleBuffered(true);
+        caps.setDepthBits(256);
         caps.setHardwareAccelerated(true);
 
         GLCanvas canvas = new GLCanvas(caps);
@@ -88,7 +86,8 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     }
 
     public void init(GLAutoDrawable gLDrawable) {
-        GL2 gl = gLDrawable.getGL().getGL2();
+        gLDrawable.setAutoSwapBufferMode(true);
+        GL gl = gLDrawable.getGL();
 
 
 
@@ -112,7 +111,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     public void display(GLAutoDrawable gLDrawable) {
 //        final GLCapabilities glCababilities = gLDrawable.getChosenGLCapabilities();
 //        glCababilities.setDoubleBuffered(true);
-        final GL2 gl = gLDrawable.getGL().getGL2();
+        final GL gl = gLDrawable.getGL();
         worldService.setGL(gl);
         worldService.onDraw();
 //        worldService.evolve();
@@ -124,13 +123,17 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
         worldService.onResize(width,height);
     }
 
+    @Override
+    public void displayChanged(GLAutoDrawable glAutoDrawable, boolean b, boolean b1) {
+ }
+
     public void dispose(GLAutoDrawable gLDrawable) {
         // do nothing
     }
 
     public static void main(String[] args) throws IOException {
         SwingMain swingMain = new SwingMain();
-        swingMain.loadWorld(new File("d:\\home\\projects\\robot\\app\\src\\main\\resources\\maps\\smallMap.txt"));
+        swingMain.loadWorld(new File("d:\\home\\projects\\robot\\app\\src\\main\\resources\\maps\\robot1.txt"));
         swingMain.init();
     }
 

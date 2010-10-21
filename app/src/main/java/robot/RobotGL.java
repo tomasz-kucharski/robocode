@@ -1,10 +1,10 @@
 package robot;
 
 import robot.object.WorldObject;
+import robot.object.opengl.CubeGL;
 import robot.object.opengl.ObjectGL;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
 
 public class RobotGL extends ObjectGL {
 
@@ -22,7 +22,7 @@ public class RobotGL extends ObjectGL {
         list = 30;
     }
 
-    public void draw(GL2 gl, WorldObject object) {
+    public void draw(GL gl, WorldObject object) {
         int direction;
         float mx;
         float move;
@@ -45,16 +45,19 @@ public class RobotGL extends ObjectGL {
                 gl.glTranslatef(0.0f,move,0.0f);
         }
         gl.glRotatef(mx,0.0f,0.0f,1.0f);
+
+        gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.ROBOT]);        
         gl.glCallList(list);
 
         gl.glPopMatrix();
     }
 
-    public void init(GL2 gl) {
-//	loadGLTextures();
-        gl.glNewList(list,GL2.GL_COMPILE);
-//        #include "robot"
+    public void init(GL gl) {
+        gl.glPushMatrix();
+        gl.glNewList(list,GL.GL_COMPILE);
+        CubeGL.createCube(gl,0.9f,true);
         gl.glEndList();
+        gl.glPopMatrix();
     }
 
 

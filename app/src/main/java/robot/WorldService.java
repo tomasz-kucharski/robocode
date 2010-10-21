@@ -2,10 +2,8 @@ package robot;
 
 import robot.object.WorldObject;
 
-import javax.media.opengl.GL2;
+import javax.media.opengl.GL;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class WorldService {
@@ -31,7 +29,7 @@ public class WorldService {
         viewWorld = new WorldGL(columns,rows);
     }
 
-    public void setGL(GL2 gl) {
+    public void setGL(GL gl) {
         viewWorld.setGl(gl);
     }
 

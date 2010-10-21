@@ -1,12 +1,13 @@
 package robot.object.opengl;
 
 import robot.Direction;
+import robot.TextureLoader;
 import robot.object.Furniture;
 import robot.object.WorldObject;
 import robot.object.opengl.ObjectGL;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
+import javax.media.opengl.GL;
 
 public class FurnitureGL extends ObjectGL {
 	private Furniture furniture;
@@ -21,13 +22,16 @@ public class FurnitureGL extends ObjectGL {
 	list3 = 43;
 }
 
-public void draw(GL2 gl, WorldObject object)
+public void draw(GL gl, WorldObject object)
 {
 	float mx;
 	furniture = (Furniture)object;
 	gl.glPushMatrix();
 	mx = Direction.computeRotation(furniture.getDirection());
 	gl.glRotatef(mx,0.0f,0.0f,1.0f);
+
+    gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.FURNITURE]);
+
 	switch (furniture.getType()) {
 	case 0: gl.glCallList(list);
 			break;
@@ -41,18 +45,25 @@ public void draw(GL2 gl, WorldObject object)
 	gl.glPopMatrix();
 }
 
-public void init(GL2 gl)
+public void init(GL gl)
 {
-	gl.glNewList(list,GL2.GL_COMPILE);
+
+    gl.glPushMatrix();
+    gl.glNewList(list,GL.GL_COMPILE);
+    CubeGL.createCube(gl,0.8f,true);
+    gl.glEndList();
+    gl.glPopMatrix();
+
+	gl.glNewList(list,GL.GL_COMPILE);
 //		#include "furniture"
 	gl.glEndList();
-	gl.glNewList(list1,GL2.GL_COMPILE);
+	gl.glNewList(list1,GL.GL_COMPILE);
 //		#include "furniture2"
 	gl.glEndList();
-	gl.glNewList(list2,GL2.GL_COMPILE);
+	gl.glNewList(list2,GL.GL_COMPILE);
 //		#include "furniture3"
 	gl.glEndList();
-	gl.glNewList(list3,GL2.GL_COMPILE);
+	gl.glNewList(list3,GL.GL_COMPILE);
 //		#include "furniture4"
 	gl.glEndList();
 }

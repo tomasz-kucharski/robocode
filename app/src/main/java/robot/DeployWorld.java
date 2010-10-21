@@ -49,7 +49,7 @@ public class DeployWorld {
                 String direction = lineFragments[5];
                 String name = lineFragments[6];
                 String fileName = lineFragments[7];
-                loadObject(type,p,data,data2,direction,name,new File("Intelligence\\"+fileName));
+                loadObject(type,p,data,data2,direction,name,new File("d:\\home\\projects\\robot\\app\\src\\main\\resources\\intelligence\\"+fileName));
             } else {
                 loadObject(type,p,data);
             }
