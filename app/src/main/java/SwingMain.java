@@ -35,9 +35,6 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
         frame.add(canvas, BorderLayout.CENTER);
 
 
-        createCheckBoxes();
-
-
         frame.setSize(640, 480);
         frame.setVisible(true);
         frame.addWindowListener(new WindowAdapter() {
@@ -72,30 +69,6 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
         canvas.requestFocus();
     }
 
-    private void createCheckBoxes() {
-        final Checkbox checkboxAntyaliasing = new Checkbox();
-        checkboxAntyaliasing.setLabel("Antialiasing");
-        checkboxAntyaliasing.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                worldService.onAntialiasing(checkboxAntyaliasing.getState());
-            }
-        });
-        final Checkbox checkboxWireframe = new Checkbox();
-        checkboxWireframe.setLabel("Wireframe");
-        checkboxWireframe.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                worldService.onWireframe(checkboxWireframe.getState());
-            }
-        });
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout());
-        panel.add(checkboxAntyaliasing);
-        panel.add(checkboxWireframe);
-        frame.add(panel,BorderLayout.NORTH);
-    }
-
     public void loadWorld(File file) throws IOException {
         worldService = new WorldService(new BufferedReader(new FileReader(file)));
     }
@@ -109,29 +82,13 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
 
         worldService.setGL(gl);
         worldService.onInit(640,480);
-//        worldService.onWireframe(true);
-//        worldService.onResize(640,480);
-
-//        GLU glu = new GLU();
-//
-//              gl.glViewport(0,0,width,height);
-//        gl.glMatrixMode(GL2.GL_PROJECTION);
-//        gl.glLoadIdentity();
-//        glu.gluPerspective(45.0f,(float)width/(float)height,0.1f,100.0f);
-//        gl.glMatrixMode(GL2.GL_MODELVIEW);
-//        gl.glLoadIdentity();
-//        gl.glDrawBuffer(GL.GL_BACK);
     }
 
     public void display(GLAutoDrawable gLDrawable) {
-//        final GLCapabilities glCababilities = gLDrawable.getChosenGLCapabilities();
-//        glCababilities.setDoubleBuffered(true);
         final GL gl = gLDrawable.getGL();
         worldService.setGL(gl);
         worldService.onDraw();
 //        worldService.evolve();
-
-
     }
 
     public void reshape(GLAutoDrawable gLDrawable, int x, int y, int width, int height) {
@@ -215,6 +172,15 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
                 }
             });
             add(antyaliasing);
+            addSeparator();
+            final JCheckBoxMenuItem evolve = new JCheckBoxMenuItem("Start");
+            evolve.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    worldService.setEvolve(evolve.isSelected());
+                }
+            });
+            add(evolve);
         }
     }
 

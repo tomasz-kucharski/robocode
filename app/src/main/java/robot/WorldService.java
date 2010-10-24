@@ -14,6 +14,7 @@ public class WorldService {
 	private WorldGL viewWorld;
 	private Robot robot;
     private boolean robotView;
+    private boolean evolve;
 
 
     public WorldService(BufferedReader map) throws IOException {
@@ -55,6 +56,9 @@ public class WorldService {
                 }
             }
         viewWorld.endScene();
+        if (evolve) {
+            evolve();
+        }
     }
 
     public void evolve() {
@@ -129,5 +133,9 @@ public class WorldService {
     public void onInit(int width, int height)
     {
         viewWorld.InitGL(width,height);
+    }
+
+    public void setEvolve(boolean selected) {
+        this.evolve = selected;
     }
 }
