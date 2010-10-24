@@ -20,6 +20,8 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
 
     private Point mousePoint;
 
+    private JPopupMenu popupMenu = new PopUpDemo();
+
     private void init() {
         GLCapabilities caps = new GLCapabilities();
         caps.setDoubleBuffered(true);
@@ -40,14 +42,27 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
         frame.setVisible(true);
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
-              System.exit(0);
+                System.exit(0);
             }
-          });
+        });
+
+        frame.add(popupMenu);
         canvas.addMouseWheelListener(this);
         canvas.addMouseMotionListener(this);
         canvas.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                } else {
                 mousePoint = e.getPoint();
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
             }
         });
 
@@ -125,7 +140,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
 
     @Override
     public void displayChanged(GLAutoDrawable glAutoDrawable, boolean b, boolean b1) {
- }
+    }
 
     public void dispose(GLAutoDrawable gLDrawable) {
         // do nothing
@@ -167,7 +182,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
         worldService.onZMove(e.getUnitsToScroll()/10f);
     }
 
-    
+
     @Override
     public void mouseDragged(MouseEvent e) {
         Point newPoint = e.getPoint();
@@ -179,4 +194,28 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     @Override
     public void mouseMoved(MouseEvent e) {
     }
+
+
+    class PopUpDemo extends JPopupMenu {
+
+        public PopUpDemo(){
+            final JCheckBoxMenuItem wireframe= new JCheckBoxMenuItem("Wireframe");
+            wireframe.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    worldService.onWireframe(wireframe.isSelected());
+                }
+            });
+            add(wireframe);
+            final JCheckBoxMenuItem antyaliasing= new JCheckBoxMenuItem("Antialiasing");
+            antyaliasing.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    worldService.onAntialiasing(antyaliasing.isSelected());
+                }
+            });
+            add(antyaliasing);
+        }
+    }
+
 }

@@ -19,7 +19,7 @@ public class RobotProgramLoader {
     private static final String INSTRUCTION_PARAMS_SEPARATOR = "\t";
 
 
-    private int lineNumber;
+    private int lineNumber=1;
 
     public RobotProgramLoader(BufferedReader programFile, ProgramList program) throws IOException {
         this.program = program;
@@ -29,12 +29,13 @@ public class RobotProgramLoader {
     }
 
     public void loadProgram() throws IOException {
-        String lineOfFile;
-        do {
-            lineOfFile = reader.readLine();
+        String lineOfFile = reader.readLine();
+        while (lineOfFile != null) {
             parseLineOfFile(lineOfFile);
+
             lineNumber++;
-        } while (lineOfFile != null);
+            lineOfFile = reader.readLine();
+        }
     }
 
     private void parseLineOfFile(String lineOfFile) {
@@ -60,8 +61,8 @@ public class RobotProgramLoader {
                 return loader.getInstruction(order,instructionParams);
             }
         } catch (RuntimeException e) {
-            System.out.println(lineOfFile);
-            System.out.println(order);
+            System.out.println("WRONG LINE:"+lineNumber+"LINE:'"+lineOfFile+"'");
+            System.out.println(lineNumber);
             throw e;
         }
     }

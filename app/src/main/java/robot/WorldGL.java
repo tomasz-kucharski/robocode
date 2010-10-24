@@ -3,7 +3,6 @@ package robot;
 import robot.object.WorldObject;
 import robot.object.opengl.*;
 
-//import javax.media.opengl.GL;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
@@ -76,8 +75,6 @@ public class WorldGL {
         screenWidth = width;
         screenHeight = height;
 
-
-        height = (height == 0) ? 1 : height;
 
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL.GL_PROJECTION);
@@ -204,9 +201,25 @@ public class WorldGL {
 
 
     public void beginScene() {
+
+
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
+        initRenderLocation();
+        new TriangleGL(1).draw(gl,null);
+        //---  RYSUJ PODKLAD
+        tableGL.draw(gl,null);
+        //---  USTAW WYSOKOSC PONAD STOLEM
+        gl.glTranslatef(0.0f,0.0f,0.3f);
+        gl.glColor3f(1f,1f,1f);
+
+        onAntialiasing();
+        onWireframe();
+
+    }
+
+    private void initRenderLocation() {
         gl.glTranslatef(0.0f,0.0f,-8.0f);
         gl.glTranslatef(0.0f,0.0f,movez);
         gl.glRotatef(transx,0.0f,1.0f,0.0f);
@@ -217,13 +230,6 @@ public class WorldGL {
 
         gl.glTranslatef(movex,0.0f,0.0f);
         gl.glTranslatef(0.0f,movey,0.0f);
-        new TriangleGL(1).draw(gl,null);
-        //---  RYSUJ PODKLAD
-        tableGL.draw(gl,null);
-        //---  USTAW WYSOKOSC PONAD STOLEM
-        gl.glTranslatef(0.0f,0.0f,0.3f);
-        gl.glColor3f(1f,1f,1f);
-
     }
 
 
