@@ -1,10 +1,12 @@
 package robot;
 
-public class Instruction {
+import robot.logic.InstructionExecutionException;
 
-    private 	int label;
+public abstract class Instruction {
+
+    private int label;
     private int line;
-    private Order rozkaz;
+    private Order order;
     private InstructionOperator operation;
     private int value1;
     private int value2;
@@ -28,12 +30,12 @@ public class Instruction {
         this.line = line;
     }
 
-    public Order getRozkaz() {
-        return rozkaz;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setRozkaz(Order rozkaz) {
-        this.rozkaz = rozkaz;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public InstructionOperator getOperation() {
@@ -60,12 +62,14 @@ public class Instruction {
         this.value2 = value2;
     }
 
+    public abstract void process(RobotProcessor processor) throws InstructionExecutionException;
+
     @Override
     public String toString() {
         return "Instruction{" +
                 "label=" + label +
                 ", line=" + (line +1) +
-                ", rozkaz=" + rozkaz +
+                ", rozkaz=" + order +
                 ", operation=" + operation +
                 ", value1=" + value1 +
                 ", value2=" + value2 +

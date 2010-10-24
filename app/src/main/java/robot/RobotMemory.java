@@ -60,7 +60,7 @@ public class RobotMemory {
         direction = Direction.getRight(direction);
     }
 
-    int getDirection()
+    public int getDirection()
     {
         return direction;
     }

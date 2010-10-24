@@ -75,12 +75,8 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     public void init(GLAutoDrawable gLDrawable) {
         gLDrawable.setAutoSwapBufferMode(true);
         GL gl = gLDrawable.getGL();
-
-
-
-
         worldService.setGL(gl);
-        worldService.onInit(640,480);
+        worldService.onInit(frame.getWidth(),frame.getHeight());
     }
 
     public void display(GLAutoDrawable gLDrawable) {
@@ -95,10 +91,6 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
 
     @Override
     public void displayChanged(GLAutoDrawable glAutoDrawable, boolean b, boolean b1) {
-    }
-
-    public void dispose(GLAutoDrawable gLDrawable) {
-        // do nothing
     }
 
     public static void main(String[] args) throws IOException {

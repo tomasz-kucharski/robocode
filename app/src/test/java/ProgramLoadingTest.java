@@ -92,7 +92,7 @@ public class ProgramLoadingTest {
 
         assertThat(instruction.getLine()).isEqualTo(1);
         assertThat(instruction.getLabel()).isEqualTo(13);
-        assertThat(instruction.getRozkaz()).isEqualTo(Order.JEQUAL);
+        assertThat(instruction.getOrder()).isEqualTo(Order.JEQUAL);
         assertThat(instruction.getOperation()).isEqualTo(InstructionOperator.EQUAL);
         assertThat(instruction.getValue1()).isEqualTo(RobotProcessor.UNKNOWN);
         assertThat(instruction.getValue2()).isEqualTo(10);
@@ -115,7 +115,7 @@ public class ProgramLoadingTest {
 
         assertThat(instruction.getLine()).isEqualTo(0);
         assertThat(instruction.getLabel()).isEqualTo(45);
-        assertThat(instruction.getRozkaz()).isEqualTo(Order.RAND);
+        assertThat(instruction.getOrder()).isEqualTo(Order.RAND);
         assertThat(instruction.getOperation()).isEqualTo(InstructionOperator.EQUAL);
         assertThat(instruction.getValue1()).isEqualTo(4);
         assertThat(instruction.getValue2()).isEqualTo(0);

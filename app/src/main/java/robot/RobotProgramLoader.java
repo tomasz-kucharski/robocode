@@ -1,5 +1,7 @@
 package robot;
 
+import robot.logic.InstructionFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
@@ -22,6 +24,8 @@ public class
 
 
     private int lineNumber=0;
+
+    private InstructionFactory factory = new InstructionFactory();
 
     public RobotProgramLoader(BufferedReader programReader) throws IOException {
         this(programReader,new ProgramList());
@@ -84,10 +88,11 @@ public class
         protected Instruction instruction;
 
         public Instruction getInstruction(Order order, String[] parameters) {
-            instruction = new Instruction();
+            instruction = factory.createInstruction(order);
+
             instruction.setLabel(parseNumber(parameters[FIRST_ATTRIBUTE]));
             instruction.setLine(lineNumber);
-            instruction.setRozkaz(order);
+            instruction.setOrder(order);
             loadParameters(parameters);
             return instruction;
         }
@@ -102,7 +107,7 @@ public class
             }
         }
         protected String buildExceptionMessage(String message) {
-            return "Wrong line:"+instruction.getLine()+", order:"+instruction.getRozkaz()+". Message:"+message;
+            return "Wrong line:"+instruction.getLine()+", order:"+instruction.getOrder()+". Message:"+message;
         }
 
 
@@ -137,7 +142,7 @@ public class
 
 
             String value1String = parameters[FOURTH_ATTRIBUTE];
-            if (instruction.getRozkaz() == Order.RAND) {
+            if (instruction.getOrder() == Order.RAND) {
                 instruction.setValue1(parseNumber(value1String));
             } else {
                 instruction.setValue1(RobotProcessor.getMemoryObjectByName(value1String));

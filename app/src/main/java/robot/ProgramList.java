@@ -13,11 +13,14 @@ public class ProgramList {
         instructionsToLines.put(instruction.getLine(),instruction);
     }
 
+    public Instruction get() {
+        return instructions.get(instructionIndex);
+    }
     public Instruction next() {
         return instructions.get(instructionIndex++);
     }
 
-    boolean gotoInstruction(int label) {
+    public boolean gotoInstruction(int label) {
         for (int i=0; i<instructions.size(); i++) {
             Instruction instruction = instructions.get(i);
             if (instruction.getLabel() == label) {
@@ -35,5 +38,13 @@ public class ProgramList {
 
     public int size() {
         return instructions.size();
+    }
+
+    public int getInstructionIndex() {
+        return instructionIndex;
+    }
+
+    public void setInstructionIndex(int instructionIndex) {
+        this.instructionIndex = instructionIndex;
     }
 }
