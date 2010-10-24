@@ -56,16 +56,11 @@ public class RobotProgramLoader {
     }
 
     private Instruction parseInstructionLine(String lineOfFile) {
-            String instructionParams[] = lineOfFile.split(INSTRUCTION_PARAMS_SEPARATOR);
-            int order = RobotProcessor.getInstructionByName(instructionParams[SECOND_ATTRIBUTE]);
-        int typeOfInstruction = RobotProcessor.getTypeOfInstruction(order);
+        String instructionParams[] = lineOfFile.split(INSTRUCTION_PARAMS_SEPARATOR);
+        Order order = Order.valueOf(instructionParams[SECOND_ATTRIBUTE]);
         try {
-            if (order == -1) {
-                throw new IllegalArgumentException("Unknown instruction. Line:"+lineNumber);
-            } else {
-                InstructionLoader loader = instructionLoaders.get(typeOfInstruction);
-                return loader.getInstruction(order,instructionParams);
-            }
+            InstructionLoader loader = instructionLoaders.get(order.getNumberOfArguments());
+            return loader.getInstruction(order,instructionParams);
         } catch (RuntimeException e) {
             System.out.println("WRONG LINE:"+lineNumber+"LINE:'"+lineOfFile+"'");
             System.out.println(lineNumber);
@@ -86,7 +81,7 @@ public class RobotProgramLoader {
     private abstract class InstructionLoader {
         protected Instruction instruction;
 
-        public Instruction getInstruction(int order, String[] parameters) {
+        public Instruction getInstruction(Order order, String[] parameters) {
             instruction = new Instruction();
             instruction.setLabel(parseNumber(parameters[FIRST_ATTRIBUTE]));
             instruction.setLine(lineNumber);

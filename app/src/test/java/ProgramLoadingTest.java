@@ -1,10 +1,7 @@
 import static org.fest.assertions.Assertions.*;
 import org.junit.Assert;
 import org.junit.Test;
-import robot.Instruction;
-import robot.ProgramList;
-import robot.RobotProcessor;
-import robot.RobotProgramLoader;
+import robot.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -95,7 +92,7 @@ public class ProgramLoadingTest {
 
         assertThat(instruction.getLine()).isEqualTo(1);
         assertThat(instruction.getLabel()).isEqualTo(13);
-        assertThat(instruction.getRozkaz()).isEqualTo(RobotProcessor.JEQUAL);
+        assertThat(instruction.getRozkaz()).isEqualTo(Order.JEQUAL);
         assertThat(instruction.getOperation()).isEqualTo(RobotProcessor.OPEQUAL);
         assertThat(instruction.getValue1()).isEqualTo(RobotProcessor.UNKNOWN);
         assertThat(instruction.getValue2()).isEqualTo(10);

@@ -95,8 +95,9 @@ public class RobotMemory {
     public void setMemoryCell(Position p, int state)
     {
         if(checkPosition(p))
-            if(map[p.x][p.y] != RobotProcessor.VISITED)
+            if(map[p.x][p.y] != RobotProcessor.VISITED) {
                 map[p.x][p.y] = state;
+            }
     }
 
     public int lookAround(Position p,int direction)

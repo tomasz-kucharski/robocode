@@ -13,36 +13,6 @@ public class RobotProcessor {
     private static final Logger log = LoggerFactory.getLogger(RobotProcessor.class);
 
     public static final int REGISTRYSIZE = 40;
-    public static final int CYCLE = 5;
-    //ROZKAZY
-    public static final int SCAN = 1;
-    public static final int CLEAN = 2;
-    public static final int MOVE = 3;
-    public static final int MEMLEFT = 4;
-    public static final int MEMRIGHT = 5;
-    public static final int MEMFRONT = 6;
-    public static final int MEMBACK = 7;
-    public static final int TURNLEFT = 8;
-    public static final int TURNRIGHT = 9;
-    public static final int RECEIVE = 10;
-    public static final int FINDPATH = 11;
-    public static final int RAND = 12;
-    public static final int STORE = 13;
-    public static final int LOAD = 14;
-    public static final int READ = 15;
-    public static final int INC = 16;
-    public static final int DEC = 17;
-    public static final int JUMP = 18;
-    public static final int JEQUAL = 19;
-    public static final int JNEQUAL = 20;
-    public static final int JGT = 21;
-    public static final int JLT = 22;
-    public static final int JUMPF = 23;
-    public static final int JEQUALF = 24;
-    public static final int JNEQUALF = 25;
-    public static final int JGTF = 26;
-    public static final int JLTF = 27;
-    public static final int	RETURN = 28;
 
     //OPERATORY
     public static final int OPEQUAL = 50;
@@ -85,71 +55,7 @@ public class RobotProcessor {
         rozkaz = -1;
     }
 
-    public static int getInstructionByName(String name)
-    {
-        if (name != null) {
-            if(name.equals("SCAN"))
-                return SCAN;
-            if(name.equals("CLEAN"))
-                return CLEAN;
-            if(name.equals("MOVE"))
-                return MOVE;
-            if(name.equals("MEMLEFT"))
-                return MEMLEFT;
-            if(name.equals("MEMRIGHT"))
-                return MEMRIGHT;
-            if(name.equals("MEMBACK"))
-                return MEMBACK;
-            if(name.equals("MEMFRONT"))
-                return MEMFRONT;
-            if(name.equals("TURNLEFT"))
-                return TURNLEFT;
-            if(name.equals("TURNRIGHT"))
-                return TURNRIGHT;
-            if(name.equals("RECEIVE"))
-                return RECEIVE;
-            if(name.equals("FINDPATH"))
-                return FINDPATH;
-            if(name.equals("RAND"))
-                return RAND;
-            if(name.equals("STORE"))
-                return STORE;
-            if(name.equals("LOAD"))
-                return LOAD;
-            if(name.equals("READ"))
-                return READ;
-            if(name.equals("INC"))
-                return INC;
-            if(name.equals("DEC"))
-                return DEC;
-            if(name.equals("JUMP"))
-                return JUMP;
-            if(name.equals("JEQUAL"))
-                return JEQUAL;
-            if(name.equals("JNEQUAL"))
-                return JNEQUAL;
-            if(name.equals("JGT"))
-                return JGT;
-            if(name.equals("JLT"))
-                return JLT;
-            if(name.equals("JUMPF"))
-                return JUMPF;
-            if(name.equals("JEQUALF"))
-                return JEQUALF;
-            if(name.equals("JNEQUALF"))
-                return JNEQUALF;
-            if(name.equals("JGTF"))
-                return JGTF;
-            if(name.equals("JLTF"))
-                return JLTF;
-            if(name.equals("RETURN"))
-                return RETURN;
-        }
-        return -1;
-    }
-
-    public static int getOperationByName(String name)
-    {
+    public static int getOperationByName(String name) {
         if (name != null)
         {
             if(name.equals("="))
@@ -182,50 +88,6 @@ public class RobotProcessor {
         }
         return -1;
     }
-
-    public static int getTypeOfInstruction(int rozkaz)
-    {
-        switch(rozkaz)
-        {
-            case SCAN:
-            case CLEAN:
-            case MOVE:
-            case MEMFRONT:
-            case MEMRIGHT:
-            case MEMBACK:
-            case MEMLEFT:
-            case TURNLEFT:
-            case TURNRIGHT:
-            case RECEIVE:
-            case FINDPATH:
-            case RETURN:
-                return 0;  // brak argumentow
-
-            case INC:
-            case DEC:
-            case STORE:
-            case JUMP:
-            case JUMPF:
-                return 1; // 1 argument
-            case RAND:
-            case LOAD:
-                return 2; // 1 argument + operator
-            case JEQUAL:
-            case JNEQUAL:
-            case JLT:
-            case JGT:
-            case JEQUALF:
-            case JNEQUALF:
-            case JLTF:
-            case JGTF:
-            case READ:
-                return 3; // 2 argumenty + operator
-            default:
-                return -1;
-        }
-    }
-
-
 
     public boolean go()
     {
