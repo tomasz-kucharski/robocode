@@ -5,7 +5,7 @@ public class Instruction {
     private 	int label;
     private int line;
     private Order rozkaz;
-    private int operation;
+    private InstructionOperator operation;
     private int value1;
     private int value2;
 
@@ -36,11 +36,11 @@ public class Instruction {
         this.rozkaz = rozkaz;
     }
 
-    public int getOperation() {
+    public InstructionOperator getOperation() {
         return operation;
     }
 
-    public void setOperation(int operation) {
+    public void setOperation(InstructionOperator operation) {
         this.operation = operation;
     }
 

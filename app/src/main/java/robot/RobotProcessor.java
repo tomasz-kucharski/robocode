@@ -14,9 +14,6 @@ public class RobotProcessor {
 
     public static final int REGISTRYSIZE = 40;
 
-    //OPERATORY
-    public static final int OPEQUAL = 50;
-    public static final int OPADR = 51;
     //STANY OBIEKTOW
     public static final int UNKNOWN = 100;
     public static final int EMPTY = 101;
@@ -32,13 +29,10 @@ public class RobotProcessor {
     private Instruction instruction;
     private Stack<Integer> methodStack = new Stack<Integer>();
     private Robot r;
-    private int PC;
     private int[] registry;
     private boolean done;
     private boolean external;
     private boolean error;
-    private int rozkaz;
-    private int cycle;
 
     public RobotProcessor(Robot r, BufferedReader program) throws IOException {
         registry = new int[REGISTRYSIZE];
@@ -52,18 +46,6 @@ public class RobotProcessor {
         done = true;
         external = false;
         error = false;
-        rozkaz = -1;
-    }
-
-    public static int getOperationByName(String name) {
-        if (name != null)
-        {
-            if(name.equals("="))
-                return OPEQUAL;
-            if(name.equals("*"))
-                return OPADR;
-        }
-        return -1;
     }
 
     public static int getMemoryObjectByName(String name)
@@ -102,13 +84,12 @@ public class RobotProcessor {
         else
         {
             done = false;
-            cycle = 0; //ile cykli na takt - nie zaimplementowane
             while(!external)
             {
                 instruction = program.next();
                 if ( instruction == null )
                 {
-                    exception(instruction.getLine(), "ERROR - END OF PROGRAM\n");
+                    exception(program.size(),"ERROR - END OF PROGRAM\n");
                     error = true;
                     break;
                 }
@@ -164,7 +145,7 @@ public class RobotProcessor {
                 break;
             case JEQUAL:
                 temp = instruction.getValue1();
-                if(instruction.getOperation() == OPEQUAL)
+                if(instruction.getOperation() == InstructionOperator.EQUAL)
                 {
                     if(temp == registry[0])
                     {
@@ -188,7 +169,7 @@ public class RobotProcessor {
                 break;
             case JNEQUAL:
                 temp = instruction.getValue1();
-                if(instruction.getOperation() == OPEQUAL)
+                if(instruction.getOperation() == InstructionOperator.EQUAL)
                 {
                     if(temp != registry[0])
                     {
@@ -212,7 +193,7 @@ public class RobotProcessor {
                 break;
             case JGT:
                 temp = instruction.getValue1();
-                if(instruction.getOperation() == OPEQUAL)
+                if(instruction.getOperation() == InstructionOperator.EQUAL)
                 {
                     if(temp == registry[0])
                     {
@@ -236,7 +217,7 @@ public class RobotProcessor {
                 break;
             case JLT:
                 temp = instruction.getValue1();
-                if(instruction.getOperation() == OPEQUAL)
+                if(instruction.getOperation() == InstructionOperator.EQUAL)
                 {
                     if(temp == registry[0])
                     {
@@ -266,7 +247,7 @@ public class RobotProcessor {
                 break;
             case JEQUALF:
                 temp = instruction.getValue1();
-                if(instruction.getOperation() == OPEQUAL)
+                if(instruction.getOperation() == InstructionOperator.EQUAL)
                 {
                     if(temp == registry[0])
                     {
@@ -294,7 +275,7 @@ public class RobotProcessor {
                 break;
             case JNEQUALF:
                 temp = instruction.getValue1();
-                if(instruction.getOperation() == OPEQUAL)
+                if(instruction.getOperation() == InstructionOperator.EQUAL)
                 {
                     if(temp != registry[0])
                     {
@@ -322,7 +303,7 @@ public class RobotProcessor {
                 break;
             case JGTF:
                 temp = instruction.getValue1();
-                if(instruction.getOperation() == OPEQUAL)
+                if(instruction.getOperation() == InstructionOperator.EQUAL)
                 {
                     if(temp == registry[0])
                     {
@@ -350,7 +331,7 @@ public class RobotProcessor {
                 break;
             case JLTF:
                 temp = instruction.getValue1();
-                if(instruction.getOperation() == OPEQUAL)
+                if(instruction.getOperation() == InstructionOperator.EQUAL)
                 {
                     if(temp == registry[0])
                     {
@@ -394,7 +375,7 @@ public class RobotProcessor {
                 break;
             case LOAD:
                 temp = instruction.getValue1();
-                if(instruction.getOperation() == OPEQUAL)
+                if(instruction.getOperation() == InstructionOperator.EQUAL)
                 {
                     registry[0] = temp;
                 }
@@ -416,7 +397,7 @@ public class RobotProcessor {
                     exception(instruction.getLine(), "ERROR READ= - REGISTRY NOT PROPER\n");
                 else
                 {
-                    if(instruction.getOperation() == OPEQUAL)
+                    if(instruction.getOperation() == InstructionOperator.EQUAL)
                     {
                         registry[temp] = temp2;
                     }

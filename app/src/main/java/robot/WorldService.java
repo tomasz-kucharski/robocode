@@ -39,13 +39,13 @@ public class WorldService {
         WorldObjectList list;
         WorldObject object;
 
-//        if (!robotView)
+        if (!robotView)
             viewWorld.beginScene();
-//        else  {
-//            Position robotPosition = robot.getPosition();
-//            int robotDirection = robot.getDirection();
-//            viewWorld.beginScene(robotPosition.x, robotPosition.y, robotDirection);
-//        }
+        else  {
+            Position robotPosition = robot.getPosition();
+            int robotDirection = robot.getDirection();
+            viewWorld.beginScene(robotPosition.x, robotPosition.y, robotDirection);
+        }
         for(p.x=0; p.x<columns; p.x++)
             for(p.y=0; p.y<rows; p.y++) {
                 list = modelWorld.getCell(p);
@@ -77,7 +77,7 @@ public class WorldService {
 //                    }
                 }
             }
-//        modelWorld.clearWorld();
+        modelWorld.clearWorld();
     }
 
     public void onSetScale(float x)

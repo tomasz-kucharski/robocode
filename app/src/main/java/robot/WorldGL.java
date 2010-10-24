@@ -28,9 +28,6 @@ public class WorldGL {
     private float transz;
     private float scale = 1.0f;
 
-    private int columns;
-    private int rows;
-
     private float posX;
     private float posY;
     private boolean wireframe;
@@ -40,9 +37,6 @@ public class WorldGL {
     private int screenHeight;
 
     public WorldGL(int columns, int rows) {
-
-        this.columns = columns;
-        this.rows = rows;
 
         posX = -0.5f*(columns-1);
         posY = -0.5f*(rows-1);
@@ -208,6 +202,8 @@ public class WorldGL {
 
         initRenderLocation();
         new TriangleGL(1).draw(gl,null);
+
+
         //---  RYSUJ PODKLAD
         tableGL.draw(gl,null);
         //---  USTAW WYSOKOSC PONAD STOLEM
@@ -218,6 +214,39 @@ public class WorldGL {
         onWireframe();
 
     }
+
+    public void beginScene(int x, int y, int robotDirection) {
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+        gl.glLoadIdentity();
+
+
+        gl.glRotatef(-90.0f,0.0f,1.0f,0.0f);
+        gl.glRotatef(-90.0f,1.0f,0.0f,0.0f);
+        gl.glRotatef(35.0f,0.0f,1.0f,0.0f);
+        gl.glRotatef(-Direction.computeRotation(robotDirection),0.0f,0.0f,1.0f); //direction
+        float X = -posX - (float)x;//posX-(float)x;
+        float Y = -posY - (float)y;//posY -(float)y;
+        gl.glTranslatef(X+1 ,Y ,-3.0f);
+
+        gl.glRotatef(transx,0.0f,1.0f,0.0f);
+        gl.glRotatef(transy,1.0f,0.0f,0.0f);
+        gl.glRotatef(transz,0.0f,0.0f,1.0f);
+        gl.glScalef(scale,scale,scale);
+
+        gl.glTranslatef(movex,movey,movez);
+
+
+
+            //---  RYSUJ PODKLAD
+         tableGL.draw(gl,null);
+            //---  USTAW WYSOKOSC PONAD STOLEM
+        gl.glTranslatef(0.0f,0.0f,0.3f);
+        gl.glColor3f(1f,1f,1f);
+
+        onAntialiasing();
+        onWireframe();
+    }
+
 
     private void initRenderLocation() {
         gl.glTranslatef(0.0f,0.0f,-8.0f);

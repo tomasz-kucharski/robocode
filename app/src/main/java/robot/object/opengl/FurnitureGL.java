@@ -10,8 +10,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL;
 
 public class FurnitureGL extends ObjectGL {
-	private Furniture furniture;
-	private int list2;
+    private int list2;
     private int list1;
     private int list3;
 
@@ -25,7 +24,7 @@ public class FurnitureGL extends ObjectGL {
 public void draw(GL gl, WorldObject object)
 {
 	float mx;
-	furniture = (Furniture)object;
+    Furniture furniture = (Furniture) object;
 	gl.glPushMatrix();
 	mx = Direction.computeRotation(furniture.getDirection());
 	gl.glRotatef(mx,0.0f,0.0f,1.0f);

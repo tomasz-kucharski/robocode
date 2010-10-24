@@ -17,9 +17,6 @@ public class RobotMemory {
     private int[][] map;
     private int[][] map2;
     private boolean endofmap;
-    private int xmin;
-    private int ymin;
-    private int minvalue;
     private int olddir;
     private int newdir;
 
@@ -47,9 +44,6 @@ public class RobotMemory {
         this.direction = direction;
 
         endofmap = false;
-        xmin = 0;
-        ymin=0;
-        minvalue=0;
         olddir=0;
         newdir=0;
     }
@@ -113,10 +107,7 @@ public class RobotMemory {
 
     public boolean checkPosition(Position p)
     {
-        if ((p.x < 0) || (p.x >= columns) || (p.y < 0) || (p.y >= rows))
-            return false;
-        else
-            return true;
+        return !((p.x < 0) || (p.x >= columns) || (p.y < 0) || (p.y >= rows));
     }
 
     public void writeMap()
@@ -199,7 +190,6 @@ public class RobotMemory {
     private void setPath(int x, int y) {
         Position p = new Position(x,y);
         Position p2 = new Position(x,y);
-        minvalue = map2[x][y];
 
 //	path.push(RobotPath::STOP);
         path.push(RobotPath.MOVE);

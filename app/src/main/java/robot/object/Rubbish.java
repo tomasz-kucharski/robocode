@@ -8,8 +8,7 @@ import robot.object.WorldObject;
 
 public class Rubbish extends WorldObject {
 
-    private int type;
-	private int quantity;
+    private int quantity;
 	private int direction;
 
     public Rubbish(Position p, int quantity) {
@@ -18,7 +17,7 @@ public class Rubbish extends WorldObject {
             this.quantity = 1;
         else
             this.quantity = quantity;
-        type = 1;           //POPRAWIC
+        int type = 1;
         direction = Direction.randDirection();
     }
 

@@ -50,7 +50,7 @@ public class RobotBattery {
 
     public boolean isEmpty()
     {
-        return (capacity == 0) ? true : false;
+        return (capacity == 0);
     }
 
     public MutableInt plug()

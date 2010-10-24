@@ -93,13 +93,36 @@ public class ProgramLoadingTest {
         assertThat(instruction.getLine()).isEqualTo(1);
         assertThat(instruction.getLabel()).isEqualTo(13);
         assertThat(instruction.getRozkaz()).isEqualTo(Order.JEQUAL);
-        assertThat(instruction.getOperation()).isEqualTo(RobotProcessor.OPEQUAL);
+        assertThat(instruction.getOperation()).isEqualTo(InstructionOperator.EQUAL);
         assertThat(instruction.getValue1()).isEqualTo(RobotProcessor.UNKNOWN);
         assertThat(instruction.getValue2()).isEqualTo(10);
     }
 
+    @Test
+    public void shouldLoadRANDCommand() throws IOException {
+
+        //given
+        BufferedReader programReader = createProgramReader("45	RAND	=	4");
+        RobotProgramLoader loader = new RobotProgramLoader(programReader);
+        loader.loadProgram();
+        ProgramList programList = loader.getProgram();
+
+        //when
+
+        Instruction instruction = programList.next();
+
+        //then
+
+        assertThat(instruction.getLine()).isEqualTo(0);
+        assertThat(instruction.getLabel()).isEqualTo(45);
+        assertThat(instruction.getRozkaz()).isEqualTo(Order.RAND);
+        assertThat(instruction.getOperation()).isEqualTo(InstructionOperator.EQUAL);
+        assertThat(instruction.getValue1()).isEqualTo(4);
+        assertThat(instruction.getValue2()).isEqualTo(0);
+    }
+
+
     private BufferedReader createProgramReader(String listing) {
-        BufferedReader programReader = new BufferedReader(new StringReader(listing.toString()));
-        return programReader;
+        return new BufferedReader(new StringReader(listing.toString()));
     }
 }

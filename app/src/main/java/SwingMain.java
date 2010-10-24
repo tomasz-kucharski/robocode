@@ -15,7 +15,6 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     private Frame frame = new Frame("Robot Application");
 
     private WorldService worldService;
-    private Animator anim;
 
 
     private Point mousePoint;
@@ -64,7 +63,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
         });
 
 
-        anim = new Animator(canvas);
+        Animator anim = new Animator(canvas);
         anim.start();
         canvas.requestFocus();
     }
@@ -135,7 +134,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        worldService.onZMove(e.getUnitsToScroll()/10f);
+        worldService.onZMove(-e.getUnitsToScroll()/10f);
     }
 
 
@@ -180,6 +179,14 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
                 }
             });
             add(evolve);
+            final JCheckBoxMenuItem robotView = new JCheckBoxMenuItem("RobotView");
+            robotView.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    worldService.OnRobotview(robotView.isSelected());
+                }
+            });
+            add(robotView);
         }
     }
 

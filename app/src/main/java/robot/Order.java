@@ -35,16 +35,10 @@ public enum Order {
     RETURN   (28,0);
 
 
-    private int orderNumber;
     private int numberOfArguments;
 
     Order(int orderNumber, int numberOfArguments) {
-        this.orderNumber = orderNumber;
         this.numberOfArguments = numberOfArguments;
-    }
-
-    public int getOrderNumber() {
-        return orderNumber;
     }
 
     public int getNumberOfArguments() {

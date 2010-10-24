@@ -44,10 +44,7 @@ public class World {
 
     public boolean checkPosition(Position p)
     {
-        if ((p.x < 0) || (p.x >= columns) || (p.y < 0) || (p.y >= rows))
-            return false;
-        else
-            return true;
+        return !((p.x < 0) || (p.x >= columns) || (p.y < 0) || (p.y >= rows));
     }
 
     public boolean setCell(Position p, WorldObject object)
@@ -136,11 +133,8 @@ public class World {
             for(int j=0; j<rows; j++) {
                 world[i][j].setToFirst();
                 while((object = world[i][j].getNext()) != null) {
-//                    object.moved = false;
                     if (object.deleteMe) {
-//                        if(!world[i][j].remove(object))
-//                            exit(200);
-//                        delete object;
+                        world[i][j].remove(object);
                     }
                 }
 

@@ -2,10 +2,12 @@ package robot;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RobotProgramLoader {
+public class
+        RobotProgramLoader {
 
     public static final int FIRST_ATTRIBUTE = 0;
     public static final int SECOND_ATTRIBUTE = 1;
@@ -127,15 +129,19 @@ public class RobotProgramLoader {
         @Override
         public void loadParameters(String[] parameters) {
             String operationString = parameters[THIRD_ATTRIBUTE];
-            int operation = RobotProcessor.getOperationByName(operationString);
-            if (operation == -1) {
-                throw new IllegalArgumentException(buildExceptionMessage("Excepted operation = or *"));
+            InstructionOperator operation = InstructionOperator.getInstructionOperatorByNotation(operationString);
+            if (operation == null) {
+                throw new IllegalArgumentException(buildExceptionMessage("Excepted operations: "+ Arrays.toString(InstructionOperator.values())));
             }
-            String value1String = parameters[FOURTH_ATTRIBUTE];
-            int value1 = RobotProcessor.getMemoryObjectByName(value1String);
-
             instruction.setOperation(operation);
-            instruction.setValue1(value1);
+
+
+            String value1String = parameters[FOURTH_ATTRIBUTE];
+            if (instruction.getRozkaz() == Order.RAND) {
+                instruction.setValue1(parseNumber(value1String));
+            } else {
+                instruction.setValue1(RobotProcessor.getMemoryObjectByName(value1String));
+            }
         }
     }
 
