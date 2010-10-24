@@ -88,7 +88,6 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
         final GL gl = gLDrawable.getGL();
         worldService.setGL(gl);
         worldService.onDraw();
-//        worldService.evolve();
     }
 
     public void reshape(GLAutoDrawable gLDrawable, int x, int y, int width, int height) {
@@ -105,7 +104,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
 
     public static void main(String[] args) throws IOException {
         SwingMain swingMain = new SwingMain();
-        swingMain.loadWorld(new File("d:\\home\\projects\\robot\\app\\src\\main\\resources\\maps\\robot1.txt"));
+        swingMain.loadWorld(new File("d:\\home\\projects\\robot\\app\\src\\main\\resources\\maps\\smallMap.txt"));
         swingMain.init();
     }
 

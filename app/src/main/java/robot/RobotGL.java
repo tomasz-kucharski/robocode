@@ -46,7 +46,8 @@ public class RobotGL extends ObjectGL {
         }
         gl.glRotatef(mx,0.0f,0.0f,1.0f);
 
-        gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.ROBOT]);        
+        gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.ROBOT]);
+        gl.glTranslatef(0f,0f,0.5f);
         gl.glCallList(list);
 
         gl.glPopMatrix();

@@ -19,13 +19,19 @@ public class RobotProgramLoader {
     private static final String INSTRUCTION_PARAMS_SEPARATOR = "\t";
 
 
-    private int lineNumber=1;
+    private int lineNumber=0;
+
+    public RobotProgramLoader(BufferedReader programReader) throws IOException {
+        this(programReader,new ProgramList());
+    }
 
     public RobotProgramLoader(BufferedReader programFile, ProgramList program) throws IOException {
         this.program = program;
         this.reader = programFile;
-        loadProgram();
-        program.setToFirst();
+    }
+
+    public ProgramList getProgram() {
+        return program;
     }
 
     public void loadProgram() throws IOException {
@@ -39,14 +45,14 @@ public class RobotProgramLoader {
     }
 
     private void parseLineOfFile(String lineOfFile) {
-        if (isLineCommented(lineOfFile)) {
+        if (!isLineCommented(lineOfFile)) {
             Instruction instruction = parseInstructionLine(lineOfFile);
-            program.add(instruction);
+            program.addInstruction(instruction);
         }
     }
 
     public boolean isLineCommented(String lineOfFile) {
-        return !lineOfFile.startsWith(COMMENT_MARK);
+        return lineOfFile.startsWith(COMMENT_MARK);
     }
 
     private Instruction parseInstructionLine(String lineOfFile) {
@@ -78,9 +84,10 @@ public class RobotProgramLoader {
 
 
     private abstract class InstructionLoader {
-        protected Instruction instruction = new Instruction();
+        protected Instruction instruction;
 
         public Instruction getInstruction(int order, String[] parameters) {
+            instruction = new Instruction();
             instruction.setLabel(parseNumber(parameters[FIRST_ATTRIBUTE]));
             instruction.setLine(lineNumber);
             instruction.setRozkaz(order);
@@ -143,7 +150,7 @@ public class RobotProgramLoader {
         public void loadParameters(String[] parameters) {
             super.loadParameters(parameters);
             String value2String = parameters[FIFTH_ATTRIBUTE];
-            int value2 = RobotProcessor.getMemoryObjectByName(value2String);
+            int value2 = parseNumber(value2String);
             instruction.setValue2(value2);
 
         }

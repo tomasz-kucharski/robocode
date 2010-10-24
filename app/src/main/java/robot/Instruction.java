@@ -103,7 +103,7 @@ public class Instruction {
     public String toString() {
         return "Instruction{" +
                 "label=" + label +
-                ", line=" + line +
+                ", line=" + (line +1) +
                 ", rozkaz=" + rozkaz +
                 ", operation=" + operation +
                 ", value1=" + value1 +

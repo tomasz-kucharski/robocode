@@ -1,58 +1,39 @@
 package robot;
 
-import robot.legacy.List;
+import java.util.*;
 
-public class ProgramList extends List<Instruction> {
-    public boolean jump;
+public class ProgramList {
 
-    public ProgramList()
-    {
-        jump = true;
+    private List<Instruction> instructions = new ArrayList<Instruction>();
+    private Map<Integer,Instruction> instructionsToLines = new HashMap<Integer, Instruction>();
+    private int instructionIndex;
+    
+    public void addInstruction(Instruction instruction) {
+        instructions.add(instruction);
+        instructionsToLines.put(instruction.getLine(),instruction);
     }
 
-
-    public Instruction getInstruction()
-    {
-        if (jump)
-        {
-            return getNext();
-//            jump = false;
-        }
-        else
-            return next();
+    public Instruction next() {
+        return instructions.get(instructionIndex++);
     }
 
-    boolean gotoInstruction(int label)
-    {
-        jump = true;
-        Instruction temp;
-        if (!setToFirst())
-            return false;
-        temp = getObject();
-        if( temp.getLabel() == label)
-            return true;
-        while  ( (temp = next()) != null)
-        {
-            if ( temp.getLabel() == label)
+    boolean gotoInstruction(int label) {
+        for (int i=0; i<instructions.size(); i++) {
+            Instruction instruction = instructions.get(i);
+            if (instruction.getLabel() == label) {
+                instructionIndex = i;
                 return true;
+            }
         }
         return false;
     }
 
 
-    boolean returnInstruction(int line)
-    {
-        Instruction temp;
-        if (!setToFirst())
-            return false;
-        temp = getObject();
-        if( temp.getLine() == line)
-            return true;
-        while  ( (temp = next()) != null )
-        {
-            if ( temp.getLine() == line)
-                return true;
-        }
-        return false;
+    public Instruction getInstructionByLine(int line) {
+        return instructionsToLines.get(line);
+    }
+
+    public int size() {
+        return instructions.size();
     }
 }

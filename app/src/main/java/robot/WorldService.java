@@ -71,13 +71,13 @@ public class WorldService {
                 list = modelWorld.getCell(p);
                 list.setToFirst();
                 while((object = list.getNext()) != null) {
-                    if(!modelWorld.getMoved(object)) {
+//                    if(!modelWorld.getMoved(object)) {
                         object.evolve();
-                        modelWorld.setMoved(object);
-                    }
+//                        modelWorld.setMoved(object);
+//                    }
                 }
             }
-        modelWorld.clearWorld();
+//        modelWorld.clearWorld();
     }
 
     public void onSetScale(float x)

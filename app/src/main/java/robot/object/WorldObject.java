@@ -12,7 +12,7 @@ public abstract class WorldObject {
     int className;
     public Position position;
 
-    public  boolean moved;
+//    private  boolean moved;
     public boolean deleteMe;
     private boolean flat;
     private boolean movable;
@@ -29,7 +29,7 @@ public abstract class WorldObject {
 
         this.position = new Position(p.x, p.y);
         deleteMe = false;
-        moved = false;
+//        moved = false;
     }
 
     public boolean isSlide()

@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import robot.object.Rubbish;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Stack;
@@ -77,7 +76,8 @@ public class RobotProcessor {
             registry[i] = 0;
         this.r = r;
         this.program = new ProgramList();
-        new RobotProgramLoader(program, this.program);
+        RobotProgramLoader programLoader = new RobotProgramLoader(program, this.program);
+        programLoader.loadProgram();
 
         done = true;
         external = false;
@@ -243,13 +243,14 @@ public class RobotProcessor {
             cycle = 0; //ile cykli na takt - nie zaimplementowane
             while(!external)
             {
-                instruction = program.getInstruction();
+                instruction = program.next();
                 if ( instruction == null )
                 {
                     exception(instruction.getLine(), "ERROR - END OF PROGRAM\n");
                     error = true;
                     break;
                 }
+                log.debug(instruction.toString());
                 perform();
                 if (error)
                     break;
@@ -517,7 +518,7 @@ public class RobotProcessor {
                 temp = methodStack.pop();
                 if (temp == -1)
                     exception(instruction.getLine(), "ERROR RETURN - STACK EMPTY\n");
-                if(!program.returnInstruction(temp))
+                if(program.getInstructionByLine(temp) != null)
                     exception(instruction.getLine(), "ERROR RETURN - LINE NOT EXIST\n");
                 break;
             case STORE:
@@ -616,6 +617,7 @@ public class RobotProcessor {
                     done = true;
                     registry[0] = 0;
                 }
+                r.battery.unplug();
                 break;
             case CLEAN:
                 Rubbish rubbish = null;
