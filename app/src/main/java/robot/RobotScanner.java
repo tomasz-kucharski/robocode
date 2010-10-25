@@ -12,19 +12,18 @@ public class RobotScanner {
     private Robot owner;
     private RobotMemory memory;
     private Position p;
-    private int zakres;
+    private int range;
 
-    public RobotScanner(Robot owner, RobotMemory memory, int zakres) {
+    public RobotScanner(Robot owner, int range) {
         p = new Position(0,0);
-        if( (zakres <= 0)  )
-            this.zakres  = 1;
-        else
-            this.zakres = zakres;
+        if(range <= 0) {
+            this.range = 1;
+        } else {
+            this.range = range;
+        }
 
         this.owner = owner;
-        this.memory = memory;
-
-        p = new Position(0,0);
+        this.memory = owner.getMemory();
     }
 
     public void setProgress(Progress started) {
@@ -36,18 +35,17 @@ public class RobotScanner {
         return owner.getWorld().getObject(owner.getPosition(),className);
     }
 
-    public void scan()
-    {
-        int direction = memory.getDirection();
-        int i = 0;
+    public void scan() {
+        Direction direction = memory.getDirection();
+        int i;
         p.x = owner.getPosition().x;
         p.y = owner.getPosition().y;
 
-        Direction.computePosition(p,Direction.getLeft(direction));
+        p = direction.getLeft().computePosition(p);
         if (memory.checkPosition(p)) {
-            for(i=0; i<zakres; i++)
+            for(i=0; i< range; i++)
             {
-                Direction.computePosition(p,direction);
+                p = direction.computePosition(p);
                 if(memory.checkPosition(p))
                     memory.setMemoryCell(p,verify(p));
             }
@@ -58,9 +56,9 @@ public class RobotScanner {
 
         if (memory.checkPosition(p))
         {
-            for(i=0; i<zakres; i++)
+            for(i=0; i< range; i++)
             {
-                Direction.computePosition(p,direction);
+                p = direction.computePosition(p);
                 if(memory.checkPosition(p))
                     memory.setMemoryCell(p,verify(p));
             }
@@ -69,37 +67,37 @@ public class RobotScanner {
         p.x = owner.getPosition().x;
         p.y = owner.getPosition().y;
 
-        Direction.computePosition(p,Direction.getRight(direction));
+        p = direction.getRight().computePosition(p);
         if (memory.checkPosition(p))
         {
-            for(i=0; i<zakres; i++)
+            for(i=0; i< range; i++)
             {
-                Direction.computePosition(p,direction);
+                p = direction.computePosition(p);
                 if(memory.checkPosition(p))
                     memory.setMemoryCell(p,verify(p));
             }
         }
     }
 
-    private int verify(Position p)
-    {
-        if(owner.getWorld().getObject(p,WorldObjectVerifier.DEPOT.getIntValue()) != null)
-            return RobotProcessor.DEPOT;
-        if(owner.getWorld().getObject(p,WorldObjectVerifier.FURNITURE.getIntValue()) != null)
-            return RobotProcessor.MOVABLE;
-        if(owner.getWorld().getObject(p,WorldObjectVerifier.RUBBISH.getIntValue()) != null)
-            return RobotProcessor.RUBBISH;
-        if(owner.getWorld().getObject(p,WorldObjectVerifier.WALL.getIntValue()) != null)
-            return RobotProcessor.UNMOVABLE;
-        if(owner.getWorld().getObject(p,WorldObjectVerifier.ROBOT.getIntValue()) != null)
-            return RobotProcessor.ROBOT;
-        return RobotProcessor.EMPTY;
+    //todo looks bad :)
+    private RobotMemoryObject verify(Position p) {
+        if(owner.getWorld().getObject(p, MapObject.DEPOT.getIntValue()) != null)
+            return RobotMemoryObject.DEPOT;
+        if(owner.getWorld().getObject(p, MapObject.FURNITURE.getIntValue()) != null)
+            return RobotMemoryObject.MOVABLE;
+        if(owner.getWorld().getObject(p, MapObject.RUBBISH.getIntValue()) != null)
+            return RobotMemoryObject.RUBBISH;
+        if(owner.getWorld().getObject(p, MapObject.WALL.getIntValue()) != null)
+            return RobotMemoryObject.UNMOVABLE;
+        if(owner.getWorld().getObject(p, MapObject.ROBOT.getIntValue()) != null)
+            return RobotMemoryObject.ROBOT;
+        return RobotMemoryObject.EMPTY;
     }
 
 
     public int getScanerZakres()
     {
-        return zakres;
+        return range;
     }
 
 }

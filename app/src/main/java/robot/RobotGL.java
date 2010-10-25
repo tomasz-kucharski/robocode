@@ -23,27 +23,22 @@ public class RobotGL extends ObjectGL {
     }
 
     public void draw(GL gl, WorldObject object) {
-        int direction;
-        float mx;
-        float move;
         robot = (Robot)object;
 
-        direction = robot.getDirection();
-        mx = Direction.computeRotation(direction);
+        float mx = robot.getDirection().getRotation();
 
         gl.glPushMatrix();
-        if (robot.getMoveState() != 0 )
-        {
-            move = 1.0f - ((float)robot.getMoveState())/5.0f;;
-            if (direction == Direction.EAST)
-                gl.glTranslatef(-move,0.0f,0.0f);
-            if (direction == Direction.WEST)
-                gl.glTranslatef(move,0.0f,0.0f);
-            if (direction == Direction.SOUTH)
-                gl.glTranslatef(0.0f,-move,0.0f);
-            if (direction == Direction.NORTH)
-                gl.glTranslatef(0.0f,move,0.0f);
-        }
+//        if (robot.getMoveState() != 0 ) {
+//            float move = 1.0f - ((float)robot.getMoveState())/5.0f;
+//            if (direction == Direction.EAST)
+//                gl.glTranslatef(-move,0.0f,0.0f);
+//            if (direction == Direction.WEST)
+//                gl.glTranslatef(move,0.0f,0.0f);
+//            if (direction == Direction.SOUTH)
+//                gl.glTranslatef(0.0f,-move,0.0f);
+//            if (direction == Direction.NORTH)
+//                gl.glTranslatef(0.0f,move,0.0f);
+//        }
         gl.glRotatef(mx,0.0f,0.0f,1.0f);
 
         gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.ROBOT]);

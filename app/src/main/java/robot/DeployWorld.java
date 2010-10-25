@@ -65,28 +65,28 @@ public class DeployWorld {
     private boolean loadObject(String type, Position p, int data, int data2, String direction, String name, File fileName) throws IOException {
         WorldObject worldObject = null;
 
-        int typeOfWorldObject = WorldObjectVerifier.getWorldObjectByName(type);
+        int typeOfWorldObject = MapObject.getWorldObjectByName(type);
 
         //CREATE ROBOT
-        if ( typeOfWorldObject == WorldObjectVerifier.ROBOT.getIntValue()) {
-            worldObject = new Robot(p,columns,rows,name,Direction.getDirectionByName(direction),data,data2,fileName);
+        if ( typeOfWorldObject == MapObject.ROBOT.getIntValue()) {
+            worldObject = new Robot(p,columns,rows,name,Direction.valueOf(direction),data,data2,fileName);
             robot = worldObject;
         }
         //CREATE FLOOR
-        else if( typeOfWorldObject == WorldObjectVerifier.FLOOR.getIntValue()) {
+        else if( typeOfWorldObject == MapObject.FLOOR.getIntValue()) {
             worldObject = new Floor(p,data);
         }
         //CREATE WALL
-        else if( typeOfWorldObject == WorldObjectVerifier.WALL.getIntValue())
+        else if( typeOfWorldObject == MapObject.WALL.getIntValue())
             worldObject = new Wall(p,data);
             //CREATE RUBBISH
-        else if( typeOfWorldObject == WorldObjectVerifier.RUBBISH.getIntValue())
+        else if( typeOfWorldObject == MapObject.RUBBISH.getIntValue())
             worldObject = new Rubbish(p,data);
             //CREATE DEPOT
-        else if( typeOfWorldObject == WorldObjectVerifier.DEPOT.getIntValue())
-            worldObject = new Depot(p,data);
+        else if( typeOfWorldObject == MapObject.DEPOT.getIntValue())
+            worldObject = new Depot(p);
             //CREATE FURNITURE
-        else if( typeOfWorldObject == WorldObjectVerifier.FURNITURE.getIntValue())
+        else if( typeOfWorldObject == MapObject.FURNITURE.getIntValue())
             worldObject = new Furniture(p,data);
         //ADD TO WORLD
         return modelWorld.setCell(p, worldObject);

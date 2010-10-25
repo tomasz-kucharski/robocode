@@ -145,7 +145,7 @@ public class
             if (instruction.getOrder() == Order.RAND) {
                 instruction.setValue1(parseNumber(value1String));
             } else {
-                instruction.setValue1(RobotProcessor.getMemoryObjectByName(value1String));
+                instruction.setValue1(RobotMemoryObject.valueOf(value1String).ordinal());
             }
         }
     }

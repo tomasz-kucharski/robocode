@@ -1,18 +1,16 @@
 package robot.object;
 
 import org.apache.commons.lang.mutable.MutableInt;
+import robot.Direction;
 import robot.Position;
 import robot.World;
 
 public abstract class WorldObject {
 
-//	friend class World;
-    //	friend class Eter;
     public World world;
     int className;
     public Position position;
 
-//    private  boolean moved;
     public boolean deleteMe;
     private boolean flat;
     private boolean movable;
@@ -21,15 +19,14 @@ public abstract class WorldObject {
 
     public WorldObject(int className, Position p, boolean flat, boolean intelligent, boolean movable, boolean slide)
     {
+        this.position = new Position(p.x, p.y);
         this.flat = flat;
         this.intelligent = intelligent;
         this.movable = movable;
         this.slide = slide;
         this.className = className;
 
-        this.position = new Position(p.x, p.y);
         deleteMe = false;
-//        moved = false;
     }
 
     public boolean isSlide()
@@ -67,7 +64,7 @@ public abstract class WorldObject {
         return position;
     }
 
-    public abstract boolean conditionalMovement(final WorldObject worldObject, final int direction, final int maxPower, MutableInt usedPower);
+    public abstract boolean conditionalMovement(final WorldObject worldObject, final Direction direction, final int maxPower, MutableInt usedPower);
 
     public abstract void evolve();
 }

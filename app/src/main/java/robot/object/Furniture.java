@@ -3,18 +3,18 @@ package robot.object;
 import org.apache.commons.lang.mutable.MutableInt;
 import robot.Direction;
 import robot.Position;
-import robot.WorldObjectVerifier;
+import robot.MapObject;
 
 import java.util.Random;
 
 public class Furniture extends WorldObject {
 
     private int weight;
-    private int direction;
+    private Direction direction;
     private int type;
 
     public Furniture(Position p, int weight) {
-        super(WorldObjectVerifier.FURNITURE.getIntValue(),p,false,false,true,true);
+        super(MapObject.FURNITURE.getIntValue(),p,false,false,true,true);
         if( weight < 0 ) {
             this.weight = 1;
         }
@@ -30,12 +30,12 @@ public class Furniture extends WorldObject {
 
     }
 
-    public boolean conditionalMovement(final WorldObject worldObject, final int direction,final int MaxPower, MutableInt usedPower) {
+    public boolean conditionalMovement(final WorldObject worldObject, final Direction direction,final int MaxPower, MutableInt usedPower) {
         usedPower.add(weight);
         return getWorld().move(this,direction,MaxPower,usedPower);
     }
 
-    public int getDirection()
+    public Direction getDirection()
     {
         return direction;
     }

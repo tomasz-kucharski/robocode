@@ -32,7 +32,6 @@ public class WorldGL {
     private float posY;
     private boolean wireframe;
     private boolean antialiasing;
-    private float rotateTest1;
     private int screenWidth;
     private int screenHeight;
 
@@ -215,7 +214,7 @@ public class WorldGL {
 
     }
 
-    public void beginScene(int x, int y, int robotDirection) {
+    public void beginScene(int x, int y, Direction robotDirection) {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
@@ -223,7 +222,7 @@ public class WorldGL {
         gl.glRotatef(-90.0f,0.0f,1.0f,0.0f);
         gl.glRotatef(-90.0f,1.0f,0.0f,0.0f);
         gl.glRotatef(35.0f,0.0f,1.0f,0.0f);
-        gl.glRotatef(-Direction.computeRotation(robotDirection),0.0f,0.0f,1.0f); //direction
+        gl.glRotatef(robotDirection.getRotation(),0.0f,0.0f,1.0f); //direction
         float X = -posX - (float)x;//posX-(float)x;
         float Y = -posY - (float)y;//posY -(float)y;
         gl.glTranslatef(X+1 ,Y ,-3.0f);
@@ -270,17 +269,17 @@ public class WorldGL {
         int className = object.getClassName();
 
         gl.glTranslatef(posX+x,posY+y, 0.0f);
-        if (className == WorldObjectVerifier.FLOOR.getIntValue())
+        if (className == MapObject.FLOOR.getIntValue())
             floorGL.draw(gl,object);
-        else if (className == WorldObjectVerifier.ROBOT.getIntValue())
+        else if (className == MapObject.ROBOT.getIntValue())
             robotGL.draw(gl,object);
-        else if (className == WorldObjectVerifier.WALL.getIntValue())
+        else if (className == MapObject.WALL.getIntValue())
             wallGL.draw(gl,object);
-        else if (className == WorldObjectVerifier.DEPOT.getIntValue())
+        else if (className == MapObject.DEPOT.getIntValue())
             depotGL.draw(gl,object);
-        else if (className == WorldObjectVerifier.RUBBISH.getIntValue())
+        else if (className == MapObject.RUBBISH.getIntValue())
             rubbishGL.draw(gl,object);
-        else if (className == WorldObjectVerifier.FURNITURE.getIntValue())
+        else if (className == MapObject.FURNITURE.getIntValue())
             furnitureGL.draw(gl,object);
         else return false;
 

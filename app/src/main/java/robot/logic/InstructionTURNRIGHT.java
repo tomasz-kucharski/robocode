@@ -16,8 +16,8 @@ public class InstructionTURNRIGHT extends Instruction {
     @Override
     public void process(Robot robot) throws InstructionExecutionException {
         if (robot.getProcessor().getInstructionProgress() >= 100) {
-            robot.getMemory().turnRight(robot.battery.plug());
-            robot.battery.unplug();
+            robot.getMemory().turnRight(robot.getBattery().plug());
+            robot.getBattery().unplug();
         }
     }
 

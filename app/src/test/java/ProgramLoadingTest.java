@@ -94,7 +94,7 @@ public class ProgramLoadingTest {
         assertThat(instruction.getLabel()).isEqualTo(13);
         assertThat(instruction.getOrder()).isEqualTo(Order.JEQUAL);
         assertThat(instruction.getOperation()).isEqualTo(InstructionOperator.EQUAL);
-        assertThat(instruction.getValue1()).isEqualTo(RobotProcessor.UNKNOWN);
+        assertThat(instruction.getValue1()).isEqualTo(RobotMemoryObject.UNKNOWN.ordinal());
         assertThat(instruction.getValue2()).isEqualTo(10);
     }
 
@@ -123,6 +123,6 @@ public class ProgramLoadingTest {
 
 
     private BufferedReader createProgramReader(String listing) {
-        return new BufferedReader(new StringReader(listing.toString()));
+        return new BufferedReader(new StringReader(listing));
     }
 }

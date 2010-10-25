@@ -6,11 +6,9 @@ import robot.object.WorldObject;
 import java.util.Random;
 
 public class World {
-    WorldObjectList world[][];
+    private WorldObjectList world[][];
     private int columns;
     private int rows;
-
-    Random random;
 
     public World(int columns, int rows)
     {
@@ -22,7 +20,6 @@ public class World {
             for (int j=0; j<rows; j++)
                 world[i][j] = new WorldObjectList();
         }
-        random = new Random();
     }
 
     public int getColumns()
@@ -37,9 +34,11 @@ public class World {
 
     public WorldObjectList getCell(Position p)
     {
-        if(!checkPosition(p)) return null;
-        else
+        if(!checkPosition(p)) {
+            return null;
+        } else {
             return world[p.x][p.y];
+        }
     }
 
     public boolean checkPosition(Position p)
@@ -49,8 +48,9 @@ public class World {
 
     public boolean setCell(Position p, WorldObject object)
     {
-        if (!checkPosition(p))
+        if (!checkPosition(p)) {
             return false;
+        }
         else {
             world[p.x][p.y].add(object);
             object.world = this;
@@ -58,17 +58,15 @@ public class World {
         }
     }
 
-    public boolean checkValidate()
-    {
+    public boolean checkValidate() {
         for(int i=0; i<columns; i++)
             for(int j=0; j<rows; j++)
-                if(!world[i][j].isObjectByName(WorldObjectVerifier.FLOOR.getIntValue()))
+                if(!world[i][j].isObjectByName(MapObject.FLOOR.getIntValue()))
                     return false;
         return true;
     }
 
-    private boolean moveObject(WorldObject object, int direction)
-    {
+    private boolean moveObject(WorldObject object, Direction direction) {
         Position p = new Position(0,0);
         p.x = object.position.x;
         p.y = object.position.y;
@@ -76,7 +74,7 @@ public class World {
         WorldObjectList listFrom;
         WorldObjectList listTo;
         listFrom = world[p.x][p.y];
-        Direction.computePosition(p,direction);
+        p = direction.computePosition(p);
         if (!checkPosition(p)) {
             return false;
         }
@@ -91,8 +89,7 @@ public class World {
         return true;
     }
 
-    public boolean move(final WorldObject worldObject, final int direction, final int maxPower, MutableInt usedPower)
-    {
+    public boolean move(final WorldObject worldObject, final Direction direction, final int maxPower, MutableInt usedPower) {
         Position p = new Position(0,0);
         WorldObject object;
 
@@ -102,7 +99,7 @@ public class World {
         p.x = worldObject.position.x;
         p.y = worldObject.position.y;
 
-        Direction.computePosition(p,direction);
+        p = direction.computePosition(p);
         if (!checkPosition(p)){
             return false;
         }
@@ -114,20 +111,16 @@ public class World {
                 return false;
             }
         }
-        if(!moveObject(worldObject,direction)) {
-            return false;
-        }
-        return true;
+        return moveObject(worldObject, direction);
     }
 
-    public boolean deleteMe(final WorldObject worldObject)
-    {
+    public boolean deleteMe(final WorldObject worldObject) {
+        //todo implement as set
         worldObject.deleteMe = true;
         return true;
     }
 
-    public void clearWorld()
-    {
+    public void clearWorld() {
         WorldObject object;
         for (int i=0; i<columns; i++)
             for(int j=0; j<rows; j++) {
@@ -141,21 +134,10 @@ public class World {
             }
     }
 
-    public WorldObject getObject(Position p, int className)
-    {
+    public WorldObject getObject(Position p, int className) {
         if(!checkPosition(p))
             return null;
         else
             return world[p.x][p.y].getObjectByName(className);
     }
-
-//    public void setMoved(WorldObject object)
-//    {
-//        object.moved = true;
-//    }
-//
-//    public boolean getMoved(WorldObject object)
-//    {
-//        return object.moved;
-//    }
 }

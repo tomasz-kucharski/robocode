@@ -17,10 +17,9 @@ public class RubbishGL extends ObjectGL {
 
     public void draw(GL gl, WorldObject object)
     {
-        float mx;
         rubbish = (Rubbish)object;
         gl.glPushMatrix();
-        mx = Direction.computeRotation(rubbish.getDirection());
+        float mx = rubbish.getDirection().getRotation();
         gl.glRotatef(mx,0.0f,0.0f,1.0f);
         gl.glCallList(list);
         gl.glPopMatrix();

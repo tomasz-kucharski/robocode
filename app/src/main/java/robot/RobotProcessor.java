@@ -14,17 +14,6 @@ public class RobotProcessor {
     private static final int REGISTER_SIZE = 40;
     private static final int PROCESSOR_SPEED = 1;
 
-    //STANY OBIEKTOW
-    public static final int UNKNOWN = 100;
-    public static final int EMPTY = 101;
-    public static final int RUBBISH = 102;
-    public static final int MOVABLE = 103;
-    public static final int UNMOVABLE = 104;
-    public static final int VISITED = 105;
-    public static final int DEPOT = 106;
-    public static final int ROBOT = 107;
-    public static final int END = 108;
-
     private Robot robot;
 
     private int[] registry;
@@ -50,29 +39,6 @@ public class RobotProcessor {
         return program;
     }
 
-    public static int getMemoryObjectByName(String name)
-    {
-        if (name != null) {
-            if(name.equals("UNKNOWN"))
-                return UNKNOWN;
-            if(name.equals("EMPTY"))
-                return EMPTY;
-            if(name.equals("RUBBISH"))
-                return RUBBISH;
-            if(name.equals("UNMOVABLE"))
-                return UNMOVABLE;
-            if(name.equals("VISITED"))
-                return VISITED;
-            if(name.equals("DEPOT"))
-                return DEPOT;
-            if(name.equals("ROBOT"))
-                return ROBOT;
-            if(name.equals("END"))
-                return END;
-        }
-        return -1;
-    }
-
     public boolean go() {
         try {
             if (instructionRemainingTime == 0) {
@@ -95,11 +61,6 @@ public class RobotProcessor {
         instructionRemainingTime -= PROCESSOR_SPEED;
     }
 
-    void exception(int line, String description)
-    {
-        log.error("LINE %d : %s",line,description);
-    }
-
     public void pushMethod() {
         methodStack.push(program.getInstructionIndex());
     }
@@ -110,7 +71,7 @@ public class RobotProcessor {
     }
 
     public int getInstructionProgress() {
-        return (instruction.getExecutionTime() - instructionRemainingTime)/instruction.getExecutionTime();
+        return ((instruction.getExecutionTime() - instructionRemainingTime)*100)/instruction.getExecutionTime();
     }
 
     public boolean isProperRegisterAddress(int value) {

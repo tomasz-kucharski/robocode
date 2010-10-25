@@ -8,11 +8,11 @@ import java.io.IOException;
 
 public class WorldService {
 
-	private int columns;
-	private int rows;
-	private World modelWorld;
-	private WorldGL viewWorld;
-	private Robot robot;
+    private int columns;
+    private int rows;
+    private World modelWorld;
+    private WorldGL viewWorld;
+    private Robot robot;
     private boolean robotView;
     private boolean evolve;
 
@@ -36,20 +36,19 @@ public class WorldService {
 
     public void onDraw() {
         Position p = new Position(0,0);
-        WorldObjectList list;
-        WorldObject object;
 
         if (!robotView)
             viewWorld.beginScene();
         else  {
             Position robotPosition = robot.getPosition();
-            int robotDirection = robot.getDirection();
+            Direction robotDirection = robot.getDirection();
             viewWorld.beginScene(robotPosition.x, robotPosition.y, robotDirection);
         }
         for(p.x=0; p.x<columns; p.x++)
             for(p.y=0; p.y<rows; p.y++) {
-                list = modelWorld.getCell(p);
+                WorldObjectList list = modelWorld.getCell(p);
                 list.setToFirst();
+                WorldObject object;
                 while((object = list.getNext()) != null) {
                     if(!viewWorld.renderObject(p.x,p.y,object))
                         System.exit(50);
@@ -63,18 +62,13 @@ public class WorldService {
 
     public void evolve() {
         Position p = new Position(0,0);
-        WorldObjectList list;
-        WorldObject object;
-
         for(p.x=0; p.x<columns; p.x++)
             for(p.y=0; p.y<rows; p.y++) {
-                list = modelWorld.getCell(p);
+                WorldObjectList list = modelWorld.getCell(p);
                 list.setToFirst();
+                WorldObject object;
                 while((object = list.getNext()) != null) {
-//                    if(!modelWorld.getMoved(object)) {
-                        object.evolve();
-//                        modelWorld.setMoved(object);
-//                    }
+                    object.evolve();
                 }
             }
         modelWorld.clearWorld();

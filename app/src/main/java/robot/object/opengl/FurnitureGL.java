@@ -23,10 +23,9 @@ public class FurnitureGL extends ObjectGL {
 
 public void draw(GL gl, WorldObject object)
 {
-	float mx;
     Furniture furniture = (Furniture) object;
 	gl.glPushMatrix();
-	mx = Direction.computeRotation(furniture.getDirection());
+    float mx = furniture.getDirection().getRotation();
 	gl.glRotatef(mx,0.0f,0.0f,1.0f);
 
     gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.FURNITURE]);

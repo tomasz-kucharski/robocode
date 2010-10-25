@@ -16,7 +16,7 @@ public class InstructionMEMBACK extends Instruction {
     @Override
     public void process(Robot robot) {
         robot.getProcessor().getRegistry()[0] = robot.getMemory().lookAround(
-                robot.getPosition(), Direction.getBackward(robot.getMemory().getDirection()));
+                robot.getPosition(), robot.getMemory().getDirection().getBackward());
 
     }
 }

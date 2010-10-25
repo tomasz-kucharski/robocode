@@ -3,16 +3,15 @@ package robot.object;
 import org.apache.commons.lang.mutable.MutableInt;
 import robot.Direction;
 import robot.Position;
-import robot.WorldObjectVerifier;
-import robot.object.WorldObject;
+import robot.MapObject;
 
 public class Rubbish extends WorldObject {
 
     private int quantity;
-	private int direction;
+	private Direction direction;
 
     public Rubbish(Position p, int quantity) {
-        super(WorldObjectVerifier.RUBBISH.getIntValue(),p,true,false,false,true);
+        super(MapObject.RUBBISH.getIntValue(),p,true,false,false,true);
         if( quantity <= 0 )
             this.quantity = 1;
         else
@@ -25,7 +24,7 @@ public class Rubbish extends WorldObject {
 
     }
 
-    public boolean conditionalMovement(final WorldObject worldObject, final int direction, final int MaxPower, MutableInt usedPower) {
+    public boolean conditionalMovement(final WorldObject worldObject, final Direction direction, final int MaxPower, MutableInt usedPower) {
         return true;
     }
 
@@ -52,7 +51,7 @@ public class Rubbish extends WorldObject {
             getWorld().deleteMe(this);
     }
 
-    public int getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 

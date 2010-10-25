@@ -15,13 +15,13 @@ public class InstructionCLEAN extends Instruction {
 
     @Override
     public void process(Robot robot) throws InstructionExecutionException {
-        Rubbish rubbish = (Rubbish) robot.getScanner().scanMyCell(WorldObjectVerifier.RUBBISH.getIntValue());
+        Rubbish rubbish = (Rubbish) robot.getScanner().scanMyCell(MapObject.RUBBISH.getIntValue());
         if(rubbish == null) {
-            robot.memory.setMemoryCell(robot.getPosition(), RobotProcessor.VISITED);
+            robot.getMemory().setMemoryCell(robot.getPosition(), RobotMemoryObject.VISITED);
         }
         else {
-            rubbish.cleaning(robot.battery.getMaxCapacity(), robot.battery.plug());
-            robot.battery.unplug();
+            rubbish.cleaning(robot.getBattery().getMaxCapacity(), robot.getBattery().plug());
+            robot.getBattery().unplug();
         }
     }
 }

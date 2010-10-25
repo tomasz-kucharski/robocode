@@ -4,137 +4,91 @@ import org.apache.commons.lang.mutable.MutableInt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Stack;
+
 public class RobotMemory {
     private static final Logger log = LoggerFactory.getLogger(RobotMemory.class);
 
-    private int columns;
-    private int rows;
-    private Position pathstart;
-    private Position pathstop;
-    private RobotPath path;
+    private final int columns;
+    private final int rows;
+    private Stack<RobotPath> path = new Stack<RobotPath>();
     private Robot owner;
-    private int direction;
-    private int[][] map;
-    private int[][] map2;
-    private boolean endofmap;
-    private int olddir;
-    private int newdir;
+    private Direction direction;
+    private RobotMemoryObject[][] map;
+    private Integer[][] pathMemory;
 
-    RobotMemory(Robot owner, int columns, int rows, int direction) {
-        pathstop = new Position(0,0);
+    public RobotMemory(Robot owner, int columns, int rows, Direction direction) {
         this.owner = owner;
         this.columns = columns;
         this.rows = rows;
-
-        map = new int[columns][rows];
-        map2 = new int[columns][rows];
-        for(int i=0; i<columns; i++)
-        {
-            map[i] = new int[rows];
-            map2[i] = new int[rows];
-            for (int j=0; j<rows; j++)
-            {
-                map[i][j] = RobotProcessor.UNKNOWN;
-                map2[i][j] = -1;
+        this.direction = direction;
+        map = new RobotMemoryObject[columns][rows];
+        pathMemory = new Integer[columns][rows];
+        for(int i=0; i<columns; i++) {
+            for (int j=0; j<rows; j++) {
+                map[i][j] = RobotMemoryObject.UNKNOWN;
             }
         }
-
-        pathstart = null;
-        path = new RobotPath();
-        this.direction = direction;
-
-        endofmap = false;
-        olddir=0;
-        newdir=0;
     }
 
     public void turnLeft(MutableInt usedPower)
     {
         usedPower.add(5);
-        direction = Direction.getLeft(direction);
+        direction = direction.getLeft();
     }
 
     public void turnRight(MutableInt usedPower)
     {
         usedPower.add(5);
-        direction = Direction.getRight(direction);
+        direction = direction.getRight();
     }
 
-    public int getDirection()
+    public Direction getDirection()
     {
         return direction;
     }
 
-    int getColumns()
-    {
-        return columns;
+    private RobotMemoryObject getMemoryCell(Position p) {
+//        if(checkPosition(p)) {
+        return map[p.x][p.y];
     }
 
-    int getRows()
-    {
-        return rows;
-    }
-
-    int getMemoryCell(Position p)
-    {
-        if(checkPosition(p)) {
-            return map[p.x][p.y];
-        }
-        else {
-            System.exit(200);
-            return -1;
-        }
-    }
-
-    public void setMemoryCell(Position p, int state)
-    {
+    public void setMemoryCell(Position p, RobotMemoryObject state) {
         if(checkPosition(p))
-            if(map[p.x][p.y] != RobotProcessor.VISITED) {
+            if(map[p.x][p.y] != RobotMemoryObject.VISITED) {
                 map[p.x][p.y] = state;
             }
     }
 
-    public int lookAround(Position p,int direction)
+    public int lookAround(Position p,Direction direction)
     {
         Position p2 = new Position(p.x,p.y);
 
-        Direction.computePosition(p2,direction);
+        p2 = direction.computePosition(p2);
         if (checkPosition(p2))
-            return getMemoryCell(p2);
+            return getMemoryCell(p2).ordinal();
         else
-            return RobotProcessor.END;
+            return RobotMemoryObject.END.ordinal();
     }
 
-    public boolean checkPosition(Position p)
-    {
+    public boolean checkPosition(Position p) {
         return !((p.x < 0) || (p.x >= columns) || (p.y < 0) || (p.y >= rows));
     }
 
-    public void writeMap()
-    {
-        log.debug("Mapa");
-        for(int i=0; i<columns; i++)
-        {
-            for(int j=0; j<rows; j++) {
-                log.debug("%d\t",map2[i][j]);
-            }
-        }
-    }
-
-    public int findPath(int x, int y)
-    {
+    public boolean findPath(int x, int y) {
         int value = 0;
 
-        pathstart = owner.getPosition();
-        pathstop.x = x;
-        pathstop.y = y;
+        Position pathstart = owner.getPosition();
+        Position pathstop = new Position(x,y);
 
         for (int i=0; i<columns; i++)
             for(int j=0; j<rows; j++)
-                map2[i][j] = -1;
+                pathMemory[i][j] = null;
 
-        setMem(pathstart.x,pathstart.y,value);
-        writeMap();
+        setPathMemory(pathstart.x, pathstart.y,value);
+
+        boolean endofmap = false;
+
         while(!endofmap)
         {
             endofmap = true;
@@ -143,144 +97,118 @@ public class RobotMemory {
             {
                 for(int j=0; j<rows; j++)
                 {
-                    if(map2[i][j] == value - 1)
+                    if(pathMemory[i][j] == value - 1)
                     {
                         endofmap = false;
                         if((i == pathstop.x) && (j == pathstop.y))
                         {
                             //writeMap();
                             setPath(i,j);
-                            writeMap();
-                            return 0;
+                            return true;
                         }
-                        setMem(i,j+1,value);
-                        setMem(i,j-1,value);
-                        setMem(i+1,j,value);
-                        setMem(i-1,j,value);
+                        setPathMemory(i,j+1,value);
+                        setPathMemory(i,j-1,value);
+                        setPathMemory(i+1,j,value);
+                        setPathMemory(i-1,j,value);
                     }
                 }
             }
 
         }
         log.debug("Sciezka nie odnaleziona\n");
-        return 1;
+        return false;
     }
 
-    private boolean setMem(int x, int y, int value)
-    {
-        if ((x < 0) || (x >= columns) || (y < 0) || (y >= rows))
-            return false;
-        else
-        {
-            if (map[x][y] != RobotProcessor.UNMOVABLE)
-                if(map2[x][y] == -1 )
-                    map2[x][y] = value;
-            return true;
+    private void setPathMemory(int x, int y, int value) {
+        if (checkPosition(new Position(x,y))) {
+            if (map[x][y] != RobotMemoryObject.UNMOVABLE) {
+                if(pathMemory[x][y] == null ) {
+                    pathMemory[x][y] = value;
+                }
+            }
         }
-    }
-
-    private int getMem(int x, int y)
-    {
-        if ((x < 0) || (x >= columns) || (y < 0) || (y >= rows))
-            return -1;
-        else
-            return map2[x][y];
     }
 
     private void setPath(int x, int y) {
+
         Position p = new Position(x,y);
-        Position p2 = new Position(x,y);
-
-//	path.push(RobotPath::STOP);
-        path.push(RobotPath.MOVE);
-
-        p2 = minCell(p);
-
-        newdir = Direction.computeDirection(p2,p);
+        path.push(RobotPath.FORWARD);
+        Position p2 = getPathMemoryCellWithMinimalValueAroundSelectedPosition(p);
+        Direction newdir = Direction.computeDirection(p2, p);
 
         p.x = p2.x;
         p.y = p2.y;
-        do
-        {
-            p2 = minCell(p);
+
+        Direction olddir;
+        RobotPath robotPath;
+        while(pathMemory[p.x][p.y] != 0) {
+            p2 = getPathMemoryCellWithMinimalValueAroundSelectedPosition(p);
 
             olddir = newdir;
             newdir = Direction.computeDirection(p2,p);
-            olddir = computeRotation(olddir,newdir);
+            robotPath = computeRotation(olddir, newdir);
 
-            if(olddir != -1 )
-                path.push(olddir);
-            path.push(RobotPath.MOVE);
+            if(robotPath != RobotPath.BACKWARD ) {
+                path.push(robotPath);
+            }
+            path.push(RobotPath.FORWARD);
             p.x = p2.x;
             p.y = p2.y;
         }
-        while(map2[p.x][p.y] != 0);
-        //	path.push(RobotPath.MOVE);
-        log.debug("DIRECTION %d, NEWDIR %d\n",direction,newdir);
-        olddir = computeRotation(direction,newdir);
-        log.debug("DIRECTION %d\n",olddir);
-        if (olddir == -2)
-        {
+
+        robotPath = computeRotation(direction, newdir);
+        if (robotPath == RobotPath.FORWARD) {
             path.push(RobotPath.LEFT);
             path.push(RobotPath.LEFT);
+        } else if (robotPath != RobotPath.BACKWARD) {
+            path.push(robotPath);
         }
-        else
-        if(olddir != -1)
-            path.push(olddir);
 //	path.push(RobotPath.START);
     }
 
-    int computeRotation(int dirfrom, int dirto)
-    {
-        if (dirfrom == dirto )
-            return -2;
-        if (((dirfrom == Direction.NORTH) && (dirto == Direction.SOUTH)) ||
+    private RobotPath computeRotation(Direction dirfrom, Direction dirto) {
+
+        RobotPath result = RobotPath.FORWARD;
+        if (dirfrom == dirto ) {
+            return RobotPath.FORWARD;
+        } else if (((dirfrom == Direction.NORTH) && (dirto == Direction.SOUTH)) ||
                 ((dirfrom == Direction.SOUTH) && (dirto == Direction.NORTH)) ||
                 ((dirfrom == Direction.WEST) && (dirto == Direction.EAST)) ||
-                ((dirfrom == Direction.EAST) && (dirto == Direction.WEST)))
-            return -1;
-        if (dirfrom == Direction.NORTH)
-        {
+                ((dirfrom == Direction.EAST) && (dirto == Direction.WEST))) {
+            return RobotPath.BACKWARD;
+        } else if (dirfrom == Direction.NORTH) {
             if(dirto == Direction.EAST)
                 return RobotPath.LEFT;
             else
                 return RobotPath.RIGHT;
-        }
-        if (dirfrom == Direction.SOUTH)
-        {
+        } else if (dirfrom == Direction.SOUTH) {
             if(dirto == Direction.WEST)
                 return RobotPath.LEFT;
             else
                 return RobotPath.RIGHT;
-
-        }
-        if (dirfrom == Direction.WEST)
-        {
+        } else if (dirfrom == Direction.WEST) {
             if(dirto == Direction.NORTH)
                 return RobotPath.LEFT;
             else
                 return RobotPath.RIGHT;
-
-        }
-        if (dirfrom == Direction.EAST)
-        {
+        } else if (dirfrom == Direction.EAST) {
             if(dirto == Direction.SOUTH)
                 return RobotPath.LEFT;
             else
                 return RobotPath.RIGHT;
-
         }
-        else return -1;
+        return result;
+
     }
 
-    Position minCell(Position p) {
-        Position temp = new Position(0,0);
+    private Position getPathMemoryCellWithMinimalValueAroundSelectedPosition(Position p) {
         Position pmin = new Position(p.x,p.y);
 
+        Position temp = new Position(0,0);
         temp.x = p.x + 1;
         temp.y = p.y;
         if(checkPosition(temp))
-            if ((map2[temp.x][temp.y] < map2[pmin.x][pmin.y]) && (map2[temp.x][temp.y] != -1))
+            if ((pathMemory[temp.x][temp.y] < pathMemory[pmin.x][pmin.y]) && (pathMemory[temp.x][temp.y] != null))
             {
                 pmin.x = temp.x;
                 pmin.y = temp.y;
@@ -288,7 +216,7 @@ public class RobotMemory {
         temp.x = p.x - 1;
         temp.y = p.y;
         if(checkPosition(temp))
-            if ((map2[temp.x][temp.y] < map2[pmin.x][pmin.y]) && (map2[temp.x][temp.y] != -1))
+            if ((pathMemory[temp.x][temp.y] < pathMemory[pmin.x][pmin.y]) && (pathMemory[temp.x][temp.y] != null))
             {
                 pmin.x = temp.x;
                 pmin.y = temp.y;
@@ -296,7 +224,7 @@ public class RobotMemory {
         temp.x = p.x;
         temp.y = p.y + 1;
         if(checkPosition(temp))
-            if ((map2[temp.x][temp.y] < map2[pmin.x][pmin.y]) && (map2[temp.x][temp.y] != -1))
+            if ((pathMemory[temp.x][temp.y] < pathMemory[pmin.x][pmin.y]) && (pathMemory[temp.x][temp.y] != null))
             {
                 pmin.x = temp.x;
                 pmin.y = temp.y;
@@ -304,7 +232,7 @@ public class RobotMemory {
         temp.x = p.x;
         temp.y = p.y - 1;
         if(checkPosition(temp))
-            if ((map2[temp.x][temp.y] < map2[pmin.x][pmin.y]) && (map2[temp.x][temp.y] != -1))
+            if ((pathMemory[temp.x][temp.y] < pathMemory[pmin.x][pmin.y]) && (pathMemory[temp.x][temp.y] != null))
             {
                 pmin.x = temp.x;
                 pmin.y = temp.y;
@@ -312,12 +240,12 @@ public class RobotMemory {
         return pmin;
     }
 
-    int followpath()
+    public int followPath()
     {
-        return path.pop();
+        return path.pop().ordinal();
     }
 
-    Position find(int type)
+    public Position find(RobotMemoryObject type)
     {
         Position pmin = new Position(0,0);
         Position pmax = new Position(0,0);
@@ -343,5 +271,4 @@ public class RobotMemory {
         }
         return new Position(-1,-1);
     }
-
 }

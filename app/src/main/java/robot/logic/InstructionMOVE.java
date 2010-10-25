@@ -1,9 +1,6 @@
 package robot.logic;
 
-import robot.Instruction;
-import robot.Robot;
-import robot.RobotProcessor;
-import robot.RobotScanner;
+import robot.*;
 
 /**
  * @author tomekk
@@ -17,17 +14,15 @@ public class InstructionMOVE extends Instruction {
 
     @Override
     public void process(Robot robot) throws InstructionExecutionException {
-        if (robot.getProcessor().getInstructionProgress() >= 100) {
-            robot.memory.setMemoryCell(robot.getPosition(), RobotProcessor.VISITED);
-        } else if (robot.getProcessor().getInstructionProgress() > 80) {
-            if(!robot.getWorld().move(robot, robot.memory.getDirection(), robot.battery.getMaxCapacity(), robot.battery.plug())) {
+        if (robot.getProcessor().getInstructionProgress() >= 80) {
+            robot.getMemory().setMemoryCell(robot.getPosition(), RobotMemoryObject.VISITED);
+            if(!robot.getWorld().move(robot, robot.getMemory().getDirection(), robot.getBattery().getMaxCapacity(), robot.getBattery().plug())) {
                 robot.stateMove = 0;
             }
-        } else {
+        }
+        if (robot.getProcessor().getInstructionProgress() >= 80) {
             robot.stateMove ++;
         }
-        robot.battery.unplug();
+        robot.getBattery().unplug();
     }
-
-
 }

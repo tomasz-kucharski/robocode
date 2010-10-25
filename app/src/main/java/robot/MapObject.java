@@ -1,6 +1,6 @@
 package robot;
 
-public enum WorldObjectVerifier {
+public enum MapObject {
 
     FLOOR       (0),
     FURNITURE   (5),
@@ -18,13 +18,13 @@ public enum WorldObjectVerifier {
         return intValue;
     }
 
-    WorldObjectVerifier(int intValue) {
+    MapObject(int intValue) {
 
         this.intValue = intValue;
     }
 
     public static int getWorldObjectByName(String name) {
-        WorldObjectVerifier verifier = WorldObjectVerifier.valueOf(name);
+        MapObject verifier = MapObject.valueOf(name);
         if (verifier != null) {
             return verifier.getIntValue();
         } else {

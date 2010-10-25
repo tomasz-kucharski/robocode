@@ -1,14 +1,15 @@
 package robot.object;
 
 import org.apache.commons.lang.mutable.MutableInt;
+import robot.Direction;
+import robot.MapObject;
 import robot.Position;
-import robot.WorldObjectVerifier;
 
 public class Wall extends WorldObject {
     private int strength;
 
     public Wall(Position p, int strength) {
-        super(WorldObjectVerifier.WALL.getIntValue(),p,false, false, false, false);
+        super(MapObject.WALL.getIntValue(),p,false, false, false, false);
         if (strength > 100)
             this.strength = strength;
     }
@@ -17,7 +18,7 @@ public class Wall extends WorldObject {
 
     }
 
-    public boolean conditionalMovement(final WorldObject worldObject, final int direction,final int maxPower, MutableInt usedPower) {
+    public boolean conditionalMovement(final WorldObject worldObject, final Direction direction,final int maxPower, MutableInt usedPower) {
         usedPower.setValue(maxPower);
         return false;	// -1
     }
