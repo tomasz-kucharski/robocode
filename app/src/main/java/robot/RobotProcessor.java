@@ -3,7 +3,6 @@ package robot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import robot.logic.InstructionExecutionException;
-import robot.object.Rubbish;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +11,8 @@ import java.util.Stack;
 public class RobotProcessor {
     private static final Logger log = LoggerFactory.getLogger(RobotProcessor.class);
 
-    public static final int REGISTRYSIZE = 40;
+    private static final int REGISTER_SIZE = 40;
+    private static final int PROCESSOR_SPEED = 1;
 
     //STANY OBIEKTOW
     public static final int UNKNOWN = 100;
@@ -25,37 +25,25 @@ public class RobotProcessor {
     public static final int ROBOT = 107;
     public static final int END = 108;
 
-    private ProgramList program;
-    private Instruction instruction;
-    private Stack<Integer> methodStack = new Stack<Integer>();
-    private Robot r;
-    private int[] registry;
-    private boolean done;
-    private boolean external;
+    private Robot robot;
 
-    public RobotProcessor(Robot r, BufferedReader program) throws IOException {
-        registry = new int[REGISTRYSIZE];
-        for (int i=0; i<REGISTRYSIZE; i++)
-            registry[i] = 0;
-        this.r = r;
+    private int[] registry;
+    private ProgramList program;
+    private Stack<Integer> methodStack = new Stack<Integer>();
+
+    private Instruction instruction;
+    private int instructionRemainingTime;
+
+    public RobotProcessor(Robot robot, BufferedReader program) throws IOException {
+        registry = new int[REGISTER_SIZE];
+        this.robot = robot;
         this.program = new ProgramList();
         RobotProgramLoader programLoader = new RobotProgramLoader(program, this.program);
         programLoader.loadProgram();
-
-        done = true;
-        external = false;
     }
 
     public int[] getRegistry() {
         return registry;
-    }
-
-    public RobotMemory getMemory() {
-        return r.memory;
-    }
-
-    public Position getRobotPosition() {
-        return r.position;
     }
 
     public ProgramList getProgram() {
@@ -87,23 +75,15 @@ public class RobotProcessor {
 
     public boolean go() {
         try {
-            if(!done)
-                performExternal();
-            else
-            {
-                done = false;
-                while(!external)
-                {
-                    instruction = program.next();
-                    if ( instruction == null )
-                    {
-                        exception(program.size(),"ERROR - END OF PROGRAM\n");
-                        break;
-                    }
-                    instruction.process(this);
+            if (instructionRemainingTime == 0) {
+                instruction = program.next();
+                instructionRemainingTime = instruction.getExecutionTime();
+                if ( instruction == null ) {
+                    throw new InstructionExecutionException("END OF PROGRAM",null);
                 }
-                performExternal();
             }
+            decreaseRemainingTime();
+            instruction.process(robot);
             return true;
         } catch (InstructionExecutionException e) {
             log.info("Wrong execution:"+e.getInstruction(),e);
@@ -111,74 +91,8 @@ public class RobotProcessor {
         }
     }
 
-    void performExternal()
-    {
-        external = false;
-        switch(instruction.getOrder())
-        {
-            case SCAN:
-                r.stateScaner++;
-                r.stateScaner %= Robot.SCANERSTATE;
-                if(r.stateScaner == 1)
-                    r.scaner.scan();
-                if(r.stateScaner == 0)
-                    done = true;
-                break;
-            case TURNLEFT:
-                r.memory.turnLeft(r.battery.plug());
-                r.battery.unplug();
-                done = true;
-                break;
-            case TURNRIGHT:
-                r.memory.turnRight(r.battery.plug());
-                r.battery.unplug();
-                done = true;
-                break;
-            case MOVE:
-                r.stateMove++;
-                r.stateMove %= Robot.MOVESTATE;
-                if(r.stateMove == 1)
-                {
-                    if(!r.getWorld().move(r,r.memory.getDirection(),r.battery.getMaxCapacity(),r.battery.plug()))
-                    {
-                        log.debug("PRZESZKODA!");
-                        r.stateMove = 0;
-                        registry[0] = 1;
-                    }
-                }
-                if(r.stateMove == 0 )
-                {
-                    r.memory.setMemoryCell(r.getPosition(),VISITED);
-                    done = true;
-                    registry[0] = 0;
-                }
-                r.battery.unplug();
-                break;
-            case CLEAN:
-                Rubbish rubbish;
-                if(r.scaner.scanMyCell(WorldObjectVerifier.RUBBISH.getIntValue()) == null)
-                {
-                    done = true;
-                    r.memory.setMemoryCell(r.getPosition(),VISITED);
-                }
-                else
-                {
-                    if((rubbish = (Rubbish)r.scaner.scanMyCell(WorldObjectVerifier.RUBBISH.getIntValue())) != null)
-                    {
-                        rubbish.cleaning(r.battery.getMaxCapacity(),r.battery.plug());
-                        r.battery.unplug();
-                    }
-                    else
-                        exception(instruction.getLine(), "WRONG CLEAN INSTRUCTION!!!!!!!!!!!!");
-                }
-                break;
-            case RECEIVE:
-                done = true;
-                break;
-            case FINDPATH:
-                done = true;
-                break;
-        }
+    private void decreaseRemainingTime() {
+        instructionRemainingTime -= PROCESSOR_SPEED;
     }
 
     void exception(int line, String description)
@@ -194,4 +108,15 @@ public class RobotProcessor {
         int line = methodStack.pop();
         program.setInstructionIndex(line);
     }
+
+    public int getInstructionProgress() {
+        return (instruction.getExecutionTime() - instructionRemainingTime)/instruction.getExecutionTime();
+    }
+
+    public boolean isProperRegisterAddress(int value) {
+        return ((value >= robot.getProcessor().getRegistry().length) || (value < 0));
+    }
+
+
+
 }

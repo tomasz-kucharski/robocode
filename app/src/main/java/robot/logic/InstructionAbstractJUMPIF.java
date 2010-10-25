@@ -2,6 +2,7 @@ package robot.logic;
 
 import robot.Instruction;
 import robot.InstructionOperator;
+import robot.Robot;
 import robot.RobotProcessor;
 
 /**
@@ -9,21 +10,24 @@ import robot.RobotProcessor;
  * @since 2010-10-24, 22:48:23
  */
 public abstract class InstructionAbstractJUMPIF extends Instruction {
+    public InstructionAbstractJUMPIF() {
+        super(1);
+    }
 
     @Override
-    public final void process(RobotProcessor processor) throws InstructionExecutionException {
+    public final void process(Robot robot) throws InstructionExecutionException {
         int temp = this.getValue1();
         if(this.getOperation() == InstructionOperator.EQUAL) {
-            if(compare(temp,processor.getRegistry()[0])) {
-                gotoInstruction(processor);
+            if(compare(temp, robot.getProcessor().getRegistry()[0])) {
+                gotoInstruction(robot.getProcessor());
             }
         }
         else {
-            if((temp >= processor.getRegistry().length) || (temp < 0))
-                throw new InstructionExecutionException("ERROR * - REGISTRY NOT PROPER",this);
+            if(robot.getProcessor().isProperRegisterAddress(getValue1()))
+                throw new InstructionExecutionException("Instruction argument beyond registry index.",this);
             else {
-                if(processor.getRegistry()[temp] == processor.getRegistry()[0]) {
-                    gotoInstruction(processor);
+                if(robot.getProcessor().getRegistry()[temp] == robot.getProcessor().getRegistry()[0]) {
+                    gotoInstruction(robot.getProcessor());
                 }
             }
         }

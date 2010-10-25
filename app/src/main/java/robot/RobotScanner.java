@@ -3,6 +3,11 @@ package robot;
 import robot.object.WorldObject;
 
 public class RobotScanner {
+    private Progress progress;
+
+    public enum Progress {
+        STARTED,STOPPED;
+    }
 
     private Robot owner;
     private RobotMemory memory;
@@ -20,6 +25,10 @@ public class RobotScanner {
         this.memory = memory;
 
         p = new Position(0,0);
+    }
+
+    public void setProgress(Progress started) {
+        this.progress = started;
     }
 
     public WorldObject scanMyCell(int className)

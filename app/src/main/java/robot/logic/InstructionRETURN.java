@@ -1,7 +1,7 @@
 package robot.logic;
 
 import robot.Instruction;
-import robot.RobotProcessor;
+import robot.Robot;
 
 import java.util.EmptyStackException;
 
@@ -10,15 +10,18 @@ import java.util.EmptyStackException;
  * @since 2010-10-24, 22:48:23
  */
 public class InstructionRETURN extends Instruction {
+    public InstructionRETURN() {
+        super(1);
+    }
 
     @Override
-    public void process(RobotProcessor processor) throws InstructionExecutionException {
+    public void process(Robot robot) throws InstructionExecutionException {
         try {
-            processor.popMethod();
+            robot.getProcessor().popMethod();
         } catch (EmptyStackException e) {
             throw new InstructionExecutionException("Stack is empty",this);
         }
-        if(processor.getProgram().get() == null) {
+        if(robot.getProcessor().getProgram().get() == null) {
             throw new InstructionExecutionException("Stack is inconsistent",this);            
         }
     }

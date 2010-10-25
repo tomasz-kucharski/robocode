@@ -2,18 +2,21 @@ package robot.logic;
 
 import robot.Direction;
 import robot.Instruction;
-import robot.RobotProcessor;
+import robot.Robot;
 
 /**
  * @author tomekk
  * @since 2010-10-24, 22:48:23
  */
 public class InstructionMEMBACK extends Instruction {
+    public InstructionMEMBACK() {
+        super(1);
+    }
 
     @Override
-    public void process(RobotProcessor processor) {
-        processor.getRegistry()[0] = processor.getMemory().lookAround(
-                processor.getRobotPosition(), Direction.getBackward(processor.getMemory().getDirection()));
+    public void process(Robot robot) {
+        robot.getProcessor().getRegistry()[0] = robot.getMemory().lookAround(
+                robot.getPosition(), Direction.getBackward(robot.getMemory().getDirection()));
 
     }
 }

@@ -11,7 +11,14 @@ public abstract class Instruction {
     private int value1;
     private int value2;
 
-    public Instruction() {
+    private final int executionTime;
+
+    public Instruction(int executionTime) {
+        this.executionTime = executionTime;
+    }
+
+    public int getExecutionTime() {
+        return executionTime;
     }
 
     public int getLabel() {
@@ -62,7 +69,7 @@ public abstract class Instruction {
         this.value2 = value2;
     }
 
-    public abstract void process(RobotProcessor processor) throws InstructionExecutionException;
+    public abstract void process(Robot robot) throws InstructionExecutionException;
 
     @Override
     public String toString() {

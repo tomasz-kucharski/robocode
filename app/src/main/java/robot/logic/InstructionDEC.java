@@ -1,21 +1,24 @@
 package robot.logic;
 
 import robot.Instruction;
-import robot.RobotProcessor;
+import robot.Robot;
 
 /**
  * @author tomekk
  * @since 2010-10-24, 22:48:23
  */
 public class InstructionDEC extends Instruction {
+    public InstructionDEC() {
+        super(1);
+    }
 
     @Override
-    public void process(RobotProcessor processor) throws InstructionExecutionException {
+    public void process(Robot robot) throws InstructionExecutionException {
         int temp = getValue1();
-        if((temp >= processor.getRegistry().length) || ( temp < 0))
+        if(robot.getProcessor().isProperRegisterAddress(getValue1()))
             throw new InstructionExecutionException("Instruction argument beyond registry index.",this);
         else
-            processor.getRegistry()[temp]--;
+            robot.getProcessor().getRegistry()[temp]--;
     }
 
 

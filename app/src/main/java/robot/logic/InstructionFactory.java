@@ -119,13 +119,42 @@ public class InstructionFactory {
                 return new InstructionLOAD();
             }
         });
-
-
-
-
-
-
-
+        factory.put(Order.SCAN, new InstructionCreator(){
+            @Override
+            public Instruction createInstruction() {
+                return new InstructionSCAN();
+            }
+        });
+        factory.put(Order.TURNLEFT, new InstructionCreator(){
+            @Override
+            public Instruction createInstruction() {
+                return new InstructionTURNLEFT();
+            }
+        });
+        factory.put(Order.TURNRIGHT, new InstructionCreator(){
+            @Override
+            public Instruction createInstruction() {
+                return new InstructionTURNRIGHT();
+            }
+        });
+        factory.put(Order.MOVE, new InstructionCreator(){
+            @Override
+            public Instruction createInstruction() {
+                return new InstructionMOVE();
+            }
+        });
+        factory.put(Order.CLEAN, new InstructionCreator(){
+            @Override
+            public Instruction createInstruction() {
+                return new InstructionCLEAN();
+            }
+        });
+        factory.put(Order.FINDPATH, new InstructionCreator(){
+            @Override
+            public Instruction createInstruction() {
+                return new InstructionFINDPATH();
+            }
+        });
 
     }
 

@@ -12,39 +12,41 @@ import java.io.*;
 public class Robot extends IntelligentObject {
     private static final Logger log = LoggerFactory.getLogger(Robot.class);
 
-    public static int MOVESTATE = 5;
-    public static int CLEANSTATE = 3;
-    public static int SCANERSTATE = 4;
-    public static int TURNSTATE = 2;
-
-
     public RobotMemory  memory;
-    public RobotScanner  scaner;
+    public RobotScanner scanner;
     public RobotBattery battery;
     private RobotProcessor processor;
 
     public int stateMove;
-    private int stateClean;
-    public int stateScaner;
-    private int stateTurn;
     private int stateProgram;
 
-//    friend class RobotProcessor;
+    public RobotMemory getMemory() {
+        return memory;
+    }
 
+    public RobotScanner getScanner() {
+        return scanner;
+    }
+
+    public RobotBattery getBattery() {
+        return battery;
+    }
+
+    public RobotProcessor getProcessor() {
+        return processor;
+    }
+
+    public int getMoveState() {
+        return stateMove;
+    }
 
     public Robot(Position p,int columns, int rows, String name, int direction, int capacity, int zakres, File fileName) throws IOException {
 
         super(WorldObjectVerifier.ROBOT.getIntValue(),p,false,true,true,name);
         memory = new RobotMemory(this,columns,rows,direction);
         battery = new RobotBattery(capacity);
-        scaner = new RobotScanner(this,memory,zakres);
+        scanner = new RobotScanner(this,memory,zakres);
         processor = new RobotProcessor(this,new BufferedReader(new FileReader(fileName)));
-
-        stateMove = 0;
-        stateClean = 0;
-        stateScaner = 0;
-        stateTurn = 0;
-        stateProgram = 0;
 
         log.debug("{} : PositionXY:{},{}.\n",new Object[]{name,getPosition().x, getPosition().y});
     }
@@ -54,39 +56,13 @@ public class Robot extends IntelligentObject {
         return memory.getDirection();
     }
 
-    public int getCleanState()
-    {
-        return stateClean;
-    }
-
-    public int getScanerState()
-    {
-        return stateScaner;
-    }
-
-    public int getMoveState()
-    {
-        return stateMove;
-    }
-
-    public int getTurnState()
-    {
-        return stateTurn;
-    }
-
-    public int getStateProgram()
-    {
-        return stateProgram;
-    }
-
-    public void think()
-    {
-        if (stateProgram == 0)
-            if (!processor.go())
-                stateProgram = 1;
+    public void think() {
+        if (!processor.go()) {
+            stateProgram = 1;
+        }
     }
 
     public boolean conditionalMovement(WorldObject worldObject, int direction, int maxPower, MutableInt usedPower) {
-        return false; 
+        return false;
     }
 }

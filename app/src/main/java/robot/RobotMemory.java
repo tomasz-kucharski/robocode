@@ -48,13 +48,13 @@ public class RobotMemory {
         newdir=0;
     }
 
-    void turnLeft(MutableInt usedPower)
+    public void turnLeft(MutableInt usedPower)
     {
         usedPower.add(5);
         direction = Direction.getLeft(direction);
     }
 
-    void turnRight(MutableInt usedPower)
+    public void turnRight(MutableInt usedPower)
     {
         usedPower.add(5);
         direction = Direction.getRight(direction);
