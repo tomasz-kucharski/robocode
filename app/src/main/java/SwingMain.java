@@ -1,5 +1,5 @@
 import com.sun.opengl.util.Animator;
-import robot.WorldService;
+import robotgame.WorldService;
 
 import javax.media.opengl.*;
 import javax.swing.*;

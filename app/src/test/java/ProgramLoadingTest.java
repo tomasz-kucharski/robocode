@@ -1,7 +1,12 @@
 import static org.fest.assertions.Assertions.*;
 import org.junit.Assert;
 import org.junit.Test;
-import robot.*;
+import robotgame.object.robot.ProgramList;
+import robotgame.object.robot.RobotMemoryObject;
+import robotgame.object.robot.logic.Instruction;
+import robotgame.object.robot.logic.InstructionOperator;
+import robotgame.object.robot.logic.Order;
+import robotgame.loader.RobotProgramLoader;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,0 +1,30 @@
+package robotgame.object.opengl;
+
+import robotgame.loader.TextureLoader;
+import robotgame.object.WorldObject;
+
+import javax.media.opengl.GL;
+
+public class WallGL extends ObjectGL {
+    public WallGL()
+    {
+        list = 70;
+    }
+
+    public void draw(GL gl, WorldObject object) {
+        gl.glPushMatrix();
+        gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.BOX]);
+        gl.glTranslatef(0f,0f,0.5f);
+        gl.glCallList(list);
+        gl.glPopMatrix();
+
+    }
+
+    public void init(GL gl) {
+        gl.glPushMatrix();
+        gl.glNewList(list,GL.GL_COMPILE);
+        CubeGL.createCube(gl,0.9f,true);
+        gl.glEndList();
+        gl.glPopMatrix();
+    }
+}
