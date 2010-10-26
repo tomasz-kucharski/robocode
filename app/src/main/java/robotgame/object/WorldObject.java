@@ -2,13 +2,14 @@ package robotgame.object;
 
 import org.apache.commons.lang.mutable.MutableInt;
 import robotgame.world.Direction;
+import robotgame.world.MapObject;
 import robotgame.world.Position;
 import robotgame.world.World;
 
 public abstract class WorldObject {
 
     public World world;
-    int className;
+    MapObject className;
     public Position position;
 
     public boolean deleteMe;
@@ -17,14 +18,14 @@ public abstract class WorldObject {
     private boolean intelligent;
     private boolean slide;
 
-    public WorldObject(int className, Position p, boolean flat, boolean intelligent, boolean movable, boolean slide)
+    public WorldObject(MapObject mapObject, Position p, boolean flat, boolean intelligent, boolean movable, boolean slide)
     {
         this.position = new Position(p.x, p.y);
         this.flat = flat;
         this.intelligent = intelligent;
         this.movable = movable;
         this.slide = slide;
-        this.className = className;
+        this.className = mapObject;
 
         deleteMe = false;
     }
@@ -49,7 +50,7 @@ public abstract class WorldObject {
         return intelligent;
     }
 
-    public int getClassName()
+    public MapObject getClassName()
     {
         return className;
     }

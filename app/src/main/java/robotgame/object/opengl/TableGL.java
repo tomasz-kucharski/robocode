@@ -22,7 +22,7 @@ public class TableGL extends ObjectGL {
     }
 
     public void init(GL gl) {
-        loadGLTextures(gl, new File("table.bmp"));
+        loadGLTextures(gl, new File("textures/table.bmp"));
         gl.glNewList(list,GL.GL_COMPILE);
 
         gl.glColor3f(1.0f,.7f,1.0f);

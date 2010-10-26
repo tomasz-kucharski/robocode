@@ -2,29 +2,29 @@ package robotgame.legacy;
 
 import robotgame.legacy.List;
 import robotgame.object.WorldObject;
+import robotgame.world.MapObject;
 
-public class WorldObjectList extends List<WorldObject> {
+import java.util.*;
 
+public class WorldObjectList  {
+    private Stack<WorldObject> stack = new Stack<WorldObject>();
+    private Map<MapObject,WorldObject> objectTypes = new HashMap<MapObject,WorldObject>();
 
-    public boolean isObjectByName(int className)
-    {
-        boolean check = false;
-        WorldObject temp;
-        if (!setToFirst()) return false;
-        while  ( (temp = getNext() ) != null )
-            if (temp.getClassName() == className)
-                check = true;
-        return check;
+    public boolean isObjectByName(MapObject mapObject) {
+        return objectTypes.containsKey(mapObject);
     }
 
+    public WorldObject getObjectByName(MapObject mapObject) {
+        return objectTypes.get(mapObject);
+    }
 
-    public WorldObject getObjectByName(int className)
-    {
-        WorldObject temp;
-        if (!setToFirst()) return null;
-        while  ( (temp = getNext() ) != null )
-            if (temp.getClassName() == className)
-                return temp;
-        return null;
+    public void add(WorldObject object) {
+        stack.push(object);
+        objectTypes.put(object.getClassName(),object);
+    }
+
+    public boolean remove(WorldObject object) {
+        objectTypes.remove(object.getClassName());
+        return stack.remove(object);
     }
 }

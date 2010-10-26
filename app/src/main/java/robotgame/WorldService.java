@@ -57,8 +57,7 @@ public class WorldService {
                 list.setToFirst();
                 WorldObject object;
                 while((object = list.getNext()) != null) {
-                    if(!viewWorld.renderObject(p.x,p.y,object))
-                        System.exit(50);
+                    viewWorld.renderObject(p.x,p.y,object);
                 }
             }
         viewWorld.endScene();

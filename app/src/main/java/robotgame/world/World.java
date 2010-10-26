@@ -4,6 +4,8 @@ import org.apache.commons.lang.mutable.MutableInt;
 import robotgame.legacy.WorldObjectList;
 import robotgame.object.WorldObject;
 
+import java.util.Stack;
+
 public class World {
     private WorldObjectList world[][];
     private int columns;
@@ -14,7 +16,7 @@ public class World {
         this.columns = columns;
         this.rows = rows;
 
-        world = new WorldObjectList [columns][rows];
+        world = new WorldObjectList[columns][rows];
         for (int i=0; i<columns; i++) {
             for (int j=0; j<rows; j++)
                 world[i][j] = new WorldObjectList();
@@ -60,7 +62,7 @@ public class World {
     public boolean checkValidate() {
         for(int i=0; i<columns; i++)
             for(int j=0; j<rows; j++)
-                if(!world[i][j].isObjectByName(MapObject.FLOOR.getIntValue()))
+                if(!world[i][j].isObjectByName(MapObject.FLOOR))
                     return false;
         return true;
     }

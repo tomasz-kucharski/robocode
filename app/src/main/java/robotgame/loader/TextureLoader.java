@@ -29,13 +29,13 @@ public class TextureLoader {
 
     public void loadTextures(GL gl) {
         gl.glGenTextures(TEXTURE_SIZE,array,0);
-        loadTextures(gl,new File("app/src/main/resources/floor.bmp"),64,64);
-        loadTextures(gl,new File("app/src/main/resources/table.bmp"),256,256);
-        loadTextures(gl,new File("app/src/main/resources/box.bmp"),256,256);
-        loadTextures(gl,new File("app/src/main/resources/grass.bmp"),256,256);
-        loadTextures(gl,new File("app/src/main/resources/start.bmp"),256,256);
-        loadTextures(gl,new File("app/src/main/resources/robot.bmp"),256,256);
-        loadTextures(gl,new File("app/src/main/resources/furniture.bmp"),128,128);
+        loadTextures(gl,new File("app/src/main/resources/textures/floor.bmp"),64,64);
+        loadTextures(gl,new File("app/src/main/resources/textures/table.bmp"),256,256);
+        loadTextures(gl,new File("app/src/main/resources/textures/box.bmp"),256,256);
+        loadTextures(gl,new File("app/src/main/resources/textures/grass.bmp"),256,256);
+        loadTextures(gl,new File("app/src/main/resources/textures/start.bmp"),256,256);
+        loadTextures(gl,new File("app/src/main/resources/textures/robot.bmp"),256,256);
+        loadTextures(gl,new File("app/src/main/resources/textures/furniture.bmp"),128,128);
     }
 
     public int loadTextures(GL gl, File file, int width, int height) {
