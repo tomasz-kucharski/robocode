@@ -24,61 +24,7 @@ public class WorldService {
     private boolean evolve;
 
 
-    public WorldService(BufferedReader map) throws IOException {
-        DeployWorld deploy = new DeployWorld(map);
-        modelWorld = deploy.getWorld();
-        robot = null;
-        robot = (Robot) deploy.getRobot();
-        robotView = false;
 
-        columns = modelWorld.getColumns();
-        rows = modelWorld.getRows();
-
-        viewWorld = new WorldGL(columns,rows);
-    }
-
-    public void setGL(GL gl) {
-        viewWorld.setGl(gl);
-    }
-
-    public void onDraw() {
-        Position p = new Position(0,0);
-
-        if (!robotView)
-            viewWorld.beginScene();
-        else  {
-            Position robotPosition = robot.getPosition();
-            Direction robotDirection = robot.getDirection();
-            viewWorld.beginScene(robotPosition.x, robotPosition.y, robotDirection);
-        }
-        for(p.x=0; p.x<columns; p.x++)
-            for(p.y=0; p.y<rows; p.y++) {
-                WorldObjectList list = modelWorld.getCell(p);
-                list.setToFirst();
-                WorldObject object;
-                while((object = list.getNext()) != null) {
-                    viewWorld.renderObject(p.x,p.y,object);
-                }
-            }
-        viewWorld.endScene();
-        if (evolve) {
-            evolve();
-        }
-    }
-
-    public void evolve() {
-        Position p = new Position(0,0);
-        for(p.x=0; p.x<columns; p.x++)
-            for(p.y=0; p.y<rows; p.y++) {
-                WorldObjectList list = modelWorld.getCell(p);
-                list.setToFirst();
-                WorldObject object;
-                while((object = list.getNext()) != null) {
-                    object.evolve();
-                }
-            }
-        modelWorld.clearWorld();
-    }
 
     public void onSetScale(float x)
     {

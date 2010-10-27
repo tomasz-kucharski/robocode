@@ -1,24 +1,25 @@
 package robotgame.world;
 
-import robotgame.legacy.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-public class Eter extends List<Message> {
+
+public class Eter {
+
+    List<Message> list = new ArrayList<Message>();
 
     public boolean sendMessage(Message message) {
-        add(message);
+        list.add(message);
         return true;
     }
 
-    public Message retrieveMessage() {
-        return getNext();
+    public Iterator retrieveMessage() {
+        return list.iterator();
     }
 
     public void clearMessages() {
-        Message message;
-        this.setToFirst();
-        while((message = retrieveMessage() ) != null) {
-            this.remove(message);
-        }
+        list.clear();
     }
 
 }

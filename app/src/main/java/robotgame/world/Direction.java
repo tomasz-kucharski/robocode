@@ -23,8 +23,8 @@ public enum Direction {
         return rotation;
     }
 
-    public Position computePosition(Position position) {
-        Position newPosition = new Position(position.x,position.y);
+    public Position computeNextPosition(Position position) {
+        Position newPosition = new Position(position);
         if (this == NORTH)
             newPosition.y--;
         else if (this == EAST)

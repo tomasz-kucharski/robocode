@@ -9,7 +9,7 @@ public class Floor extends WorldObject {
     private int slippery; //od 1 do 10
 
     public Floor(Position p, int slippery) {
-        super(MapObject.FLOOR.getIntValue(),p,true,false,false,true);
+        super(MapObject.FLOOR,p,true,false,false,true);
         if( (slippery > 0 ) && (slippery <= 10 ) )
             this.slippery = slippery;
         else this.slippery = 1;

@@ -63,7 +63,7 @@ public class RobotMemory {
     }
 
     public int lookAround(Position p, Direction direction) {
-        Position p2 = direction.computePosition(p);
+        Position p2 = direction.computeNextPosition(p);
         if (checkPosition(p2))
             return getMemoryCell(p2).ordinal();
         else

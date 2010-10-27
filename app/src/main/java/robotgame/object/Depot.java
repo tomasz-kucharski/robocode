@@ -10,7 +10,7 @@ public class Depot extends WorldObject {
     private boolean lighted;                                                                                                               
 
     public Depot(Position p) {
-        super(MapObject.DEPOT.getIntValue(),p,true,false,false,true);
+        super(MapObject.DEPOT,p,true,false,false,true);
     }
 
     public boolean conditionalMovement(final WorldObject worldObject, final Direction direction, final int MaxPower, MutableInt usedPower) {

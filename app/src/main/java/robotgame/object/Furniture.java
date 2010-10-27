@@ -14,7 +14,7 @@ public class Furniture extends WorldObject {
     private int type;
 
     public Furniture(Position p, int weight) {
-        super(MapObject.FURNITURE.getIntValue(),p,false,false,true,true);
+        super(MapObject.FURNITURE,p,false,false,true,true);
         if( weight < 0 ) {
             this.weight = 1;
         }

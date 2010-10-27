@@ -11,7 +11,7 @@ public class Rubbish extends WorldObject {
 	private Direction direction;
 
     public Rubbish(Position p, int quantity) {
-        super(MapObject.RUBBISH.getIntValue(),p,true,false,false,true);
+        super(MapObject.RUBBISH,p,true,false,false,true);
         if( quantity <= 0 )
             this.quantity = 1;
         else

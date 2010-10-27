@@ -126,9 +126,8 @@ public class WorldGL {
 //
 //    }
 
-    public void InitGL(int width, int height)
-    {
-//        ReSizeGLScene(width,height);
+    public void InitGL(int width, int height) {
+        ReSizeGLScene(width,height);
 
         new TextureLoader().loadTextures(gl);
 
@@ -203,11 +202,9 @@ public class WorldGL {
         gl.glLoadIdentity();
 
         initRenderLocation();
-        new TriangleGL(1).draw(gl,null);
-
 
         //---  RYSUJ PODKLAD
-        tableGL.draw(gl,null);
+        tableGL.draw();
         //---  USTAW WYSOKOSC PONAD STOLEM
         gl.glTranslatef(0.0f,0.0f,0.3f);
         gl.glColor3f(1f,1f,1f);

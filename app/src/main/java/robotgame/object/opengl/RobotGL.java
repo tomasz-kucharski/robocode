@@ -2,13 +2,17 @@ package robotgame.object.opengl;
 
 import robotgame.loader.TextureLoader;
 import robotgame.object.WorldObject;
+import robotgame.object.WorldObjectRenderer;
 import robotgame.object.robot.Robot;
 
 import javax.media.opengl.GL;
 
-public class RobotGL extends ObjectGL {
+public class RobotGL implements WorldObjectRenderer {
 
-    Robot robot;
+    private GL gl;
+    private Robot robot;
+    private int list = 30;
+
     int nogi0;
     int nogi1;
     int nogi2;
@@ -18,12 +22,27 @@ public class RobotGL extends ObjectGL {
     int czulki;
     int robotsprzata;
 
-    public RobotGL() {
-        list = 30;
+    @Override
+    public void setGraphicsContext(Object context) {
+        gl = (GL) context;
     }
 
-    public void draw(GL gl, WorldObject object) {
+    @Override
+    public void setWorldObject(WorldObject object) {
         robot = (Robot)object;
+    }
+
+    @Override
+    public void init() {
+        gl.glPushMatrix();
+        gl.glNewList(list,GL.GL_COMPILE);
+        CubeGL.createCube(gl,0.9f,true);
+        gl.glEndList();
+        gl.glPopMatrix();
+    }
+
+    @Override
+    public void draw() {
 
         float mx = robot.getDirection().getRotation();
 
@@ -47,15 +66,4 @@ public class RobotGL extends ObjectGL {
 
         gl.glPopMatrix();
     }
-
-    public void init(GL gl) {
-        gl.glPushMatrix();
-        gl.glNewList(list,GL.GL_COMPILE);
-        CubeGL.createCube(gl,0.9f,true);
-        gl.glEndList();
-        gl.glPopMatrix();
-    }
-
-
-
 }

@@ -9,7 +9,7 @@ public class Wall extends WorldObject {
     private int strength;
 
     public Wall(Position p, int strength) {
-        super(MapObject.WALL.getIntValue(),p,false, false, false, false);
+        super(MapObject.WALL,p,false, false, false, false);
         if (strength > 100)
             this.strength = strength;
     }

@@ -6,23 +6,21 @@ import robotgame.world.Position;
 import robotgame.object.WorldObject;
 
 public class RobotScanner {
-    private Progress progress;
 
     public enum Progress {
-        STARTED,STOPPED;
+        STARTED,
+        STOPPED
     }
 
+    private Progress progress;
     private Robot owner;
     private RobotMemory memory;
-    private Position p;
     private int range;
 
     public RobotScanner(Robot owner, int range) {
-//        p = new Position(0,0);
+        this.range = range;
         if(range <= 0) {
             this.range = 1;
-        } else {
-            this.range = range;
         }
 
         this.owner = owner;
@@ -33,43 +31,37 @@ public class RobotScanner {
         this.progress = started;
     }
 
-    public WorldObject scanMyCell(int className)
-    {
+    public WorldObject scanMyCell(MapObject className) {
         return owner.getWorld().getObject(owner.getPosition(),className);
     }
 
     public void scan() {
-        Position p;
         scanCell(memory.getDirection());
         scanCell(memory.getDirection().getLeft());
         scanCell(memory.getDirection().getRight());
     }
 
     private void scanCell(Direction direction) {
-        Position p;p = direction.computePosition(owner.getPosition());
+        Position p = direction.computeNextPosition(owner.getPosition());
         scanSelectedPosition(p);
     }
 
     private void scanSelectedPosition(Position p) {
-        if (memory.checkPosition(p)) {
-            for(int i=0; i< range; i++) {
-                if(memory.checkPosition(p))
-                    memory.setMemoryCell(p,verify(p));
-            }
-        }
+        if(memory.checkPosition(p))
+            memory.setMemoryCell(p,verify(p));
     }
 
     //todo looks bad :)
     private RobotMemoryObject verify(Position p) {
-        if(owner.getWorld().getObject(p, MapObject.DEPOT.getIntValue()) != null)
+        if(owner.getWorld().getObject(p, MapObject.DEPOT) != null)
             return RobotMemoryObject.DEPOT;
-        if(owner.getWorld().getObject(p, MapObject.FURNITURE.getIntValue()) != null)
+        if(owner.getWorld().getObject(p, MapObject.FURNITURE) != null)
             return RobotMemoryObject.MOVABLE;
-        if(owner.getWorld().getObject(p, MapObject.RUBBISH.getIntValue()) != null)
+        if(owner.getWorld().getObject(p, MapObject.RUBBISH) != null)
             return RobotMemoryObject.RUBBISH;
-        if(owner.getWorld().getObject(p, MapObject.WALL.getIntValue()) != null)
+        if(owner.getWorld().getObject(p, MapObject.WALL) != null)
             return RobotMemoryObject.UNMOVABLE;
-        if(owner.getWorld().getObject(p, MapObject.ROBOT.getIntValue()) != null)
+        if(owner.getWorld().getObject(p, MapObject.ROBOT) != null)
             return RobotMemoryObject.ROBOT;
         return RobotMemoryObject.EMPTY;
     }

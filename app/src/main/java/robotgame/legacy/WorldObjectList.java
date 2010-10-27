@@ -1,13 +1,12 @@
 package robotgame.legacy;
 
-import robotgame.legacy.List;
 import robotgame.object.WorldObject;
 import robotgame.world.MapObject;
 
 import java.util.*;
 
-public class WorldObjectList  {
-    private Stack<WorldObject> stack = new Stack<WorldObject>();
+public class WorldObjectList implements Iterable<WorldObject> {
+    private List<WorldObject> stack = new ArrayList<WorldObject>();
     private Map<MapObject,WorldObject> objectTypes = new HashMap<MapObject,WorldObject>();
 
     public boolean isObjectByName(MapObject mapObject) {
@@ -19,12 +18,16 @@ public class WorldObjectList  {
     }
 
     public void add(WorldObject object) {
-        stack.push(object);
+        stack.add(object);
         objectTypes.put(object.getClassName(),object);
     }
 
     public boolean remove(WorldObject object) {
         objectTypes.remove(object.getClassName());
         return stack.remove(object);
+    }
+
+    public Iterator<WorldObject> iterator() {
+        return stack.iterator();
     }
 }

@@ -24,7 +24,7 @@ public class DeployWorld {
         loadMapSize();
         modelWorld = new World(columns,rows);
         loadWorld();
-        modelWorld.checkValidate();
+        modelWorld.validateWorld();
     }
 
     private void loadMapSize() throws IOException {

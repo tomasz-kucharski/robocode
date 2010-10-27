@@ -12,7 +12,7 @@ public abstract class WorldObject {
     MapObject className;
     public Position position;
 
-    public boolean deleteMe;
+    private boolean deleted;
     private boolean flat;
     private boolean movable;
     private boolean intelligent;
@@ -26,8 +26,6 @@ public abstract class WorldObject {
         this.movable = movable;
         this.slide = slide;
         this.className = mapObject;
-
-        deleteMe = false;
     }
 
     public boolean isSlide()
@@ -50,6 +48,14 @@ public abstract class WorldObject {
         return intelligent;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public MapObject getClassName()
     {
         return className;
@@ -68,4 +74,8 @@ public abstract class WorldObject {
     public abstract boolean conditionalMovement(final WorldObject worldObject, final Direction direction, final int maxPower, MutableInt usedPower);
 
     public abstract void evolve();
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
 }

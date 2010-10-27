@@ -2,20 +2,25 @@ package robotgame.object.opengl;
 
 import robotgame.object.Rubbish;
 import robotgame.object.WorldObject;
+import robotgame.object.WorldObjectRenderer;
+import robotgame.object.robot.Robot;
 
 import javax.media.opengl.GL;
 import java.nio.FloatBuffer;
 
-public class RubbishGL extends ObjectGL {
+public class RubbishGL implements WorldObjectRenderer {
 
-    Rubbish rubbish;
-    public RubbishGL() {
-        list = 20;
+    private GL gl;
+    private int list = 20;
+
+    @Override
+    public void setGraphicsContext(Object context) {
+        gl = (GL) context;
     }
 
-    public void draw(GL gl, WorldObject object)
-    {
-        rubbish = (Rubbish)object;
+    @Override
+    public void draw(WorldObject worldObject) {
+        Rubbish rubbish = (Rubbish)worldObject;
         gl.glPushMatrix();
         float mx = rubbish.getDirection().getRotation();
         gl.glRotatef(mx,0.0f,0.0f,1.0f);
@@ -23,8 +28,8 @@ public class RubbishGL extends ObjectGL {
         gl.glPopMatrix();
     }
 
-    public void init(GL gl)
-    {
+    @Override
+    public void init() {
         gl.glNewList(list, GL.GL_COMPILE);
 
         gl.glPushMatrix();
@@ -34,17 +39,17 @@ public class RubbishGL extends ObjectGL {
         FloatBuffer smiec1Dif = FloatBuffer.wrap(new float[]{1.00000f,0.000000f,0.000000f,1.0f});
         FloatBuffer smiec1Spc = FloatBuffer.wrap(new float[]{0.501961f,0.250980f,0.250980f,1.0f});
         FloatBuffer smiec1Shn = FloatBuffer.wrap(new float[]{128.000f});
-         
+
         FloatBuffer smiec2Amb = FloatBuffer.wrap(new float[]{0.000000f,0.000000f,0.501961f,1.0f});
         FloatBuffer smiec2Dif = FloatBuffer.wrap(new float[]{0.000000f,0.000000f,1.00000f,1.0f});
         FloatBuffer smiec2Spc = FloatBuffer.wrap(new float[]{0.000000f,0.000000f,0.501961f,1.0f});
         FloatBuffer smiec2Shn = FloatBuffer.wrap(new float[]{128.000f});
-         
+
         FloatBuffer smiec3Amb = FloatBuffer.wrap(new float[]{0.501961f,0.501961f,0.000000f,1.0f});
         FloatBuffer smiec3Dif = FloatBuffer.wrap(new float[]{1.00000f,1.00000f,0.000000f,1.0f});
         FloatBuffer smiec3Spc = FloatBuffer.wrap(new float[]{0.501961f,0.501961f,0.000000f,1.0f});
         FloatBuffer smiec3Shn = FloatBuffer.wrap(new float[]{128.000f});
-        
+
         FloatBuffer smiec4Amb = FloatBuffer.wrap(new float[]{0.000000f,0.501961f,0.000000f,1.0f});
         FloatBuffer smiec4Dif = FloatBuffer.wrap(new float[]{0.000000f,1.00000f,0.000000f,1.0f});
         FloatBuffer smiec4Spc = FloatBuffer.wrap(new float[]{0.000000f,0.501961f,0.000000f,1.0f});
@@ -1193,10 +1198,10 @@ public class RubbishGL extends ObjectGL {
         gl.glVertex3f( 0.385663f, 0.00257200f, -0.00708200f );
         gl.glEnd();
         gl.glPopMatrix();
-        
-        
-        
-        
+
+
+
+
         gl.glEndList();
     }
 

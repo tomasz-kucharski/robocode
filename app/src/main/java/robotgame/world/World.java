@@ -1,113 +1,103 @@
 package robotgame.world;
 
 import org.apache.commons.lang.mutable.MutableInt;
-import robotgame.legacy.WorldObjectList;
 import robotgame.object.WorldObject;
-
-import java.util.Stack;
+import robotgame.object.WorldObjectRenderer;
+import robotgame.object.robot.Robot;
 
 public class World {
-    private WorldObjectList world[][];
-    private int columns;
-    private int rows;
 
-    public World(int columns, int rows)
-    {
-        this.columns = columns;
-        this.rows = rows;
+    private WorldMap map;
+    private Robot viewerRobot;
+    private WorldRenderer worldRenderer;
 
-        world = new WorldObjectList[columns][rows];
-        for (int i=0; i<columns; i++) {
-            for (int j=0; j<rows; j++)
-                world[i][j] = new WorldObjectList();
+    public void setMap(WorldMap map) {
+        this.map = map;
+        Position position = new Position(0, 0);
+        for(position.x=0; position.x<map.getColumns(); position.x++) {
+            for(position.y=0; position.y<map.getRows(); position.y++) {
+                for (WorldObject object : map.getCell(position)) {
+                    object.setWorld(this);
+                }
+            }
         }
     }
 
-    public int getColumns()
-    {
-        return columns;
+    public void setViewerRobot(Robot viewerRobot) {
+        this.viewerRobot = viewerRobot;
     }
 
-    public int getRows()
-    {
-        return rows;
-    }
+    public void onDraw(WorldConfiguration worldConfiguration) {
 
-    public WorldObjectList getCell(Position p)
-    {
-        if(!checkPosition(p)) {
-            return null;
-        } else {
-            return world[p.x][p.y];
+        if (!worldConfiguration.isRobotView())
+            worldRenderer.beginScene();
+        else  {
+            worldRenderer.beginScene(viewerRobot);
+        }
+
+        Position position = new Position(0, 0);
+        for(position.x=0; position.x<map.getColumns(); position.x++) {
+            for(position.y=0; position.y<map.getRows(); position.y++) {
+                for (WorldObject object : map.getCell(position)) {
+                    WorldObjectRenderer worldObjectRenderer = worldRenderer.getWorldObjectRenderer(object.getClassName());
+                    worldObjectRenderer.draw(object);
+                }
+            }
+        }
+        worldRenderer.endScene();
+
+        if (worldConfiguration.isEvolve()) {
+            evolve();
         }
     }
 
-    public boolean checkPosition(Position p)
-    {
-        return !((p.x < 0) || (p.x >= columns) || (p.y < 0) || (p.y >= rows));
-    }
-
-    public boolean setCell(Position p, WorldObject object)
-    {
-        if (!checkPosition(p)) {
-            return false;
-        }
-        else {
-            world[p.x][p.y].add(object);
-            object.world = this;
-            return true;
-        }
-    }
-
-    public boolean checkValidate() {
-        for(int i=0; i<columns; i++)
-            for(int j=0; j<rows; j++)
-                if(!world[i][j].isObjectByName(MapObject.FLOOR))
+    public boolean validateWorld() {
+        Position position = new Position(0, 0);
+        for(position.x=0; position.x<map.getColumns(); position.x++) {
+            for(position.y=0; position.y<map.getRows(); position.y++) {
+                if(!map.getCell(position).isObjectByName(MapObject.FLOOR)) {
                     return false;
+                }
+            }
+        }
         return true;
     }
 
-    private boolean moveObject(WorldObject object, Direction direction) {
-        Position p = new Position(0,0);
-        p.x = object.position.x;
-        p.y = object.position.y;
+    public void evolve() {
+        Position position = new Position(0,0);
+        for(position.x=0; position.x<map.getColumns(); position.x++) {
+            for(position.y=0; position.y<map.getRows(); position.y++) {
+                for (WorldObject object : map.getCell(position)) {
+                    object.evolve();
+                }
+            }
+        }
+        clearWorld();
+    }
 
-        WorldObjectList listFrom;
-        WorldObjectList listTo;
-        listFrom = world[p.x][p.y];
-        p = direction.computePosition(p);
-        if (!checkPosition(p)) {
+    private boolean moveObject(WorldObject object, Direction direction) {
+        Position p = direction.computeNextPosition(object.getPosition());
+        if (!map.checkPosition(p)) {
             return false;
         }
-        listTo = world[p.x][p.y];
-        if (!listFrom.remove(object)) {
-            System.exit(60);
-        }
-        object.position.x = p.x;
-        object.position.y = p.y;
-        listTo.add(object);
 
+        map.getCell(object.getPosition()).remove(object);
+        map.setCell(p,object);
         return true;
     }
 
     public boolean move(final WorldObject worldObject, final Direction direction, final int maxPower, MutableInt usedPower) {
-        Position p = new Position(0,0);
-        WorldObject object;
 
-        WorldObjectList list;
-        if ( maxPower < usedPower.intValue())
-            return false;
-        p.x = worldObject.position.x;
-        p.y = worldObject.position.y;
-
-        p = direction.computePosition(p);
-        if (!checkPosition(p)){
+        if ( maxPower < usedPower.intValue()) {
             return false;
         }
 
-        list = world[p.x][p.y];
-        list.setToFirst();
-        while((object = list.getNext()) != null ) {
+        Position p = direction.computeNextPosition(worldObject.getPosition());
+        if (!map.checkPosition(p)) {
+            return false;
+        }
+
+        for (WorldObject object : map.getCell(p)) {
             if(!object.conditionalMovement(worldObject,direction,maxPower,usedPower)) {
                 return false;
             }
@@ -115,30 +105,28 @@ public class World {
         return moveObject(worldObject, direction);
     }
 
-    public boolean deleteMe(final WorldObject worldObject) {
-        //todo implement as set
-        worldObject.deleteMe = true;
-        return true;
+    public void deleteMe(final WorldObject worldObject) {
+        worldObject.setDeleted(true);
     }
 
     public void clearWorld() {
-        WorldObject object;
-        for (int i=0; i<columns; i++)
-            for(int j=0; j<rows; j++) {
-                world[i][j].setToFirst();
-                while((object = world[i][j].getNext()) != null) {
-                    if (object.deleteMe) {
-                        world[i][j].remove(object);
+        Position position = new Position(0,0);
+        for(position.x=0; position.x<map.getColumns(); position.x++) {
+            for(position.y=0; position.y<map.getRows(); position.y++) {
+                for (WorldObject object : map.getCell(position)) {
+                    if (object.isDeleted()) {
+                        map.getCell(position).remove(object);
                     }
                 }
-
             }
+        }
     }
 
-    public WorldObject getObject(Position p, int className) {
-        if(!checkPosition(p))
+    public WorldObject getObject(Position p, MapObject className) {
+        if(!map.checkPosition(p)) {
             return null;
-        else
-            return world[p.x][p.y].getObjectByName(className);
+        } else {
+            return map.getCell(p).getObjectByName(className);
+        }
     }
 }
