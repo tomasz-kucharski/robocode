@@ -1,4 +1,4 @@
-package robotgame.object.opengl;
+package robotgame.object;
 
 import robotgame.object.Rubbish;
 import robotgame.object.WorldObject;

@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public abstract class WorldRenderer {
 
+
     private Map<MapObject, WorldObjectRenderer> objectRendererMap = new HashMap<MapObject, WorldObjectRenderer>();
 
     public void setObjectRendererMap(Map<MapObject, WorldObjectRenderer> objectRendererMap) {
@@ -26,13 +27,17 @@ public abstract class WorldRenderer {
 
     protected WorldConfiguration worldConfiguration;
 
+    protected WorldMap worldMap;
+
     public void setWorldConfiguration(WorldConfiguration worldConfiguration) {
         this.worldConfiguration = worldConfiguration;
     }
 
-    public abstract void init() {
-        new TextureLoader().loadTextures(gl);
+    public void setWorldMap(WorldMap worldMap) {
+        this.worldMap = worldMap;
     }
+
+    public abstract void init();
 
     public abstract void onResize();
 

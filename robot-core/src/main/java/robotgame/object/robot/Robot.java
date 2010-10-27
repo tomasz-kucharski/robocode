@@ -44,7 +44,7 @@ public class Robot extends IntelligentObject {
 
     public Robot(Position p,int columns, int rows, String name, Direction direction, int capacity, int scannerRange, File fileName) throws IOException {
 
-        super(MapObject.ROBOT.getIntValue(),p,false,true,true,name);
+        super(MapObject.ROBOT,p,false,true,true,name);
         memory = new RobotMemory(this,columns,rows,direction);
         battery = new RobotBattery(capacity);
         scanner = new RobotScanner(this,scannerRange);

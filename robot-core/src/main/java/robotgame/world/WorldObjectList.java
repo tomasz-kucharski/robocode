@@ -1,4 +1,4 @@
-package robotgame.legacy;
+package robotgame.world;
 
 import robotgame.object.WorldObject;
 import robotgame.world.MapObject;

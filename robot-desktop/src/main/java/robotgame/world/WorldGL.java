@@ -1,7 +1,6 @@
-package robotgame.world.opengl;
+package robotgame.world;
 
 import robotgame.loader.TextureLoader;
-import robotgame.object.opengl.*;
 import robotgame.object.robot.Robot;
 import robotgame.world.WorldRenderer;
 
@@ -9,55 +8,28 @@ import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
 public class WorldGL extends WorldRenderer {
-    GL gl;
-    GLU glu = new GLU();
 
-
-    private float movex;
-    private float movey;
-    private float movez;
-
-    private float transx;
-    private float transy;
-    private float transz;
-    private float scale = 1.0f;
+    private GL gl;
+    private GLU glu = new GLU();
 
     private float posX;
     private float posY;
-    private int screenWidth;
-    private int screenHeight;
-
-    public WorldGL(int columns, int rows) {
-
-        posX = -0.5f*(columns-1);
-        posY = -0.5f*(rows-1);
-
-        movex = 0.0f;
-        movey = 0.0f;
-        movez = 0.0f;
-
-        transx = 0.0f;
-        transy = 0.0f;
-        transz = 0.0f;
-
-        scale = 1.0f;
-    }
-
+    private int worldTableGLList = 100;
 
     public void setGl(GL gl) {
         this.gl = gl;
     }
 
     public void onResize() {
-        screenWidth = worldConfiguration.getScreenWidth();
-        screenHeight = worldConfiguration.getScreenHeight();
+        int screenWidth = worldConfiguration.getScreenWidth();
+        int screenHeight = worldConfiguration.getScreenHeight();
 
 
         gl.glViewport(0, 0, screenWidth, screenHeight);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
 
-        glu.gluPerspective(45, (float) width / height, 1, 1000);
+        glu.gluPerspective(45, (float) screenWidth / screenHeight, 1, 1000);
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
 
@@ -108,6 +80,11 @@ public class WorldGL extends WorldRenderer {
 //    }
 
     public void init() {
+
+        posX = -0.5f*(worldMap.getColumns()-1);
+        posY = -0.5f*(worldMap.getRows()-1);
+
+
         onResize();
 
         new TextureLoader().loadTextures(gl);
@@ -173,12 +150,7 @@ public class WorldGL extends WorldRenderer {
         gl.glLoadIdentity();
 
         initRenderLocation();
-
-        //---  RYSUJ PODKLAD
-        gl.glTranslatef(0.0f,0.0f,-0.3f);
-        tableGL.draw();
-        gl.glTranslatef(0.0f,0.0f,0.3f);
-        //---  USTAW WYSOKOSC PONAD STOLEM
+        drawWorldTable();
         gl.glColor3f(1f,1f,1f);
 
         checkAntialiasing();
@@ -199,12 +171,11 @@ public class WorldGL extends WorldRenderer {
         float Y = -posY - (float)robot.getPosition().y;
         gl.glTranslatef(X+1 ,Y ,-3.0f);
 
-        gl.glRotatef(transx,0.0f,1.0f,0.0f);
-        gl.glRotatef(transy,1.0f,0.0f,0.0f);
-        gl.glRotatef(transz,0.0f,0.0f,1.0f);
-        gl.glScalef(scale,scale,scale);
+        gl.glRotatef(worldConfiguration.getRotateX(),0.0f,1.0f,0.0f);
+        gl.glRotatef(worldConfiguration.getRotateY(),1.0f,0.0f,0.0f);
+        gl.glRotatef(worldConfiguration.getRotateZ(),0.0f,0.0f,1.0f);
 
-        gl.glTranslatef(movex,movey,movez);
+        gl.glTranslatef(worldConfiguration.getMoveX(),worldConfiguration.getMoveY(),worldConfiguration.getMoveZ());
 
 
 
@@ -220,15 +191,15 @@ public class WorldGL extends WorldRenderer {
 
     private void initRenderLocation() {
         gl.glTranslatef(0.0f,0.0f,-8.0f);
-        gl.glTranslatef(0.0f,0.0f,movez);
-        gl.glRotatef(transx/screenWidth*100,0.0f,1.0f,0.0f);
-        gl.glRotatef(transy/screenHeight*100,1.0f,0.0f,0.0f);
-        gl.glRotatef(transz,0.0f,0.0f,1.0f);
-        gl.glScalef(scale,scale,scale);
+        gl.glTranslatef(0.0f,0.0f,worldConfiguration.getMoveZ());
+        float transX = worldConfiguration.getRotateX() / worldConfiguration.getScreenWidth()* 100;
+        float transY = worldConfiguration.getRotateY() / worldConfiguration.getScreenHeight()* 100;
+        gl.glRotatef(transX,0.0f,1.0f,0.0f);
+        gl.glRotatef(transY,1.0f,0.0f,0.0f);
+        gl.glRotatef(worldConfiguration.getRotateZ(),0.0f,0.0f,1.0f);
 
-
-        gl.glTranslatef(movex,0.0f,0.0f);
-        gl.glTranslatef(0.0f,movey,0.0f);
+        gl.glTranslatef(worldConfiguration.getRotateX(),0.0f,0.0f);
+        gl.glTranslatef(0.0f,worldConfiguration.getRotateY(),0.0f);
     }
 
 
@@ -236,12 +207,12 @@ public class WorldGL extends WorldRenderer {
         gl.glLoadIdentity();
     }
 
-    public void beforeRenderObject(int x, int y) {
-        gl.glTranslatef(posX+x,posY+y, 0.0f);
+    public void beforeRenderObject(Position p) {
+        gl.glTranslatef(posX+p.x,posY+p.y, 0.0f);
     }
 
-    public void afterRenderObject(int x, int y) {
-        gl.glTranslatef(-posX-x,-posY-y,0.0f);
+    public void afterRenderObject(Position p) {
+        gl.glTranslatef(-posX-p.x,-posY-p.y,0.0f);
     }
 
     public void checkAntialiasing() {
@@ -270,10 +241,27 @@ public class WorldGL extends WorldRenderer {
     }
 
     private void initializeWorldTable() {
-        float x = 0.5f*(float)columns+0.5f;
-        float y = 0.5f*(float)rows+0.5f;
+        float x = 0.5f*(float)worldMap.getColumns()+0.5f;
+        float y = 0.5f*(float)worldMap.getRows()+0.5f;
+
+        gl.glNewList(worldTableGLList,GL.GL_COMPILE);
+
+        gl.glColor3f(1.0f,.7f,1.0f);
+        gl.glBegin(GL.GL_QUADS);
+        gl.glNormal3f(0.0f,0.0f,1.0f);
+        gl.glTexCoord2f(1.0f,1.0f);gl.glVertex3f(x,y,0.0f);
+        gl.glTexCoord2f(0.0f,1.0f);gl.glVertex3f(-x,y,0.0f);
+        gl.glTexCoord2f(0.0f,0.0f);gl.glVertex3f(-x,-y,0.0f);
+        gl.glTexCoord2f(1.0f,0.0f);gl.glVertex3f(x,-y,0.0f);
+        gl.glEnd();
+
+        gl.glEndList();
     }
 
     private void drawWorldTable() {
+        gl.glTranslatef(0.0f,0.0f,-0.3f);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.TABLE]);
+        gl.glCallList(worldTableGLList);
+        gl.glTranslatef(0.0f,0.0f,0.3f);
     }
 }

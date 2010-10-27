@@ -58,4 +58,8 @@ public class TextureLoader {
 //    public static getTexture(int i) {
 //
 //    }
+
+    public void loadTextures() {
+        //To change body of created methods use File | Settings | File Templates.
+    }
 }

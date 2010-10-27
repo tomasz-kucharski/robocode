@@ -6,10 +6,18 @@
 		<artifactId>robot-project</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-    <artifactId>robot-core</artifactId>
+    <artifactId>robot-desktop</artifactId>
     <packaging>jar</packaging>
-    <name>robot-core</name>
+    <name>robot-desktop</name>
+
+
     <dependencies>
+        <!--CORE-->
+        <dependency>
+            <groupId>robotgame</groupId>
+            <artifactId>robot-core</artifactId>
+        </dependency>
+        
 
         <!--OPENGL-->
         <dependency>

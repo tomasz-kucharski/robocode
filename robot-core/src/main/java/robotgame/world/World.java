@@ -23,14 +23,6 @@ public class World {
     }
 
     public boolean validateWorld() {
-        this.map.performActionOnWorldObjects(new WorldMap.Command(){
-
-            @Override
-            public void performActionOnWorldObject(WorldObject object) {
-                object.setWorld(World.this);
-            }
-        });
-
         Position position = new Position(0, 0);
         for(position.x=0; position.x<map.getColumns(); position.x++) {
             for(position.y=0; position.y<map.getRows(); position.y++) {

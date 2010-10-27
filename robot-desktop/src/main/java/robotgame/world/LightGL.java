@@ -1,4 +1,4 @@
-package robotgame.world.opengl;
+package robotgame.world;
 
 import java.nio.FloatBuffer;
 

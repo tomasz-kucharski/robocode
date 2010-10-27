@@ -13,8 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class
-        RobotProgramLoader {
+public class RobotProgramLoader {
 
     public static final int FIRST_ATTRIBUTE = 0;
     public static final int SECOND_ATTRIBUTE = 1;

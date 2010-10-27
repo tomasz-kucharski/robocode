@@ -1,3 +1,5 @@
+package robotgame;
+
 import com.sun.opengl.util.Animator;
 import robotgame.WorldService;
 

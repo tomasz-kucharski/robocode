@@ -1,6 +1,5 @@
 package robotgame.world;
 
-import robotgame.legacy.WorldObjectList;
 import robotgame.object.WorldObject;
 
 /**

@@ -1,5 +1,6 @@
 package robotgame;
 
+import robotgame.loader.TextureLoader;
 import robotgame.object.WorldObject;
 import robotgame.object.WorldObjectRenderer;
 import robotgame.object.robot.Robot;
@@ -11,6 +12,7 @@ public class WorldService {
     private Robot viewerRobot;
     private WorldRenderer worldRenderer;
     private WorldConfiguration worldConfiguration;
+    private TextureLoader textureLoader;
 
     public void setViewerRobot(Robot viewerRobot) {
         this.viewerRobot = viewerRobot;
@@ -32,14 +34,20 @@ public class WorldService {
     }
 
     public void onInit(int width, int height) {
+        textureLoader.loadTextures();
         worldConfiguration.setScreenWidth(width);
         worldConfiguration.setScreenHeight(height);
         worldRenderer.setWorldConfiguration(worldConfiguration);
         worldRenderer.init();
     }
 
-    public void onMapLoad(WorldMap map) {
+    public boolean onMapLoad(WorldMap map) {
         world.setMap(map);
+        boolean b = world.validateWorld();
+        if (!b) {
+            world.setMap(null);
+        }
+        return b;
     }
 
     public void onDraw(WorldConfiguration worldConfiguration) {

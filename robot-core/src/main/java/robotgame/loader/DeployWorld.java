@@ -1,9 +1,6 @@
 package robotgame.loader;
 
-import robotgame.world.Direction;
-import robotgame.world.MapObject;
-import robotgame.world.Position;
-import robotgame.world.World;
+import robotgame.world.*;
 import robotgame.object.*;
 import robotgame.object.robot.Robot;
 
@@ -11,7 +8,7 @@ import java.io.*;
 
 public class DeployWorld {
 
-    private World modelWorld;
+    private WorldMap modelWorld;
     BufferedReader map;
 
     private int columns;
@@ -22,9 +19,8 @@ public class DeployWorld {
     public DeployWorld(BufferedReader map) throws IOException {
         this.map = map;
         loadMapSize();
-        modelWorld = new World(columns,rows);
+        modelWorld = new WorldMap(columns,rows);
         loadWorld();
-        modelWorld.validateWorld();
     }
 
     private void loadMapSize() throws IOException {
@@ -95,11 +91,6 @@ public class DeployWorld {
             worldObject = new Furniture(p,data);
         //ADD TO WORLD
         return modelWorld.setCell(p, worldObject);
-    }
-
-    public World getWorld()
-    {
-        return modelWorld;
     }
 
     public WorldObject getRobot()

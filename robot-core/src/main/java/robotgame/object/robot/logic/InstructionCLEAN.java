@@ -17,7 +17,7 @@ public class InstructionCLEAN extends Instruction {
 
     @Override
     public void process(Robot robot) throws InstructionExecutionException {
-        Rubbish rubbish = (Rubbish) robot.getScanner().scanMyCell(MapObject.RUBBISH.getIntValue());
+        Rubbish rubbish = (Rubbish) robot.getScanner().scanMyCell(MapObject.RUBBISH);
         if(rubbish == null) {
             robot.getMemory().setMemoryCell(robot.getPosition(), RobotMemoryObject.VISITED);
         }

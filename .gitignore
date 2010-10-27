@@ -4,3 +4,5 @@
 .idea
 robot-core/target
 robot-core/*.iml
+robot-desktop/target
+robot-desktop/*.iml

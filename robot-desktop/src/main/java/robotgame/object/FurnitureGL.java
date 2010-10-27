@@ -1,4 +1,4 @@
-package robotgame.object.opengl;
+package robotgame.object;
 
 import robotgame.loader.TextureLoader;
 import robotgame.object.Furniture;

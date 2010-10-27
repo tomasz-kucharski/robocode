@@ -1,16 +1,16 @@
-package robotgame.object.opengl;
+package robotgame.object;
 
 import robotgame.loader.TextureLoader;
-import robotgame.object.Depot;
+import robotgame.object.Wall;
 import robotgame.object.WorldObject;
 import robotgame.object.WorldObjectRenderer;
 
 import javax.media.opengl.GL;
 
-public class DepotGL implements WorldObjectRenderer {
+public class WallGL implements WorldObjectRenderer {
 
+    private int list = 70;
     private GL gl;
-    private int list = 60;
 
     @Override
     public void setGraphicsContext(Object context) {
@@ -21,7 +21,7 @@ public class DepotGL implements WorldObjectRenderer {
     public void init() {
         gl.glPushMatrix();
         gl.glNewList(list,GL.GL_COMPILE);
-        CubeGL.createCube(gl,0.8f,true);
+        CubeGL.createCube(gl,0.9f,true);
         gl.glEndList();
         gl.glPopMatrix();
     }
@@ -29,7 +29,7 @@ public class DepotGL implements WorldObjectRenderer {
     @Override
     public void draw(WorldObject object) {
         gl.glPushMatrix();
-        gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.START]);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.BOX]);
         gl.glTranslatef(0f,0f,0.5f);
         gl.glCallList(list);
         gl.glPopMatrix();

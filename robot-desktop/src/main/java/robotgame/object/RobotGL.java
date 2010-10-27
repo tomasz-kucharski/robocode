@@ -1,4 +1,4 @@
-package robotgame.object.opengl;
+package robotgame.object;
 
 import robotgame.loader.TextureLoader;
 import robotgame.object.WorldObject;
@@ -10,7 +10,6 @@ import javax.media.opengl.GL;
 public class RobotGL implements WorldObjectRenderer {
 
     private GL gl;
-    private Robot robot;
     private int list = 30;
 
     int nogi0;
@@ -28,11 +27,6 @@ public class RobotGL implements WorldObjectRenderer {
     }
 
     @Override
-    public void setWorldObject(WorldObject object) {
-        robot = (Robot)object;
-    }
-
-    @Override
     public void init() {
         gl.glPushMatrix();
         gl.glNewList(list,GL.GL_COMPILE);
@@ -42,7 +36,8 @@ public class RobotGL implements WorldObjectRenderer {
     }
 
     @Override
-    public void draw() {
+    public void draw(WorldObject object) {
+        Robot robot = (Robot) object;
 
         float mx = robot.getDirection().getRotation();
 

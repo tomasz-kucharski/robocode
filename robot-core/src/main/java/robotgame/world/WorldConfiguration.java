@@ -97,4 +97,28 @@ public class WorldConfiguration {
     public void changeRotateZ(float rotateZ) {
         this.rotateZ += rotateZ;
     }
+
+    public float getMoveX() {
+        return moveX;
+    }
+
+    public float getMoveY() {
+        return moveY;
+    }
+
+    public float getMoveZ() {
+        return moveZ;
+    }
+
+    public float getRotateX() {
+        return rotateX;
+    }
+
+    public float getRotateY() {
+        return rotateY;
+    }
+
+    public float getRotateZ() {
+        return rotateZ;
+    }
 }
