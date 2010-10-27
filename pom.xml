@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 	<name>robotgame</name>
 	<modules>
-		<module>app</module>
+		<module>robot-core</module>
 	</modules>
 	
 	<dependencies>

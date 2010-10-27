@@ -1,5 +1,7 @@
 *.ipr
 *.iws
+*.iml
 .idea
 
-app/target
+robot-core/target
+robot-core/*.iml
