@@ -1,26 +1,17 @@
 package robotgame.world.opengl;
 
 import robotgame.loader.TextureLoader;
-import robotgame.object.WorldObject;
 import robotgame.object.opengl.*;
-import robotgame.world.Direction;
-import robotgame.world.MapObject;
+import robotgame.object.robot.Robot;
+import robotgame.world.WorldRenderer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
-public class WorldGL {
+public class WorldGL extends WorldRenderer {
     GL gl;
     GLU glu = new GLU();
 
-    TableGL tableGL;
-    RobotGL robotGL;
-    FloorGL floorGL;
-    WallGL wallGL;
-    RubbishGL rubbishGL;
-    FurnitureGL furnitureGL;
-    DepotGL depotGL;
-    LightGL lightGL;
 
     private float movex;
     private float movey;
@@ -33,8 +24,6 @@ public class WorldGL {
 
     private float posX;
     private float posY;
-    private boolean wireframe;
-    private boolean antialiasing;
     private int screenWidth;
     private int screenHeight;
 
@@ -52,24 +41,16 @@ public class WorldGL {
         transz = 0.0f;
 
         scale = 1.0f;
-
-        tableGL = new TableGL(rows,columns);
-        robotGL = new RobotGL();
-        floorGL = new FloorGL();
-        wallGL = new WallGL();
-        rubbishGL = new RubbishGL();
-        depotGL = new DepotGL();
-        furnitureGL = new FurnitureGL();
-        lightGL = new LightGL();
     }
+
 
     public void setGl(GL gl) {
         this.gl = gl;
     }
 
-    public void ReSizeGLScene(int  width, int height) {
-        screenWidth = width;
-        screenHeight = height;
+    public void onResize() {
+        screenWidth = worldConfiguration.getScreenWidth();
+        screenHeight = worldConfiguration.getScreenHeight();
 
 
         gl.glViewport(0, 0, screenWidth, screenHeight);
@@ -126,8 +107,8 @@ public class WorldGL {
 //
 //    }
 
-    public void InitGL(int width, int height) {
-        ReSizeGLScene(width,height);
+    public void init() {
+        onResize();
 
         new TextureLoader().loadTextures(gl);
 
@@ -156,14 +137,6 @@ public class WorldGL {
 //        gl.glEnable(GL.GL_LIGHTING);								// Enable Lighting
 //        gl.glEnable(GL.GL_COLOR_MATERIAL);							// Enable Material Coloring
 
-
-        floorGL.init(gl);
-        wallGL.init(gl);
-        rubbishGL.init(gl);
-        depotGL.init(gl);
-        robotGL.init(gl);
-        furnitureGL.init(gl);
-        tableGL.init(gl);
 
 
 
@@ -196,25 +169,24 @@ public class WorldGL {
 
 
     public void beginScene() {
-
-
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
         initRenderLocation();
 
         //---  RYSUJ PODKLAD
+        gl.glTranslatef(0.0f,0.0f,-0.3f);
         tableGL.draw();
-        //---  USTAW WYSOKOSC PONAD STOLEM
         gl.glTranslatef(0.0f,0.0f,0.3f);
+        //---  USTAW WYSOKOSC PONAD STOLEM
         gl.glColor3f(1f,1f,1f);
 
-        onAntialiasing();
-        onWireframe();
+        checkAntialiasing();
+        checkWireframe();
 
     }
 
-    public void beginScene(int x, int y, Direction robotDirection) {
+    public void beginScene(Robot robot) {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
@@ -222,9 +194,9 @@ public class WorldGL {
         gl.glRotatef(-90.0f,0.0f,1.0f,0.0f);
         gl.glRotatef(-90.0f,1.0f,0.0f,0.0f);
         gl.glRotatef(35.0f,0.0f,1.0f,0.0f);
-        gl.glRotatef(robotDirection.getRotation(),0.0f,0.0f,1.0f); //direction
-        float X = -posX - (float)x;//posX-(float)x;
-        float Y = -posY - (float)y;//posY -(float)y;
+        gl.glRotatef(robot.getDirection().getRotation(),0.0f,0.0f,1.0f); //direction
+        float X = -posX - (float)robot.getPosition().x;
+        float Y = -posY - (float)robot.getPosition().y;
         gl.glTranslatef(X+1 ,Y ,-3.0f);
 
         gl.glRotatef(transx,0.0f,1.0f,0.0f);
@@ -236,22 +208,21 @@ public class WorldGL {
 
 
 
-            //---  RYSUJ PODKLAD
-         tableGL.draw(gl,null);
-            //---  USTAW WYSOKOSC PONAD STOLEM
+        drawWorldTable();
+        //---  USTAW WYSOKOSC PONAD STOLEM
         gl.glTranslatef(0.0f,0.0f,0.3f);
         gl.glColor3f(1f,1f,1f);
 
-        onAntialiasing();
-        onWireframe();
+        checkAntialiasing();
+        checkWireframe();
     }
 
 
     private void initRenderLocation() {
         gl.glTranslatef(0.0f,0.0f,-8.0f);
         gl.glTranslatef(0.0f,0.0f,movez);
-        gl.glRotatef(transx,0.0f,1.0f,0.0f);
-        gl.glRotatef(transy,1.0f,0.0f,0.0f);
+        gl.glRotatef(transx/screenWidth*100,0.0f,1.0f,0.0f);
+        gl.glRotatef(transy/screenHeight*100,1.0f,0.0f,0.0f);
         gl.glRotatef(transz,0.0f,0.0f,1.0f);
         gl.glScalef(scale,scale,scale);
 
@@ -265,39 +236,16 @@ public class WorldGL {
         gl.glLoadIdentity();
     }
 
-    public boolean renderObject(int x, int y, WorldObject object) {
-        int className = object.getClassName();
-
+    public void beforeRenderObject(int x, int y) {
         gl.glTranslatef(posX+x,posY+y, 0.0f);
-        if (className == MapObject.FLOOR.getIntValue())
-            floorGL.draw(gl,object);
-        else if (className == MapObject.ROBOT.getIntValue())
-            robotGL.draw(gl,object);
-        else if (className == MapObject.WALL.getIntValue())
-            wallGL.draw(gl,object);
-        else if (className == MapObject.DEPOT.getIntValue())
-            depotGL.draw(gl,object);
-        else if (className == MapObject.RUBBISH.getIntValue())
-            rubbishGL.draw(gl,object);
-        else if (className == MapObject.FURNITURE.getIntValue())
-            furnitureGL.draw(gl,object);
-        else return false;
+    }
 
+    public void afterRenderObject(int x, int y) {
         gl.glTranslatef(-posX-x,-posY-y,0.0f);
-
-        return true;
     }
 
-    public void setWireframe(boolean wireframe) {
-        this.wireframe = wireframe;
-    }
-
-    public void setAntialiasing(boolean antialiasing) {
-        this.antialiasing = antialiasing;
-    }
-
-    public void onAntialiasing() {
-        if(antialiasing) {
+    public void checkAntialiasing() {
+        if(worldConfiguration.isAntialiasing()) {
             gl.glEnable(GL.GL_LINE_SMOOTH);
             gl.glEnable(GL.GL_BLEND);
             gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
@@ -313,40 +261,19 @@ public class WorldGL {
         }
     }
 
-    public void onSetXRotate(float x) {
-        transx += x/screenWidth * 100;
+    public void checkWireframe() {
+        if(worldConfiguration.isWireframe()) {
+            gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
+        } else {
+            gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_FILL);
+        }
     }
 
-    public void onSetYRotate(float y) {
-        transy += y/screenHeight *100;
+    private void initializeWorldTable() {
+        float x = 0.5f*(float)columns+0.5f;
+        float y = 0.5f*(float)rows+0.5f;
     }
 
-    public void onSetScale(float ile) {
-        scale = ile;
-    }
-
-    public void onWireframe() {
-        if(wireframe)
-            gl.glPolygonMode(GL.GL_FRONT_AND_BACK,GL.GL_LINE);
-        else
-            gl.glPolygonMode(GL.GL_FRONT_AND_BACK,GL.GL_FILL);
-    }
-
-    public void onSetXYZMove(float x, float y, float z) {
-        movex += x;
-        movey += y;
-        movez += z;
-    }
-
-    public void onXMove(float x) {
-        movex += x;
-    }
-
-    public void onYMove(float y) {
-        movey += y;
-    }
-
-    public void onZMove(float z) {
-        movez += z;
+    private void drawWorldTable() {
     }
 }

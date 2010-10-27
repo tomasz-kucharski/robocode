@@ -1,87 +1,82 @@
 package robotgame;
 
-import robotgame.legacy.WorldObjectList;
 import robotgame.object.WorldObject;
+import robotgame.object.WorldObjectRenderer;
 import robotgame.object.robot.Robot;
-import robotgame.loader.DeployWorld;
-import robotgame.world.Direction;
-import robotgame.world.Position;
-import robotgame.world.World;
-import robotgame.world.opengl.WorldGL;
-
-import javax.media.opengl.GL;
-import java.io.BufferedReader;
-import java.io.IOException;
+import robotgame.world.*;
 
 public class WorldService {
 
-    private int columns;
-    private int rows;
-    private World modelWorld;
-    private WorldGL viewWorld;
-    private Robot robot;
-    private boolean robotView;
-    private boolean evolve;
+    private World world = new World();
+    private Robot viewerRobot;
+    private WorldRenderer worldRenderer;
+    private WorldConfiguration worldConfiguration;
 
-
-
-
-    public void onSetScale(float x)
-    {
-        viewWorld.onSetScale(x);
+    public void setViewerRobot(Robot viewerRobot) {
+        this.viewerRobot = viewerRobot;
     }
 
-    public void onResize(int x, int y)
-    {
-        viewWorld.ReSizeGLScene(x,y);
+    public void setWorldRenderer(WorldRenderer worldRenderer) {
+        this.worldRenderer = worldRenderer;
     }
 
-    public void onAntialiasing(boolean state)
-    {
-        viewWorld.setAntialiasing(state);
+    public void setWorldConfiguration(WorldConfiguration worldConfiguration) {
+        this.worldConfiguration = worldConfiguration;
     }
 
-    public void onWireframe(boolean state)
-    {
-        viewWorld.setWireframe(state);
+    public void onResize(int width, int height) {
+        worldConfiguration.setScreenWidth(width);
+        worldConfiguration.setScreenHeight(height);
+        worldRenderer.setWorldConfiguration(worldConfiguration);
+        worldRenderer.onResize();
     }
 
-    public void onSetXYZMove(float x, float y, float z)
-    {
-        viewWorld.onSetXYZMove(x,y,z);
+    public void onInit(int width, int height) {
+        worldConfiguration.setScreenWidth(width);
+        worldConfiguration.setScreenHeight(height);
+        worldRenderer.setWorldConfiguration(worldConfiguration);
+        worldRenderer.init();
     }
 
-    public void onXMove(float x) {
-        viewWorld.onXMove(x);
+    public void onMapLoad(WorldMap map) {
+        world.setMap(map);
     }
 
-    public void onYMove(float y) {
-        viewWorld.onYMove(y);
+    public void onDraw(WorldConfiguration worldConfiguration) {
+
+        drawBegin(worldConfiguration);
+        drawMap();
+        drawEnd();
+        evolveWorld(worldConfiguration);
     }
 
-    public void onZMove(float z) {
-        viewWorld.onZMove(z);
+    private void drawBegin(WorldConfiguration worldConfiguration) {
+        if (!worldConfiguration.isRobotView())
+            worldRenderer.beginScene();
+        else  {
+            worldRenderer.beginScene(viewerRobot);
+        }
     }
 
-    public void onXRotate(float x) {
-        viewWorld.onSetXRotate(x);
+    private void drawMap() {
+        world.getMap().performActionOnWorldObjects(new WorldMap.Command() {
+            @Override
+            public void performActionOnWorldObject(WorldObject object) {
+                WorldObjectRenderer worldObjectRenderer = worldRenderer.getWorldObjectRenderer(object.getClassName());
+                worldRenderer.beforeRenderObject(object.getPosition());
+                worldObjectRenderer.draw(object);
+                worldRenderer.afterRenderObject(object.getPosition());
+            }
+        });
     }
 
-    public void onYRotate(float x) {
-        viewWorld.onSetYRotate(x);
+    private void drawEnd() {
+        worldRenderer.endScene();
     }
 
-    public void OnRobotview(boolean robotView)
-    {
-        this.robotView = robotView;
-    }
-
-    public void onInit(int width, int height)
-    {
-        viewWorld.InitGL(width,height);
-    }
-
-    public void setEvolve(boolean selected) {
-        this.evolve = selected;
+    private void evolveWorld(WorldConfiguration worldConfiguration) {
+        if (worldConfiguration.isEvolve()) {
+            world.evolve();
+        }
     }
 }

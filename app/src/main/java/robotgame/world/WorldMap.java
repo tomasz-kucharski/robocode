@@ -55,4 +55,20 @@ public class WorldMap {
         }
     }
 
+    public void performActionOnWorldObjects(Command command) {
+        Position position = new Position(0, 0);
+        for(position.x=0; position.x<getColumns(); position.x++) {
+            for(position.y=0; position.y<getRows(); position.y++) {
+                for (WorldObject object : getCell(position)) {
+                    command.performActionOnWorldObject(object);
+                }
+            }
+        }
+
+    }
+
+    public static interface Command {
+        void performActionOnWorldObject(WorldObject object);
+    }
+
 }

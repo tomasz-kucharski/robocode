@@ -2,56 +2,35 @@ package robotgame.world;
 
 import org.apache.commons.lang.mutable.MutableInt;
 import robotgame.object.WorldObject;
-import robotgame.object.WorldObjectRenderer;
-import robotgame.object.robot.Robot;
 
 public class World {
 
     private WorldMap map;
-    private Robot viewerRobot;
-    private WorldRenderer worldRenderer;
 
     public void setMap(WorldMap map) {
         this.map = map;
-        Position position = new Position(0, 0);
-        for(position.x=0; position.x<map.getColumns(); position.x++) {
-            for(position.y=0; position.y<map.getRows(); position.y++) {
-                for (WorldObject object : map.getCell(position)) {
-                    object.setWorld(this);
-                }
+        this.map.performActionOnWorldObjects(new WorldMap.Command(){
+
+            @Override
+            public void performActionOnWorldObject(WorldObject object) {
+                object.setWorld(World.this);
             }
-        }
+        });
     }
 
-    public void setViewerRobot(Robot viewerRobot) {
-        this.viewerRobot = viewerRobot;
-    }
-
-    public void onDraw(WorldConfiguration worldConfiguration) {
-
-        if (!worldConfiguration.isRobotView())
-            worldRenderer.beginScene();
-        else  {
-            worldRenderer.beginScene(viewerRobot);
-        }
-
-        Position position = new Position(0, 0);
-        for(position.x=0; position.x<map.getColumns(); position.x++) {
-            for(position.y=0; position.y<map.getRows(); position.y++) {
-                for (WorldObject object : map.getCell(position)) {
-                    WorldObjectRenderer worldObjectRenderer = worldRenderer.getWorldObjectRenderer(object.getClassName());
-                    worldObjectRenderer.draw(object);
-                }
-            }
-        }
-        worldRenderer.endScene();
-
-        if (worldConfiguration.isEvolve()) {
-            evolve();
-        }
+    public WorldMap getMap() {
+        return map;
     }
 
     public boolean validateWorld() {
+        this.map.performActionOnWorldObjects(new WorldMap.Command(){
+
+            @Override
+            public void performActionOnWorldObject(WorldObject object) {
+                object.setWorld(World.this);
+            }
+        });
+
         Position position = new Position(0, 0);
         for(position.x=0; position.x<map.getColumns(); position.x++) {
             for(position.y=0; position.y<map.getRows(); position.y++) {
@@ -64,14 +43,12 @@ public class World {
     }
 
     public void evolve() {
-        Position position = new Position(0,0);
-        for(position.x=0; position.x<map.getColumns(); position.x++) {
-            for(position.y=0; position.y<map.getRows(); position.y++) {
-                for (WorldObject object : map.getCell(position)) {
-                    object.evolve();
-                }
+        map.performActionOnWorldObjects(new WorldMap.Command(){
+            @Override
+            public void performActionOnWorldObject(WorldObject object) {
+                object.evolve();
             }
-        }
+        });
         clearWorld();
     }
 
@@ -110,16 +87,14 @@ public class World {
     }
 
     public void clearWorld() {
-        Position position = new Position(0,0);
-        for(position.x=0; position.x<map.getColumns(); position.x++) {
-            for(position.y=0; position.y<map.getRows(); position.y++) {
-                for (WorldObject object : map.getCell(position)) {
-                    if (object.isDeleted()) {
-                        map.getCell(position).remove(object);
-                    }
+        map.performActionOnWorldObjects(new WorldMap.Command(){
+            @Override
+            public void performActionOnWorldObject(WorldObject object) {
+                if (object.isDeleted()) {
+                    map.getCell(object.getPosition()).remove(object);
                 }
             }
-        }
+        });
     }
 
     public WorldObject getObject(Position p, MapObject className) {

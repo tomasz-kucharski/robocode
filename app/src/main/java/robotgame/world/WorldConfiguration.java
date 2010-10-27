@@ -14,6 +14,9 @@ public class WorldConfiguration {
 
     private boolean antialiasing;
 
+    private int screenWidth;
+    private int screenHeight;
+
     private float moveX;
     private float moveY;
     private float moveZ;
@@ -53,6 +56,22 @@ public class WorldConfiguration {
 
     public void setAntialiasing(boolean antialiasing) {
         this.antialiasing = antialiasing;
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public void setScreenWidth(int screenWidth) {
+        this.screenWidth = screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+
+    public void setScreenHeight(int screenHeight) {
+        this.screenHeight = screenHeight;
     }
 
     public void changeMoveX(float moveX) {
