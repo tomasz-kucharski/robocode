@@ -2,5 +2,5 @@
 *.iws
 *.iml
 .idea
-
+robot-core/target
 robot-core/*.iml
