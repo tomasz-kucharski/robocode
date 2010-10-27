@@ -14,8 +14,12 @@ import java.util.Map;
  */
 public abstract class WorldRenderer {
 
+    protected WorldMap worldMap;
+    protected WorldConfiguration worldConfiguration;
+    private Robot viewerRobot;
 
     private Map<MapObject, WorldObjectRenderer> objectRendererMap = new HashMap<MapObject, WorldObjectRenderer>();
+
 
     public void setObjectRendererMap(Map<MapObject, WorldObjectRenderer> objectRendererMap) {
         this.objectRendererMap = objectRendererMap;
@@ -25,16 +29,45 @@ public abstract class WorldRenderer {
         return objectRendererMap.get(mapObject);
     }
 
-    protected WorldConfiguration worldConfiguration;
-
-    protected WorldMap worldMap;
 
     public void setWorldConfiguration(WorldConfiguration worldConfiguration) {
         this.worldConfiguration = worldConfiguration;
     }
 
+    public void setViewerRobot(Robot viewerRobot) {
+        this.viewerRobot = viewerRobot;
+    }
+
+
     public void setWorldMap(WorldMap worldMap) {
         this.worldMap = worldMap;
+    }
+
+    public void onDraw() {
+
+        drawBegin();
+        drawMap();
+        endScene();
+    }
+
+    private void drawBegin() {
+        if (!worldConfiguration.isRobotView())
+            beginScene();
+        else  {
+            beginScene(viewerRobot);
+        }
+    }
+
+    private void drawMap() {
+        worldMap.performActionOnWorldObjects(new WorldMap.Command() {
+            @Override
+            public void performActionOnWorldObject(WorldObject object) {
+                WorldObjectRenderer worldObjectRenderer = getWorldObjectRenderer(object.getClassName());
+                beforeRenderObject(object.getPosition());
+                worldObjectRenderer.draw(object);
+                afterRenderObject(object.getPosition());
+            }
+        });
     }
 
     public abstract void init();

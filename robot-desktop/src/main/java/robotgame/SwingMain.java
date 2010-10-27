@@ -2,6 +2,8 @@ package robotgame;
 
 import com.sun.opengl.util.Animator;
 import robotgame.WorldService;
+import robotgame.loader.DeployWorld;
+import robotgame.world.WorldGL;
 
 import javax.media.opengl.*;
 import javax.swing.*;
@@ -16,8 +18,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
 
     private Frame frame = new Frame("Robot Application");
 
-    private WorldService worldService;
-
+    private WorldService worldService = new WorldService();
 
     private Point mousePoint;
 
@@ -71,19 +72,22 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     }
 
     public void loadWorld(File file) throws IOException {
-        worldService = new WorldService(new BufferedReader(new FileReader(file)));
+        DeployWorld deployWorld = new DeployWorld(new BufferedReader(new FileReader(file)));
+        worldService.onMapLoad(deployWorld.getWorldMap());
     }
 
     public void init(GLAutoDrawable gLDrawable) {
         gLDrawable.setAutoSwapBufferMode(true);
         GL gl = gLDrawable.getGL();
-        worldService.setGL(gl);
+
+        WorldGL worldRenderer = new WorldGL();
+        worldRenderer.setGl(gl);
+        worldService.setWorldRenderer(worldRenderer);
         worldService.onInit(frame.getWidth(),frame.getHeight());
     }
 
     public void display(GLAutoDrawable gLDrawable) {
         final GL gl = gLDrawable.getGL();
-        worldService.setGL(gl);
         worldService.onDraw();
     }
 
@@ -97,7 +101,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
 
     public static void main(String[] args) throws IOException {
         SwingMain swingMain = new SwingMain();
-        swingMain.loadWorld(new File("d:\\home\\projects\\robot\\app\\src\\main\\resources\\maps\\smallMap.txt"));
+        swingMain.loadWorld(new File("d:\\home\\projects\\robot\\robot-desktop\\src\\main\\resources\\maps\\smallMap.txt"));
         swingMain.init();
     }
 
@@ -109,16 +113,16 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            worldService.onXMove(-0.1f);
+            worldService.getConfiguration().changeMoveX(-0.1f);
         }
         else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            worldService.onXMove(0.1f);
+            worldService.getConfiguration().changeMoveX(0.1f);
         }
         else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            worldService.onYMove(0.1f);
+            worldService.getConfiguration().changeMoveY(0.1f);
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            worldService.onYMove(-0.1f);
+            worldService.getConfiguration().changeMoveY(-0.1f);
         }
     }
 
@@ -128,15 +132,15 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        worldService.onZMove(-e.getUnitsToScroll()/10f);
+        worldService.getConfiguration().changeMoveZ(-e.getUnitsToScroll()/10f);
     }
 
 
     @Override
     public void mouseDragged(MouseEvent e) {
         Point newPoint = e.getPoint();
-        worldService.onXRotate((float) (mousePoint.x - newPoint.x));
-        worldService.onYRotate((float) (mousePoint.y - newPoint.y));
+        worldService.getConfiguration().changeRotateX((float) (mousePoint.x - newPoint.x));
+        worldService.getConfiguration().changeRotateY((float) (mousePoint.y - newPoint.y));
         mousePoint = newPoint;
     }
 
@@ -152,7 +156,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
             wireframe.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    worldService.onWireframe(wireframe.isSelected());
+                    worldService.getConfiguration().setWireframe(wireframe.isSelected());
                 }
             });
             add(wireframe);
@@ -160,7 +164,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
             antyaliasing.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    worldService.onAntialiasing(antyaliasing.isSelected());
+                    worldService.getConfiguration().setAntialiasing(antyaliasing.isSelected());
                 }
             });
             add(antyaliasing);
@@ -169,7 +173,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
             evolve.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    worldService.setEvolve(evolve.isSelected());
+                    worldService.getConfiguration().setEvolve(evolve.isSelected());
                 }
             });
             add(evolve);
@@ -177,7 +181,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
             robotView.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    worldService.OnRobotview(robotView.isSelected());
+                    worldService.getConfiguration().setRobotView(robotView.isSelected());
                 }
             });
             add(robotView);

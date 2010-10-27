@@ -8,7 +8,7 @@ import java.io.*;
 
 public class DeployWorld {
 
-    private WorldMap modelWorld;
+    private WorldMap worldMap;
     BufferedReader map;
 
     private int columns;
@@ -19,8 +19,12 @@ public class DeployWorld {
     public DeployWorld(BufferedReader map) throws IOException {
         this.map = map;
         loadMapSize();
-        modelWorld = new WorldMap(columns,rows);
+        worldMap = new WorldMap(columns,rows);
         loadWorld();
+    }
+
+    public WorldMap getWorldMap() {
+        return worldMap;
     }
 
     private void loadMapSize() throws IOException {
@@ -50,7 +54,7 @@ public class DeployWorld {
                 String direction = lineFragments[5];
                 String name = lineFragments[6];
                 String fileName = lineFragments[7];
-                loadObject(type,p,data,data2,direction,name,new File("d:\\home\\projects\\robot\\app\\src\\main\\resources\\intelligence\\"+fileName));
+                loadObject(type,p,data,data2,direction,name,new File("d:\\home\\projects\\robot\\robot-desktop\\src\\main\\resources\\intelligence\\"+fileName));
             } else {
                 loadObject(type,p,data);
             }
@@ -90,7 +94,7 @@ public class DeployWorld {
         else if( typeOfWorldObject == MapObject.FURNITURE.getIntValue())
             worldObject = new Furniture(p,data);
         //ADD TO WORLD
-        return modelWorld.setCell(p, worldObject);
+        return worldMap.setCell(p, worldObject);
     }
 
     public WorldObject getRobot()
