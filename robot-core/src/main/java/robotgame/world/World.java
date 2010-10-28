@@ -18,11 +18,7 @@ public class World {
         });
     }
 
-    public WorldMap getMap() {
-        return map;
-    }
-
-    public boolean validateWorld() {
+    public boolean validateMap(WorldMap map) {
         Position position = new Position(0, 0);
         for(position.x=0; position.x<map.getColumns(); position.x++) {
             for(position.y=0; position.y<map.getRows(); position.y++) {

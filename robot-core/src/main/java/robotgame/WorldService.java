@@ -1,9 +1,6 @@
 package robotgame;
 
 import robotgame.loader.TextureLoader;
-import robotgame.object.WorldObject;
-import robotgame.object.WorldObjectRenderer;
-import robotgame.object.robot.Robot;
 import robotgame.world.*;
 
 public class WorldService {
@@ -17,6 +14,14 @@ public class WorldService {
         this.worldRenderer = worldRenderer;
     }
 
+    public void setGraphicsContext(Object graphicsContext) {
+        worldRenderer.setGraphicsContext(graphicsContext);
+    }
+
+    public void setTextureLoader(TextureLoader textureLoader) {
+        this.textureLoader = textureLoader;
+    }
+
     public WorldConfiguration getConfiguration() {
         return configuration;
     }
@@ -25,32 +30,31 @@ public class WorldService {
         configuration.setScreenWidth(width);
         configuration.setScreenHeight(height);
         worldRenderer.setWorldConfiguration(configuration);
-        worldRenderer.onResize();
+        worldRenderer.resize();
     }
 
     public void onInit(int width, int height) {
-        textureLoader.loadTextures();
         configuration.setScreenWidth(width);
         configuration.setScreenHeight(height);
+
+        textureLoader.setGraphicsContext(worldRenderer.getGraphicsContext());
+        textureLoader.loadTextures();
+
         worldRenderer.setWorldConfiguration(configuration);
-        worldRenderer.init();
+        worldRenderer.onInit();
     }
 
     public boolean onMapLoad(WorldMap map) {
-        world.setMap(map);
-        boolean b = world.validateWorld();
-        if (!b) {
-            world.setMap(null);
+        boolean b = world.validateMap(map);
+        if (b) {
+            worldRenderer.setWorldMap(map);
+            world.setMap(map);
         }
         return b;
     }
 
     public void onDraw() {
         worldRenderer.onDraw();
-        evolveWorld();
-    }
-
-    private void evolveWorld() {
         if (configuration.isEvolve()) {
             world.evolve();
         }

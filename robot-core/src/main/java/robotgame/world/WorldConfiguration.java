@@ -25,7 +25,6 @@ public class WorldConfiguration {
     private float rotateY;
     private float rotateZ;
 
-
     public boolean isRobotView() {
         return robotView;
     }

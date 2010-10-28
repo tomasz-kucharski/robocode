@@ -1,8 +1,8 @@
 package robotgame.world;
 
 import robotgame.loader.TextureLoader;
+import robotgame.object.CubeGL;
 import robotgame.object.robot.Robot;
-import robotgame.world.WorldRenderer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
@@ -10,17 +10,13 @@ import javax.media.opengl.glu.GLU;
 public class WorldGL extends WorldRenderer {
 
     private GL gl;
-    private GLU glu = new GLU();
+    private GLU glu;
 
     private float posX;
     private float posY;
     private int worldTableGLList = 100;
 
-    public void setGl(GL gl) {
-        this.gl = gl;
-    }
-
-    public void onResize() {
+    public void resize() {
         int screenWidth = worldConfiguration.getScreenWidth();
         int screenHeight = worldConfiguration.getScreenHeight();
 
@@ -79,23 +75,30 @@ public class WorldGL extends WorldRenderer {
 //
 //    }
 
+    @Override
+    public Object getGraphicsContext() {
+        return gl;
+    }
+
+    @Override
+    public void setGraphicsContext(Object graphicsContext) {
+        this.gl = (GL) graphicsContext;
+        glu = new GLU();
+    }
+
     public void init() {
 
         posX = -0.5f*(worldMap.getColumns()-1);
         posY = -0.5f*(worldMap.getRows()-1);
 
-
-        onResize();
-
-        new TextureLoader().loadTextures(gl);
-
+        resize();
         gl.glEnable(GL.GL_TEXTURE_2D);                              // Enable Texture Mapping
         gl.glShadeModel(GL.GL_SMOOTH);                              // Enable Smooth Shading
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);                    // Black Background
         gl.glClearDepth(1.0f);                                      // Depth Buffer Setup
         gl.glEnable(GL.GL_DEPTH_TEST);                              // Enables Depth Testing
         gl.glDepthFunc(GL.GL_LEQUAL);                               // The Type Of Depth Testing To Do
-//        gl.glEnable(GL.GL_LIGHT0);                                  // Quick And Dirty Lighting (Assumes Light0 Is Set Up)
+        gl.glEnable(GL.GL_LIGHT0);                                  // Quick And Dirty Lighting (Assumes Light0 Is Set Up)
         gl.glEnable(GL.GL_LIGHTING);                                // Enable Lighting
         gl.glEnable(GL.GL_COLOR_MATERIAL);                          // Enable Material Coloring
         gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);  // Really Nice Perspective Calculations
@@ -110,10 +113,12 @@ public class WorldGL extends WorldRenderer {
 //        gl.glLightfv(GL.GL_LIGHT1, GL.GL_POSITION,LightGL.LightPosition);
 //        gl.glLightfv(GL.GL_LIGHT1, GL.GL_SHININESS,LightGL.LightShininess);
 //        gl.glEnable(GL.GL_LIGHT1);
-        gl.glEnable(GL.GL_LIGHT0);
+//        gl.glEnable(GL.GL_LIGHT0);
 //        gl.glEnable(GL.GL_LIGHTING);								// Enable Lighting
 //        gl.glEnable(GL.GL_COLOR_MATERIAL);							// Enable Material Coloring
 
+        gl.glTranslatef(0.0f,0.0f,0.3f);
+        initializeWorldTable();
 
 
 
@@ -149,9 +154,10 @@ public class WorldGL extends WorldRenderer {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
+        CubeGL.createTriangle(gl);
         initRenderLocation();
         drawWorldTable();
-        gl.glColor3f(1f,1f,1f);
+        gl.glColor3f(0f,1f,1f);
 
         checkAntialiasing();
         checkWireframe();
@@ -198,8 +204,8 @@ public class WorldGL extends WorldRenderer {
         gl.glRotatef(transY,1.0f,0.0f,0.0f);
         gl.glRotatef(worldConfiguration.getRotateZ(),0.0f,0.0f,1.0f);
 
-        gl.glTranslatef(worldConfiguration.getRotateX(),0.0f,0.0f);
-        gl.glTranslatef(0.0f,worldConfiguration.getRotateY(),0.0f);
+        gl.glTranslatef(worldConfiguration.getMoveX(),0.0f,0.0f);
+        gl.glTranslatef(0.0f,worldConfiguration.getMoveY(),0.0f);
     }
 
 

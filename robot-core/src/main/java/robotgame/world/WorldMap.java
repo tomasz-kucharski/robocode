@@ -49,7 +49,7 @@ public class WorldMap {
         }
         else {
             world[p.x][p.y].add(object);
-            object.position = p;
+            object.position = new Position(p);
             return true;
         }
     }

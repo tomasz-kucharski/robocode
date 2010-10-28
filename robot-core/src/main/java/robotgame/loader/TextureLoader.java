@@ -27,18 +27,20 @@ public class TextureLoader {
     public static int[] array = new int[TEXTURE_SIZE];
     int i=-1;
 
-    public void loadTextures(GL gl) {
+    private GL gl;
+
+    public void loadTextures() {
         gl.glGenTextures(TEXTURE_SIZE,array,0);
-        loadTextures(gl,new File("app/src/main/resources/textures/floor.bmp"),64,64);
-        loadTextures(gl,new File("app/src/main/resources/textures/table.bmp"),256,256);
-        loadTextures(gl,new File("app/src/main/resources/textures/box.bmp"),256,256);
-        loadTextures(gl,new File("app/src/main/resources/textures/grass.bmp"),256,256);
-        loadTextures(gl,new File("app/src/main/resources/textures/start.bmp"),256,256);
-        loadTextures(gl,new File("app/src/main/resources/textures/robot.bmp"),256,256);
-        loadTextures(gl,new File("app/src/main/resources/textures/furniture.bmp"),128,128);
+        loadTextures(gl,new File("robot-desktop/src/main/resources/textures/floor.bmp"),64,64);
+        loadTextures(gl,new File("robot-desktop/src/main/resources/textures/table.bmp"),256,256);
+        loadTextures(gl,new File("robot-desktop/src/main/resources/textures/box.bmp"),256,256);
+        loadTextures(gl,new File("robot-desktop/src/main/resources/textures/grass.bmp"),256,256);
+        loadTextures(gl,new File("robot-desktop/src/main/resources/textures/start.bmp"),256,256);
+        loadTextures(gl,new File("robot-desktop/src/main/resources/textures/robot.bmp"),256,256);
+        loadTextures(gl,new File("robot-desktop/src/main/resources/textures/furniture.bmp"),128,128);
     }
 
-    public int loadTextures(GL gl, File file, int width, int height) {
+    private  int loadTextures(GL gl, File file, int width, int height) {
         i++;
         try {
             FileInputStream inputStream = new FileInputStream(file);
@@ -55,11 +57,7 @@ public class TextureLoader {
         return i;
     }
 
-//    public static getTexture(int i) {
-//
-//    }
-
-    public void loadTextures() {
-        //To change body of created methods use File | Settings | File Templates.
+    public void setGraphicsContext(Object gl) {
+        this.gl = (GL) gl;
     }
 }

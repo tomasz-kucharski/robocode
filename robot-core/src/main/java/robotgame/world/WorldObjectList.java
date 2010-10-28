@@ -6,6 +6,7 @@ import robotgame.world.MapObject;
 import java.util.*;
 
 public class WorldObjectList implements Iterable<WorldObject> {
+
     private List<WorldObject> stack = new ArrayList<WorldObject>();
     private Map<MapObject,WorldObject> objectTypes = new HashMap<MapObject,WorldObject>();
 
@@ -28,6 +29,6 @@ public class WorldObjectList implements Iterable<WorldObject> {
     }
 
     public Iterator<WorldObject> iterator() {
-        return stack.iterator();
+        return stack.listIterator();
     }
 }

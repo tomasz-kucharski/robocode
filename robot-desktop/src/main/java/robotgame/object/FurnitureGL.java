@@ -30,18 +30,18 @@ public class FurnitureGL implements WorldObjectRenderer {
         gl.glEndList();
         gl.glPopMatrix();
 
-        gl.glNewList(list4,GL.GL_COMPILE);
-//		#include "furniture"
-        gl.glEndList();
-        gl.glNewList(list1,GL.GL_COMPILE);
-//		#include "furniture2"
-        gl.glEndList();
-        gl.glNewList(list2,GL.GL_COMPILE);
-//		#include "furniture3"
-        gl.glEndList();
-        gl.glNewList(list3,GL.GL_COMPILE);
-//		#include "furniture4"
-        gl.glEndList();
+//        gl.glNewList(list4,GL.GL_COMPILE);
+////		#include "furniture"
+//        gl.glEndList();
+//        gl.glNewList(list1,GL.GL_COMPILE);
+////		#include "furniture2"
+//        gl.glEndList();
+//        gl.glNewList(list2,GL.GL_COMPILE);
+////		#include "furniture3"
+//        gl.glEndList();
+//        gl.glNewList(list3,GL.GL_COMPILE);
+////		#include "furniture4"
+//        gl.glEndList();
     }
 
     @Override
@@ -54,16 +54,16 @@ public class FurnitureGL implements WorldObjectRenderer {
 
         gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.FURNITURE]);
 
-        switch (furniture.getType()) {
-        case 0: gl.glCallList(list4);
-                break;
-        case 1: gl.glCallList(list1);
-                break;
-        case 2: gl.glCallList(list2);
-                break;
-        case 3: gl.glCallList(list3);
-                break;
-        }
+//        switch (furniture.getType()) {
+//        case 0: gl.glCallList(list4);
+//                break;
+//        case 1: gl.glCallList(list1);
+//                break;
+//        case 2: gl.glCallList(list2);
+//                break;
+//        case 3: gl.glCallList(list3);
+//                break;
+//        }
         gl.glPopMatrix();
     }
 }

@@ -17,9 +17,7 @@ public abstract class WorldRenderer {
     protected WorldMap worldMap;
     protected WorldConfiguration worldConfiguration;
     private Robot viewerRobot;
-
     private Map<MapObject, WorldObjectRenderer> objectRendererMap = new HashMap<MapObject, WorldObjectRenderer>();
-
 
     public void setObjectRendererMap(Map<MapObject, WorldObjectRenderer> objectRendererMap) {
         this.objectRendererMap = objectRendererMap;
@@ -29,7 +27,6 @@ public abstract class WorldRenderer {
         return objectRendererMap.get(mapObject);
     }
 
-
     public void setWorldConfiguration(WorldConfiguration worldConfiguration) {
         this.worldConfiguration = worldConfiguration;
     }
@@ -38,13 +35,15 @@ public abstract class WorldRenderer {
         this.viewerRobot = viewerRobot;
     }
 
+    public abstract Object getGraphicsContext();
+
+    public abstract void setGraphicsContext(Object graphicsContext);
 
     public void setWorldMap(WorldMap worldMap) {
         this.worldMap = worldMap;
     }
 
     public void onDraw() {
-
         drawBegin();
         drawMap();
         endScene();
@@ -64,15 +63,24 @@ public abstract class WorldRenderer {
             public void performActionOnWorldObject(WorldObject object) {
                 WorldObjectRenderer worldObjectRenderer = getWorldObjectRenderer(object.getClassName());
                 beforeRenderObject(object.getPosition());
+                worldObjectRenderer.setGraphicsContext(getGraphicsContext());
                 worldObjectRenderer.draw(object);
                 afterRenderObject(object.getPosition());
             }
         });
     }
 
+    public void onInit() {
+        for(WorldObjectRenderer renderer : objectRendererMap.values()) {
+            renderer.setGraphicsContext(getGraphicsContext());
+            renderer.init();
+        }
+        init();
+    }
+
     public abstract void init();
 
-    public abstract void onResize();
+    public abstract void resize();
 
     public abstract void beginScene();
 

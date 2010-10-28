@@ -1197,12 +1197,12 @@ public class RubbishGL implements WorldObjectRenderer {
         gl.glNormal3f( 0.000000f, -1.00000f, 0.000000f );
         gl.glVertex3f( 0.385663f, 0.00257200f, -0.00708200f );
         gl.glEnd();
-        gl.glPopMatrix();
 
 
 
 
         gl.glEndList();
+        gl.glPopMatrix();
     }
 
 }
