@@ -2,8 +2,8 @@ package robotgame.object;
 
 import org.apache.commons.lang.mutable.MutableInt;
 import robotgame.world.Direction;
-import robotgame.world.Position;
 import robotgame.world.MapObject;
+import robotgame.world.Position;
 
 public class Floor extends WorldObject {
     private int slippery; //od 1 do 10

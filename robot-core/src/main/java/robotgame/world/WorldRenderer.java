@@ -1,6 +1,5 @@
 package robotgame.world;
 
-import robotgame.loader.TextureLoader;
 import robotgame.object.WorldObject;
 import robotgame.object.WorldObjectRenderer;
 import robotgame.object.robot.Robot;

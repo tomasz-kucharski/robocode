@@ -8,7 +8,10 @@ import robotgame.world.MapObject;
 import robotgame.world.WorldGL;
 import robotgame.world.WorldRenderer;
 
-import javax.media.opengl.*;
+import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLCanvas;
+import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.GLEventListener;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

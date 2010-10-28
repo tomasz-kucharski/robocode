@@ -1,10 +1,5 @@
 package robotgame.object;
 
-import robotgame.object.Rubbish;
-import robotgame.object.WorldObject;
-import robotgame.object.WorldObjectRenderer;
-import robotgame.object.robot.Robot;
-
 import javax.media.opengl.GL;
 import java.nio.FloatBuffer;
 

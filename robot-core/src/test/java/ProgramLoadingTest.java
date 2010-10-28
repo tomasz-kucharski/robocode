@@ -1,16 +1,17 @@
-import static org.fest.assertions.Assertions.*;
 import org.junit.Assert;
 import org.junit.Test;
+import robotgame.loader.RobotProgramLoader;
 import robotgame.object.robot.ProgramList;
 import robotgame.object.robot.RobotMemoryObject;
 import robotgame.object.robot.logic.Instruction;
 import robotgame.object.robot.logic.InstructionOperator;
 import robotgame.object.robot.logic.Order;
-import robotgame.loader.RobotProgramLoader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * @author tomekk
@@ -46,8 +47,7 @@ public class ProgramLoadingTest {
         //when
 
         RobotProgramLoader loader = new RobotProgramLoader(programReader);
-        loader.loadProgram();
-        ProgramList programList = loader.getProgram();
+        ProgramList programList = loader.loadProgram();
 
         //then
         assertThat(programList.size()).isEqualTo(4);
@@ -68,8 +68,7 @@ public class ProgramLoadingTest {
         //when
 
         RobotProgramLoader loader = new RobotProgramLoader(programReader);
-        loader.loadProgram();
-        ProgramList programList = loader.getProgram();
+        ProgramList programList = loader.loadProgram();
 
         //then
         assertThat(programList.next().getLine()).isEqualTo(1);
@@ -89,8 +88,7 @@ public class ProgramLoadingTest {
         //when
 
         RobotProgramLoader loader = new RobotProgramLoader(programReader);
-        loader.loadProgram();
-        ProgramList programList = loader.getProgram();
+        ProgramList programList = loader.loadProgram();
         Instruction instruction = programList.next();
 
         //then
@@ -109,8 +107,7 @@ public class ProgramLoadingTest {
         //given
         BufferedReader programReader = createProgramReader("45	RAND	=	4");
         RobotProgramLoader loader = new RobotProgramLoader(programReader);
-        loader.loadProgram();
-        ProgramList programList = loader.getProgram();
+        ProgramList programList = loader.loadProgram();
 
         //when
 

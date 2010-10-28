@@ -1,9 +1,6 @@
 package robotgame.world;
 
 import robotgame.object.WorldObject;
-import robotgame.world.MapObject;
-
-import java.util.*;
 
 public class WorldObjectList {
 

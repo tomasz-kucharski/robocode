@@ -1,10 +1,17 @@
 package robotgame.loader;
 
-import robotgame.world.*;
 import robotgame.object.*;
+import robotgame.object.robot.ProgramList;
 import robotgame.object.robot.Robot;
+import robotgame.world.Direction;
+import robotgame.world.MapObject;
+import robotgame.world.Position;
+import robotgame.world.WorldMap;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class DeployWorld {
 
@@ -54,7 +61,9 @@ public class DeployWorld {
                 String direction = lineFragments[5];
                 String name = lineFragments[6];
                 String fileName = lineFragments[7];
-                loadObject(type,p,data,data2,direction,name,new File("d:\\home\\projects\\robot\\robot-desktop\\src\\main\\resources\\intelligence\\"+fileName));
+                File file = new File("d:\\home\\projects\\robot\\robot-desktop\\src\\main\\resources\\intelligence\\" + fileName);
+                RobotProgramLoader loader = new RobotProgramLoader(new BufferedReader(new FileReader(file)));
+                loadObject(type,p,data,data2,direction,name, loader.loadProgram());
             } else {
                 loadObject(type,p,data);
             }
@@ -67,14 +76,14 @@ public class DeployWorld {
         return loadObject(type,p,data,0,null,null,null);
     }
 
-    private boolean loadObject(String type, Position p, int data, int data2, String direction, String name, File fileName) throws IOException {
+    private boolean loadObject(String type, Position p, int data, int data2, String direction, String name, ProgramList program) throws IOException {
         WorldObject worldObject = null;
 
         MapObject objectType = MapObject.valueOf(type);
 
         switch (objectType) {
             case ROBOT :
-                robot = new Robot(p,columns,rows,name, Direction.valueOf(direction),data,data2,fileName);
+                robot = new Robot(p,columns,rows,name, Direction.valueOf(direction),data,data2,program);
                 worldObject = robot;
                 break;
             case FLOOR :

@@ -2,7 +2,10 @@ package robotgame;
 
 import robotgame.loader.TextureLoader;
 import robotgame.object.robot.Robot;
-import robotgame.world.*;
+import robotgame.world.World;
+import robotgame.world.WorldConfiguration;
+import robotgame.world.WorldMap;
+import robotgame.world.WorldRenderer;
 
 public class WorldService {
 

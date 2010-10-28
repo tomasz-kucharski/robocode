@@ -2,11 +2,9 @@ package robotgame.object.robot;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import robotgame.loader.RobotProgramLoader;
 import robotgame.object.robot.logic.Instruction;
 import robotgame.object.robot.logic.InstructionExecutionException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Stack;
 
@@ -18,19 +16,16 @@ public class RobotProcessor {
 
     private Robot robot;
 
-    private int[] registry;
+    private int[] registry = new int[REGISTER_SIZE];
     private ProgramList program;
     private Stack<Integer> methodStack = new Stack<Integer>();
 
     private Instruction instruction;
     private int instructionRemainingTime;
 
-    public RobotProcessor(Robot robot, BufferedReader program) throws IOException {
-        registry = new int[REGISTER_SIZE];
+    public RobotProcessor(Robot robot, ProgramList program) throws IOException {
         this.robot = robot;
-        this.program = new ProgramList();
-        RobotProgramLoader programLoader = new RobotProgramLoader(program, this.program);
-        programLoader.loadProgram();
+        this.program = program;
     }
 
     public int[] getRegistry() {

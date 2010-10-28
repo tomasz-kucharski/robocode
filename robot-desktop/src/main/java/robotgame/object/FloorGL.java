@@ -1,8 +1,6 @@
 package robotgame.object;
 
 import robotgame.loader.TextureLoader;
-import robotgame.object.WorldObject;
-import robotgame.object.WorldObjectRenderer;
 
 import javax.media.opengl.GL;
 import java.nio.FloatBuffer;

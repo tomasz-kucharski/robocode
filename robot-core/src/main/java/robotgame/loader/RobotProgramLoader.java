@@ -40,11 +40,7 @@ public class RobotProgramLoader {
         this.reader = programFile;
     }
 
-    public ProgramList getProgram() {
-        return program;
-    }
-
-    public void loadProgram() throws IOException {
+    public ProgramList loadProgram() throws IOException {
         String lineOfFile = reader.readLine();
         while (lineOfFile != null) {
             parseLineOfFile(lineOfFile);
@@ -52,6 +48,7 @@ public class RobotProgramLoader {
             lineNumber++;
             lineOfFile = reader.readLine();
         }
+        return program;
     }
 
     private void parseLineOfFile(String lineOfFile) {

@@ -9,7 +9,7 @@ import robotgame.world.Direction;
 import robotgame.world.MapObject;
 import robotgame.world.Position;
 
-import java.io.*;
+import java.io.IOException;
 
 
 public class Robot extends IntelligentObject {
@@ -42,19 +42,15 @@ public class Robot extends IntelligentObject {
         return stateMove;
     }
 
-    public Robot(Position p,int columns, int rows, String name, Direction direction, int capacity, int scannerRange, File fileName) throws IOException {
-
+    public Robot(Position p,int columns, int rows, String name, Direction direction, int capacity, int scannerRange, ProgramList program) throws IOException {
         super(MapObject.ROBOT,p,false,true,true,name);
         memory = new RobotMemory(this,columns,rows,direction);
         battery = new RobotBattery(capacity);
         scanner = new RobotScanner(this,scannerRange);
-        processor = new RobotProcessor(this,new BufferedReader(new FileReader(fileName)));
-
-        log.debug("{} : PositionXY:{},{}.\n",new Object[]{name,getPosition().x, getPosition().y});
+        processor = new RobotProcessor(this,program);
     }
 
-    public Direction getDirection()
-    {
+    public Direction getDirection() {
         return memory.getDirection();
     }
 

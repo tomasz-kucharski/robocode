@@ -1,10 +1,6 @@
 package robotgame.object;
 
-import robotgame.object.WorldObject;
-
 import javax.media.opengl.GL;
-import java.io.File;
-import java.nio.IntBuffer;
 
 public abstract class ObjectGL {
 

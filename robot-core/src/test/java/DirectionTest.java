@@ -1,6 +1,7 @@
-import static org.fest.assertions.Assertions.*;
 import org.junit.Test;
 import robotgame.world.Direction;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * @author tomekk

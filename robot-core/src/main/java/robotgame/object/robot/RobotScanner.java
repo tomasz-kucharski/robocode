@@ -1,9 +1,9 @@
 package robotgame.object.robot;
 
+import robotgame.object.WorldObject;
 import robotgame.world.Direction;
 import robotgame.world.MapObject;
 import robotgame.world.Position;
-import robotgame.object.WorldObject;
 
 public class RobotScanner {
 

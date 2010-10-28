@@ -1,12 +1,8 @@
 package robotgame.object;
 
 import robotgame.loader.TextureLoader;
-import robotgame.object.WorldObject;
-import robotgame.object.WorldObjectRenderer;
-import robotgame.object.robot.Robot;
 
 import javax.media.opengl.GL;
-import java.io.File;
 
 public class TableGL implements WorldObjectRenderer {
 
