@@ -92,10 +92,11 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     public void loadWorld(File file) throws IOException {
         DeployWorld deployWorld = new DeployWorld(new BufferedReader(new FileReader(file)));
         worldService.onMapLoad(deployWorld.getWorldMap());
+        worldService.setMainRobot(deployWorld.getRobot());
     }
 
     public void init(GLAutoDrawable gLDrawable) {
-        gLDrawable.setGL(new TraceGL(gLDrawable.getGL(),System.out));
+//        gLDrawable.setGL(new TraceGL(gLDrawable.getGL(),System.out));
         worldService.setGraphicsContext(gLDrawable.getGL());
         worldService.onInit(frame.getWidth(),frame.getHeight());
     }

@@ -2,34 +2,39 @@ package robotgame.world;
 
 public enum MapObject {
 
+    UNKNOWN     (-1),
     FLOOR       (0),
-    FURNITURE   (5),
-    ROBOT       (2),
     RUBBISH     (1),
-    WALL        (3),
-    DEPOT       (4),
-    UNKNOWN     (-1);
+    FURNITURE   (2),
+    ROBOT       (2),
+    WALL        (2),
+    DEPOT       (2);
 
+    private int level;
 
-    private int intValue;
-
-
-    public int getIntValue() {
-        return intValue;
+    MapObject(int level) {
+        this.level = level;
     }
 
-    MapObject(int intValue) {
-
-        this.intValue = intValue;
+    public int getLevel() {
+        return level;
     }
 
     public static int getWorldObjectByName(String name) {
         MapObject verifier = MapObject.valueOf(name);
         if (verifier != null) {
-            return verifier.getIntValue();
+            return verifier.ordinal();
         } else {
-            return UNKNOWN.getIntValue();
+            return UNKNOWN.ordinal();
         }
+    }
+
+    public static int getMaxLevel() {
+        int level = 0;
+        for (MapObject object : MapObject.values()) {
+            level = Math.max(0,object.getLevel());
+        }
+        return level;
     }
 
 }

@@ -13,7 +13,7 @@ public class World {
 
             @Override
             public void performActionOnWorldObject(WorldObject object) {
-                object.setWorld(World.this);
+                    object.setWorld(World.this);
             }
         });
     }
@@ -62,8 +62,9 @@ public class World {
             return false;
         }
 
-        for (WorldObject object : map.getCell(p)) {
-            if(!object.conditionalMovement(worldObject,direction,maxPower,usedPower)) {
+        WorldObject[] stack = map.getCell(p).getStack();
+        for (WorldObject aStack : stack) {
+            if (aStack != null && !aStack.conditionalMovement(worldObject, direction, maxPower, usedPower)) {
                 return false;
             }
         }

@@ -1,6 +1,7 @@
 package robotgame;
 
 import robotgame.loader.TextureLoader;
+import robotgame.object.robot.Robot;
 import robotgame.world.*;
 
 public class WorldService {
@@ -16,6 +17,10 @@ public class WorldService {
 
     public void setGraphicsContext(Object graphicsContext) {
         worldRenderer.setGraphicsContext(graphicsContext);
+    }
+
+    public void setMainRobot(Robot robot) {
+        worldRenderer.setViewerRobot(robot);
     }
 
     public void setTextureLoader(TextureLoader textureLoader) {

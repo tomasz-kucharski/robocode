@@ -58,8 +58,10 @@ public class WorldMap {
         Position position = new Position(0, 0);
         for(position.x=0; position.x<getColumns(); position.x++) {
             for(position.y=0; position.y<getRows(); position.y++) {
-                for (WorldObject object : getCell(position)) {
-                    command.performActionOnWorldObject(object);
+                for (WorldObject object : getCell(position).getStack()) {
+                    if (object != null) {
+                        command.performActionOnWorldObject(object);
+                    }
                 }
             }
         }

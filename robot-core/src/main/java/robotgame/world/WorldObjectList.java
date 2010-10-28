@@ -5,30 +5,33 @@ import robotgame.world.MapObject;
 
 import java.util.*;
 
-public class WorldObjectList implements Iterable<WorldObject> {
+public class WorldObjectList {
 
-    private List<WorldObject> stack = new ArrayList<WorldObject>();
-    private Map<MapObject,WorldObject> objectTypes = new HashMap<MapObject,WorldObject>();
+    private WorldObject[] height = new WorldObject[MapObject.getMaxLevel()+1];
 
     public boolean isObjectByName(MapObject mapObject) {
-        return objectTypes.containsKey(mapObject);
+        WorldObject worldObject = height[mapObject.getLevel()];
+        return worldObject != null && worldObject.getClassName() == mapObject;
     }
 
     public WorldObject getObjectByName(MapObject mapObject) {
-        return objectTypes.get(mapObject);
+        return height[mapObject.getLevel()];
     }
 
     public void add(WorldObject object) {
-        stack.add(object);
-        objectTypes.put(object.getClassName(),object);
+        height[object.getClassName().getLevel()] = object;
     }
 
     public boolean remove(WorldObject object) {
-        objectTypes.remove(object.getClassName());
-        return stack.remove(object);
+        if (height[object.getClassName().getLevel()] != null) {
+            height[object.getClassName().getLevel()] = null;
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public Iterator<WorldObject> iterator() {
-        return stack.listIterator();
+    public WorldObject[] getStack() {
+        return height;
     }
 }
