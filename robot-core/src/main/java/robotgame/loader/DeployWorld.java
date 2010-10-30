@@ -16,7 +16,9 @@ import java.io.IOException;
 public class DeployWorld {
 
     private WorldMap worldMap;
-    BufferedReader map;
+    private BufferedReader map;
+
+    private String contextPath;
 
     private int columns;
     private int rows;
@@ -27,11 +29,10 @@ public class DeployWorld {
         this.map = map;
         loadMapSize();
         worldMap = new WorldMap(columns,rows);
-        loadWorld();
     }
 
-    public WorldMap getWorldMap() {
-        return worldMap;
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
     }
 
     private void loadMapSize() throws IOException {
@@ -45,9 +46,7 @@ public class DeployWorld {
         rows = Integer.parseInt(lineFragments[1]);
     }
 
-
-
-    private void loadWorld() throws IOException {
+    public  WorldMap loadWorld() throws IOException {
         Position p = new Position();
         String line = map.readLine();
         while (line != null) {
@@ -61,7 +60,7 @@ public class DeployWorld {
                 String direction = lineFragments[5];
                 String name = lineFragments[6];
                 String fileName = lineFragments[7];
-                File file = new File("d:\\home\\projects\\robot\\robot-desktop\\src\\main\\resources\\intelligence\\" + fileName);
+                File file = new File(contextPath+"/intelligence/" + fileName);
                 RobotProgramLoader loader = new RobotProgramLoader(new BufferedReader(new FileReader(file)));
                 loadObject(type,p,data,data2,direction,name, loader.loadProgram());
             } else {
@@ -69,6 +68,7 @@ public class DeployWorld {
             }
             line = map.readLine();
         }
+        return worldMap;
     }
 
 

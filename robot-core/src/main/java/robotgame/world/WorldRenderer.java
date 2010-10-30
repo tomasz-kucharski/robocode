@@ -1,5 +1,6 @@
 package robotgame.world;
 
+import robotgame.loader.TextureLoader;
 import robotgame.object.WorldObject;
 import robotgame.object.WorldObjectRenderer;
 import robotgame.object.robot.Robot;
@@ -16,6 +17,7 @@ public abstract class WorldRenderer {
     protected WorldMap worldMap;
     protected WorldConfiguration worldConfiguration;
     private Robot viewerRobot;
+    protected TextureLoader textureLoader;
     private Map<MapObject, WorldObjectRenderer> objectRendererMap = new HashMap<MapObject, WorldObjectRenderer>();
 
     public void setObjectRendererMap(Map<MapObject, WorldObjectRenderer> objectRendererMap) {
@@ -72,9 +74,13 @@ public abstract class WorldRenderer {
     public void onInit() {
         for(WorldObjectRenderer renderer : objectRendererMap.values()) {
             renderer.setGraphicsContext(getGraphicsContext());
+            renderer.setTextureLoader(textureLoader);
             renderer.init();
         }
         init();
+        textureLoader.setGraphicsContext(getGraphicsContext());
+        textureLoader.init();
+
     }
 
     public abstract void init();
@@ -91,4 +97,7 @@ public abstract class WorldRenderer {
 
     public abstract void endScene();
 
+    public void setTextureLoader(TextureLoader textureLoader) {
+        this.textureLoader = textureLoader;
+    }
 }

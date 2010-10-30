@@ -15,6 +15,7 @@ public class WorldGL extends WorldRenderer {
     private float posX;
     private float posY;
     private int worldTableGLList = 100;
+    private static final String TABLE = "table";
 
     public void resize() {
         int screenWidth = worldConfiguration.getScreenWidth();
@@ -247,6 +248,8 @@ public class WorldGL extends WorldRenderer {
     }
 
     private void initializeWorldTable() {
+        textureLoader.initTexture(TABLE);
+
         float x = 0.5f*(float)worldMap.getColumns()+0.5f;
         float y = 0.5f*(float)worldMap.getRows()+0.5f;
 
@@ -266,7 +269,7 @@ public class WorldGL extends WorldRenderer {
 
     private void drawWorldTable() {
         gl.glTranslatef(0.0f,0.0f,-0.3f);
-        gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.TABLE]);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, textureLoader.getTexture(TABLE));
         gl.glCallList(worldTableGLList);
         gl.glTranslatef(0.0f,0.0f,0.3f);
     }

@@ -18,6 +18,13 @@ public class RobotGL implements WorldObjectRenderer {
     int rece2;
     int czulki;
     int robotsprzata;
+    private TextureLoader textureLoader;
+    private static final String ROBOT = "robot";
+
+    @Override
+    public void setTextureLoader(TextureLoader textureLoader) {
+        this.textureLoader = textureLoader;
+    }
 
     @Override
     public void setGraphicsContext(Object context) {
@@ -26,6 +33,7 @@ public class RobotGL implements WorldObjectRenderer {
 
     @Override
     public void init() {
+        textureLoader.initTexture(ROBOT);
         gl.glPushMatrix();
         gl.glNewList(list,GL.GL_COMPILE);
         CubeGL.createCube(gl,0.9f,true);
@@ -53,7 +61,7 @@ public class RobotGL implements WorldObjectRenderer {
 //        }
         gl.glRotatef(mx,0.0f,0.0f,1.0f);
 
-        gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.ROBOT]);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, textureLoader.getTexture(ROBOT));
         gl.glTranslatef(0f,0f,0.5f);
         gl.glCallList(list);
 

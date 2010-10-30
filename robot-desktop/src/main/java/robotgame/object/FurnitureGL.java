@@ -13,6 +13,13 @@ public class FurnitureGL implements WorldObjectRenderer {
     private int list3 = 43;
 
     private GL gl;
+    private TextureLoader textureLoader;
+    private static final String FURNITURE = "furniture";
+
+    @Override
+    public void setTextureLoader(TextureLoader textureLoader) {
+        this.textureLoader = textureLoader;
+    }
 
     @Override
     public void setGraphicsContext(Object context) {
@@ -21,6 +28,7 @@ public class FurnitureGL implements WorldObjectRenderer {
 
     @Override
     public void init() {
+        textureLoader.initTexture(FURNITURE);
         gl.glPushMatrix();
         gl.glNewList(list4,GL.GL_COMPILE);
         CubeGL.createCube(gl,0.8f,true);
@@ -49,7 +57,7 @@ public class FurnitureGL implements WorldObjectRenderer {
         float mx = furniture.getDirection().getRotation();
         gl.glRotatef(mx,0.0f,0.0f,1.0f);
 
-        gl.glBindTexture(GL.GL_TEXTURE_2D, TextureLoader.array[TextureLoader.FURNITURE]);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, textureLoader.getTexture(FURNITURE));
 
 //        switch (furniture.getType()) {
 //        case 0: gl.glCallList(list4);

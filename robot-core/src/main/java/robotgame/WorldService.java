@@ -12,7 +12,6 @@ public class WorldService {
     private World world = new World();
     private WorldRenderer worldRenderer;
     private WorldConfiguration configuration = new WorldConfiguration();
-    private TextureLoader textureLoader;
 
     public void setWorldRenderer(WorldRenderer worldRenderer) {
         this.worldRenderer = worldRenderer;
@@ -27,7 +26,7 @@ public class WorldService {
     }
 
     public void setTextureLoader(TextureLoader textureLoader) {
-        this.textureLoader = textureLoader;
+        worldRenderer.setTextureLoader(textureLoader);
     }
 
     public WorldConfiguration getConfiguration() {
@@ -44,9 +43,6 @@ public class WorldService {
     public void onInit(int width, int height) {
         configuration.setScreenWidth(width);
         configuration.setScreenHeight(height);
-
-        textureLoader.setGraphicsContext(worldRenderer.getGraphicsContext());
-        textureLoader.loadTextures();
 
         worldRenderer.setWorldConfiguration(configuration);
         worldRenderer.onInit();

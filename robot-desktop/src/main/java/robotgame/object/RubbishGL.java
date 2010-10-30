@@ -1,5 +1,7 @@
 package robotgame.object;
 
+import robotgame.loader.TextureLoader;
+
 import javax.media.opengl.GL;
 import java.nio.FloatBuffer;
 
@@ -7,10 +9,16 @@ public class RubbishGL implements WorldObjectRenderer {
 
     private GL gl;
     private int list = 20;
+    private TextureLoader textureLoader;
 
     @Override
     public void setGraphicsContext(Object context) {
         gl = (GL) context;
+    }
+
+    @Override
+    public void setTextureLoader(TextureLoader textureLoader) {
+        this.textureLoader = textureLoader;
     }
 
     @Override

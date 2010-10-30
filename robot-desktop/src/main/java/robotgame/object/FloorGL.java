@@ -15,6 +15,14 @@ public class FloorGL  implements WorldObjectRenderer {
     private int list = 50;
 
     private GL gl;
+    private static final String GRASS = "grass";
+    private TextureLoader textureLoader;
+
+    @Override
+    public void setTextureLoader(TextureLoader textureLoader) {
+        this.textureLoader = this.textureLoader;
+        this.textureLoader = textureLoader;
+    }
 
     @Override
     public void setGraphicsContext(Object context) {
@@ -23,6 +31,8 @@ public class FloorGL  implements WorldObjectRenderer {
 
     @Override
     public void init() {
+        textureLoader.initTexture(GRASS);
+
         gl.glNewList(list,GL.GL_COMPILE);
 
         gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, dechaAmb);
@@ -43,7 +53,7 @@ public class FloorGL  implements WorldObjectRenderer {
 
     @Override
     public void draw(WorldObject object) {
-        gl.glBindTexture(GL.GL_TEXTURE_2D,TextureLoader.array[TextureLoader.GRASS]);
+        gl.glBindTexture(GL.GL_TEXTURE_2D,textureLoader.getTexture(GRASS));
         gl.glCallList(list);
     }
 }

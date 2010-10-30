@@ -11,12 +11,6 @@
     <name>robot-core</name>
     <dependencies>
 
-        <!--OPENGL-->
-        <dependency>
-          <groupId>net.java.dev.jogl</groupId>
-          <artifactId>jogl</artifactId>
-        </dependency>
-
         <!--COMMONS-->
         <dependency>
             <groupId>commons-lang</groupId>

@@ -2,6 +2,7 @@ package robotgame;
 
 import com.sun.opengl.util.Animator;
 import robotgame.loader.DeployWorld;
+import robotgame.loader.FileTextureLoader;
 import robotgame.loader.TextureLoader;
 import robotgame.object.*;
 import robotgame.world.MapObject;
@@ -30,8 +31,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     private JFrame frame = new JFrame("Robot Application");
 
 
-    public SwingMain() {
-        worldService.setTextureLoader(new TextureLoader());
+    public SwingMain(String contextPath) {
 
         HashMap<MapObject, WorldObjectRenderer> rendererHashMap = new HashMap<MapObject, WorldObjectRenderer>();
         rendererHashMap.put(MapObject.DEPOT,new DepotGL());
@@ -44,6 +44,11 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
         WorldRenderer worldRenderer = new WorldGL();
         worldRenderer.setObjectRendererMap(rendererHashMap);
         worldService.setWorldRenderer(worldRenderer);
+
+
+        FileTextureLoader fileTextureLoader = new FileTextureLoader();
+        fileTextureLoader.setContextPath(contextPath);
+        worldService.setTextureLoader(fileTextureLoader);
     }
 
     private void init() {
@@ -92,9 +97,10 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
         canvas.requestFocus();
     }
 
-    public void loadWorld(File file) throws IOException {
+    public void loadWorld(String contextPath, File file) throws IOException {
         DeployWorld deployWorld = new DeployWorld(new BufferedReader(new FileReader(file)));
-        worldService.onMapLoad(deployWorld.getWorldMap());
+        deployWorld.setContextPath(contextPath);
+        worldService.onMapLoad(deployWorld.loadWorld());
         worldService.setMainRobot(deployWorld.getRobot());
     }
 
@@ -120,8 +126,8 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     }
 
     public static void main(String[] args) throws IOException {
-        SwingMain swingMain = new SwingMain();
-        swingMain.loadWorld(new File("d:\\home\\projects\\robot\\robot-desktop\\src\\main\\resources\\maps\\smallMap.txt"));
+        SwingMain swingMain = new SwingMain(args[0]);
+        swingMain.loadWorld(args[0], new File(args[0]+"\\maps\\smallMap.txt"));
         swingMain.init();
     }
 
