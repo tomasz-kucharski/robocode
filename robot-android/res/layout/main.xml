@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/active_filters_group"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:background="@color/darkblue"
+        android:orientation="horizontal"
+        android:gravity="bottom">
+    <!--android:visibility="gone"-->
+
+    <TextView
+            android:text="@string/title"
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:textColor="@color/lightblue"
+            android:paddingLeft="3dip"
+            android:gravity="center_vertical"/>
+
+    <TextView
+            android:text=":"
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:textColor="@color/lightblue"
+            android:paddingRight="3dip"
+            android:gravity="center_vertical"/>
+
+    <TextView
+            android:id="@+id/device_list"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:textColor="@color/lightblue"
+            android:gravity="center_vertical"/>
+
+    <Button
+            android:id="@+id/button_device"
+            android:text="@android:string/ok"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:ellipsize="none"/>
+
+</LinearLayout>

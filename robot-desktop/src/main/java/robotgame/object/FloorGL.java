@@ -20,7 +20,6 @@ public class FloorGL  implements WorldObjectRenderer {
 
     @Override
     public void setTextureLoader(TextureLoader textureLoader) {
-        this.textureLoader = this.textureLoader;
         this.textureLoader = textureLoader;
     }
 

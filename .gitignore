@@ -2,6 +2,7 @@
 *.iws
 *.iml
 .idea
+robot-android/gen
 robot-core/target
 robot-core/*.iml
 robot-desktop/target
