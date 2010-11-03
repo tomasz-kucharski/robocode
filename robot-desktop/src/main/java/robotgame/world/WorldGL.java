@@ -21,60 +21,15 @@ public class WorldGL extends WorldRenderer {
         int screenWidth = worldConfiguration.getScreenWidth();
         int screenHeight = worldConfiguration.getScreenHeight();
 
-
         gl.glViewport(0, 0, screenWidth, screenHeight);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
 
-        glu.gluPerspective(45, (float) screenWidth / screenHeight, 1, 1000);
+        glu.gluPerspective(45, (float) screenWidth / screenHeight, 0.1f, 100f);
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
-
-//        gl.glViewport(0,0, screenWidth, screenHeight);
-//        gl.glMatrixMode(GL.GL_PROJECTION);
-//        gl.glLoadIdentity();
-//        glu.gluPerspective(45.0f,(float)width/(float)height,0.1f,100.0f);
-//        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
-//        gl.glMatrixMode(GL.GL_MODELVIEW);
-//        gl.glLoadIdentity();
-//        gl.glEnable(GL.GL_NORMALIZE);
-
     }
 
-//    public void InitGL()
-//    {
-//        gl.glClearColor(0.0f,0.0f,0.0f,0.0f);
-//        gl.glClearDepth(1.0f);
-////	glDepthFunc(GL_LESS);
-//        gl.glEnable(GL.GL_DEPTH_TEST);
-//        gl.glShadeModel(GL.GL_SMOOTH);
-//        gl.glCullFace(GL.GL_FRONT);
-////	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
-////	glMatrixMode(GL_PROJECTION);
-////		glLoadIdentity();
-////		gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
-////	glMatrixMode(GL_MODELVIEW);
-//
-//        gl.glEnable(GL.GL_DEPTH_TEST);
-//        gl.glEnable(GL.GL_TEXTURE_2D);
-//        gl.glEnable(GL.GL_LIGHTING);			// wlaczenie swiatla w ogole
-//	      // wlaczenie materialu w proces tworzenia koloru
-////ZALADOWANIE TEKSTUR
-//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_AMBIENT,lightGL.LightAmbient);
-//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_DIFFUSE,lightGL.LightDiffuse);
-//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_POSITION,lightGL.LightPosition);
-//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_SPECULAR, lightGL.LightSpecular);
-//        gl.glEnable(GL.GL_LIGHT0);			// wlaczenie oswietlenia LIGHT0
-//
-//        floorGL.init(gl);
-//        wallGL.init(gl);
-//        furnitureGL.init(gl);
-//        tableGL.init(gl);
-//        depotGL.init(gl);
-//        rubbishGL.init(gl);
-//        robotGL.init(gl);
-//
-//    }
 
     @Override
     public Object getGraphicsContext() {
@@ -87,67 +42,37 @@ public class WorldGL extends WorldRenderer {
         glu = new GLU();
     }
 
+    private void setUpLighting() {
+        float[] lightAmbient = {0.5f, 0.5f, 0.5f, 1.0f};
+        float[] lightDiffuse = {1.0f, 1.0f, 1.0f, 1.0f};
+        float[] lightPosition = {0.0f, 0.0f, 2.0f, 1.0f};
+
+        gl.glEnable(GL.GL_LIGHTING);
+        gl.glEnable(GL.GL_LIGHT0);
+        gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, lightAmbient, 0);
+        gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, lightDiffuse, 0);
+        gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, lightPosition, 0);
+    }
+
     public void init() {
+        setUpLighting();
+        resize();
 
         posX = -0.5f*(worldMap.getColumns()-1);
         posY = -0.5f*(worldMap.getRows()-1);
 
-        resize();
         gl.glEnable(GL.GL_TEXTURE_2D);                              // Enable Texture Mapping
         gl.glShadeModel(GL.GL_SMOOTH);                              // Enable Smooth Shading
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);                    // Black Background
         gl.glClearDepth(1.0f);                                      // Depth Buffer Setup
         gl.glEnable(GL.GL_DEPTH_TEST);                              // Enables Depth Testing
         gl.glDepthFunc(GL.GL_LEQUAL);                               // The Type Of Depth Testing To Do
-        gl.glEnable(GL.GL_LIGHT0);                                  // Quick And Dirty Lighting (Assumes Light0 Is Set Up)
-        gl.glEnable(GL.GL_LIGHTING);                                // Enable Lighting
-        gl.glEnable(GL.GL_COLOR_MATERIAL);                          // Enable Material Coloring
+
         gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);  // Really Nice Perspective Calculations
         gl.glLoadIdentity();
 
-//        gl.glColor4f(1.0f,1.0f,1.0f,0.5f);			// Full Brightness, 50% Alpha ( NEW )
-//        gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE);		// Blending Function For Translucency Based On Source Alpha Value ( NEW )
-//        gl.glEnable(GL.GL_BLEND);
-
-//        gl.glLightfv(GL.GL_LIGHT1, GL.GL_AMBIENT, LightGL.LightAmbient);
-//        gl.glLightfv(GL.GL_LIGHT1, GL.GL_DIFFUSE, LightGL.LightDiffuse);
-//        gl.glLightfv(GL.GL_LIGHT1, GL.GL_POSITION,LightGL.LightPosition);
-//        gl.glLightfv(GL.GL_LIGHT1, GL.GL_SHININESS,LightGL.LightShininess);
-//        gl.glEnable(GL.GL_LIGHT1);
-//        gl.glEnable(GL.GL_LIGHT0);
-//        gl.glEnable(GL.GL_LIGHTING);								// Enable Lighting
-//        gl.glEnable(GL.GL_COLOR_MATERIAL);							// Enable Material Coloring
-
         gl.glTranslatef(0.0f,0.0f,0.3f);
         initializeWorldTable();
-
-
-
-//        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);			// Really Nice Perspective Calculations
-
-
-//	glDepthFunc(GL_LESS);
-//        gl.glEnable(GL.GL_DEPTH_TEST);
-//        gl.glShadeModel(GL.GL_SMOOTH);
-//        gl.glCullFace(GL.GL_FRONT);
-////	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
-////	glMatrixMode(GL_PROJECTION);
-////		glLoadIdentity();
-////		gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
-//	gl.glMatrixMode(GL.GL_MODELVIEW);
-//
-//        gl.glEnable(GL.GL_DEPTH_TEST);
-//        gl.glEnable(GL.GL_TEXTURE_2D);
-//        gl.glEnable(GL.GL_LIGHTING);			// wlaczenie swiatla w ogole
-//	      // wlaczenie materialu w proces tworzenia koloru
-////ZALADOWANIE TEKSTUR
-//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_AMBIENT,lightGL.LightAmbient);
-//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_DIFFUSE,lightGL.LightDiffuse);
-//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_POSITION,lightGL.LightPosition);
-//        gl.glLightfv(GL.GL_LIGHT0,GL.GL_SPECULAR, lightGL.LightSpecular);
-//        gl.glEnable(GL.GL_LIGHT0);			// wlaczenie oswietlenia LIGHT0
-
-
     }
 
 
@@ -155,7 +80,6 @@ public class WorldGL extends WorldRenderer {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
-        CubeGL.createTriangle(gl);
         initRenderLocation();
         drawWorldTable();
         gl.glColor3f(0f,1f,1f);
@@ -255,7 +179,8 @@ public class WorldGL extends WorldRenderer {
 
         gl.glNewList(worldTableGLList,GL.GL_COMPILE);
 
-        gl.glColor3f(1.0f,.7f,1.0f);
+
+        gl.glColor4f(1.0f,.7f,1.0f,1f);
         gl.glBegin(GL.GL_QUADS);
         gl.glNormal3f(0.0f,0.0f,1.0f);
         gl.glTexCoord2f(1.0f,1.0f);gl.glVertex3f(x,y,0.0f);

@@ -61,7 +61,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
         GLCanvas canvas = new GLCanvas(caps);
         canvas.addGLEventListener(this);
         canvas.addKeyListener(this);
-        frame.add(canvas, BorderLayout.CENTER);
+        frame.add(canvas);
 
         canvas.addMouseWheelListener(this);
         canvas.addMouseMotionListener(this);
@@ -88,7 +88,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
             }
         });
 
-        frame.setSize(640, 480);
+        frame.setSize(1024, 768);
         frame.setVisible(true);
         frame.add(popupMenu);
 
@@ -118,6 +118,7 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     public void reshape(GLAutoDrawable gLDrawable, int x, int y, int width, int height) {
         worldService.setGraphicsContext(gLDrawable.getGL());
         worldService.onResize(width,height);
+        System.out.println("onResize:"+width+", "+height);
     }
 
     @Override

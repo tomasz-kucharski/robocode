@@ -20,6 +20,7 @@ public class RobotGL implements WorldObjectRenderer {
     int robotsprzata;
     private TextureLoader textureLoader;
     private static final String ROBOT = "robot";
+    private CubeGL cube;
 
     @Override
     public void setTextureLoader(TextureLoader textureLoader) {
@@ -35,9 +36,9 @@ public class RobotGL implements WorldObjectRenderer {
     public void init() {
         textureLoader.initTexture(ROBOT);
         gl.glPushMatrix();
-        gl.glNewList(list,GL.GL_COMPILE);
-        CubeGL.createCube(gl,0.9f,true);
-        gl.glEndList();
+//        gl.glNewList(list,GL.GL_COMPILE);
+        cube = new CubeGL(0.9f);
+//        gl.glEndList();
         gl.glPopMatrix();
     }
 
@@ -60,10 +61,11 @@ public class RobotGL implements WorldObjectRenderer {
 //                gl.glTranslatef(0.0f,move,0.0f);
 //        }
         gl.glRotatef(mx,0.0f,0.0f,1.0f);
+        gl.glTranslatef(0f,0f,0.45f);
 
-        gl.glBindTexture(GL.GL_TEXTURE_2D, textureLoader.getTexture(ROBOT));
-        gl.glTranslatef(0f,0f,0.5f);
-        gl.glCallList(list);
+//        gl.glBindTexture(GL.GL_TEXTURE_2D, textureLoader.getTexture(ROBOT));
+        cube.draw(gl,textureLoader.getTexture(ROBOT));
+//        gl.glCallList(list);
 
         gl.glPopMatrix();
     }

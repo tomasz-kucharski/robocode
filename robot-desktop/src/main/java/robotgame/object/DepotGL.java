@@ -10,6 +10,7 @@ public class DepotGL implements WorldObjectRenderer {
     private int list = 60;
     private TextureLoader textureLoader;
     private static final String START = "start";
+    private CubeGL cube;
 
     @Override
     public void setTextureLoader(TextureLoader textureLoader) {
@@ -25,18 +26,19 @@ public class DepotGL implements WorldObjectRenderer {
     public void init() {
         textureLoader.initTexture(START);
         gl.glPushMatrix();
-        gl.glNewList(list,GL.GL_COMPILE);
-        CubeGL.createCube(gl,0.8f,true);
-        gl.glEndList();
+//        gl.glNewList(list,GL.GL_COMPILE);
+        cube = new CubeGL(0.8f);
+//        gl.glEndList();
         gl.glPopMatrix();
     }
 
     @Override
     public void draw(WorldObject object) {
         gl.glPushMatrix();
-        gl.glBindTexture(GL.GL_TEXTURE_2D, textureLoader.getTexture(START));
+//        gl.glBindTexture(GL.GL_TEXTURE_2D, textureLoader.getTexture(START));
         gl.glTranslatef(0f,0f,0.5f);
-        gl.glCallList(list);
+//        gl.glCallList(list);
+        cube.draw(gl,textureLoader.getTexture(START));
         gl.glPopMatrix();
 
     }
