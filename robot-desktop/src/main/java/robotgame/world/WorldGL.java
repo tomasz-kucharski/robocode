@@ -14,8 +14,8 @@ public class WorldGL extends WorldRenderer {
 
     private float posX;
     private float posY;
-    private int worldTableGLList = 100;
-    private static final String TABLE = "table";
+//    private int worldTableGLList = 100;
+//    private static final String TABLE = "table";
 
     public void resize() {
         int screenWidth = worldConfiguration.getScreenWidth();
@@ -43,9 +43,9 @@ public class WorldGL extends WorldRenderer {
     }
 
     private void setUpLighting() {
-        float[] lightAmbient = {0.5f, 0.5f, 0.5f, 1.0f};
+        float[] lightAmbient = {0.1f, 0.1f, 0.1f, 1f};
         float[] lightDiffuse = {1.0f, 1.0f, 1.0f, 1.0f};
-        float[] lightPosition = {0.0f, 0.0f, 2.0f, 1.0f};
+        float[] lightPosition = {1.0f, 1.0f, 10.0f,0f};
 
         gl.glEnable(GL.GL_LIGHTING);
         gl.glEnable(GL.GL_LIGHT0);
@@ -60,6 +60,7 @@ public class WorldGL extends WorldRenderer {
 
         posX = -0.5f*(worldMap.getColumns()-1);
         posY = -0.5f*(worldMap.getRows()-1);
+        worldConfiguration.changeMoveZ(-Math.max(worldMap.getColumns(),worldMap.getRows())-3);
 
         gl.glEnable(GL.GL_TEXTURE_2D);                              // Enable Texture Mapping
         gl.glShadeModel(GL.GL_SMOOTH);                              // Enable Smooth Shading
@@ -71,17 +72,16 @@ public class WorldGL extends WorldRenderer {
         gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);  // Really Nice Perspective Calculations
         gl.glLoadIdentity();
 
-        gl.glTranslatef(0.0f,0.0f,0.3f);
-        initializeWorldTable();
     }
 
 
     public void beginScene() {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
-
+        setUpLighting();
+        
         initRenderLocation();
-        drawWorldTable();
+//        drawWorldTable();
         gl.glColor3f(0f,1f,1f);
 
         checkAntialiasing();
@@ -94,34 +94,34 @@ public class WorldGL extends WorldRenderer {
         gl.glLoadIdentity();
 
 
-        gl.glRotatef(-90.0f,0.0f,1.0f,0.0f);
+        gl.glRotatef(90.0f,0.0f,1.0f,0.0f);
         gl.glRotatef(-90.0f,1.0f,0.0f,0.0f);
-        gl.glRotatef(35.0f,0.0f,1.0f,0.0f);
+        gl.glRotatef(-35.0f,0.0f,1.0f,0.0f);
         gl.glRotatef(robot.getDirection().getRotation(),0.0f,0.0f,1.0f); //direction
         float X = -posX - (float)robot.getPosition().x;
         float Y = -posY - (float)robot.getPosition().y;
-        gl.glTranslatef(X+1 ,Y ,-3.0f);
+        gl.glTranslatef(X+2f ,Y ,-3.0f);
 
         gl.glRotatef(worldConfiguration.getRotateX(),0.0f,1.0f,0.0f);
         gl.glRotatef(worldConfiguration.getRotateY(),1.0f,0.0f,0.0f);
         gl.glRotatef(worldConfiguration.getRotateZ(),0.0f,0.0f,1.0f);
 
-        gl.glTranslatef(worldConfiguration.getMoveX(),worldConfiguration.getMoveY(),worldConfiguration.getMoveZ());
+//        gl.glTranslatef(worldConfiguration.getMoveX(),worldConfiguration.getMoveY(),worldConfiguration.getMoveZ());
 
 
 
-        drawWorldTable();
+//        drawWorldTable();
         //---  USTAW WYSOKOSC PONAD STOLEM
-        gl.glTranslatef(0.0f,0.0f,0.3f);
-        gl.glColor3f(1f,1f,1f);
-
+//        gl.glTranslatef(0.0f,0.0f,0.3f);
+//        gl.glColor3f(1f,1f,1f);
+//
         checkAntialiasing();
         checkWireframe();
     }
 
 
     private void initRenderLocation() {
-        gl.glTranslatef(0.0f,0.0f,-8.0f);
+//        gl.glTranslatef(0.0f,0.0f,-8.0f);
         gl.glTranslatef(0.0f,0.0f,worldConfiguration.getMoveZ());
         float transX = worldConfiguration.getRotateX() / worldConfiguration.getScreenWidth()* 100;
         float transY = worldConfiguration.getRotateY() / worldConfiguration.getScreenHeight()* 100;
@@ -152,50 +152,24 @@ public class WorldGL extends WorldRenderer {
             gl.glEnable(GL.GL_BLEND);
             gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
             gl.glHint(GL.GL_LINE_SMOOTH_HINT,GL.GL_NICEST);
-            gl.glLineWidth(5.0f);
+            gl.glLineWidth(2.0f);
         }
         else {
             gl.glDisable(GL.GL_LINE_SMOOTH);
             gl.glDisable(GL.GL_BLEND);
             gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
             gl.glHint(GL.GL_LINE_SMOOTH_HINT,GL.GL_NICEST);
-            gl.glLineWidth(5f);
+            gl.glLineWidth(2f);
         }
     }
 
     public void checkWireframe() {
         if(worldConfiguration.isWireframe()) {
-            gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
+//            GL.GL_LINE = 6913
+            gl.glPolygonMode(GL.GL_FRONT_AND_BACK, 6913);
         } else {
-            gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_FILL);
+//            GL.GL_FILL = 6914
+            gl.glPolygonMode(GL.GL_FRONT_AND_BACK, 6914);
         }
-    }
-
-    private void initializeWorldTable() {
-        textureLoader.initTexture(TABLE);
-
-        float x = 0.5f*(float)worldMap.getColumns()+0.5f;
-        float y = 0.5f*(float)worldMap.getRows()+0.5f;
-
-        gl.glNewList(worldTableGLList,GL.GL_COMPILE);
-
-
-        gl.glColor4f(1.0f,.7f,1.0f,1f);
-        gl.glBegin(GL.GL_QUADS);
-        gl.glNormal3f(0.0f,0.0f,1.0f);
-        gl.glTexCoord2f(1.0f,1.0f);gl.glVertex3f(x,y,0.0f);
-        gl.glTexCoord2f(0.0f,1.0f);gl.glVertex3f(-x,y,0.0f);
-        gl.glTexCoord2f(0.0f,0.0f);gl.glVertex3f(-x,-y,0.0f);
-        gl.glTexCoord2f(1.0f,0.0f);gl.glVertex3f(x,-y,0.0f);
-        gl.glEnd();
-
-        gl.glEndList();
-    }
-
-    private void drawWorldTable() {
-        gl.glTranslatef(0.0f,0.0f,-0.3f);
-        gl.glBindTexture(GL.GL_TEXTURE_2D, textureLoader.getTexture(TABLE));
-        gl.glCallList(worldTableGLList);
-        gl.glTranslatef(0.0f,0.0f,0.3f);
     }
 }

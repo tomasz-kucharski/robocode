@@ -156,6 +156,7 @@ public class CubeGL {
                 20,21,23, 20,23,22,
         };
         indexBuffer = ByteBuffer.allocateDirect(indices.length);
+        indexBuffer.order(ByteOrder.nativeOrder());
         indexBuffer.put(indices);
         indexBuffer.position(0);
 
