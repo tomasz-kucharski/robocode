@@ -1,6 +1,14 @@
 <resources>
     <string name="applicationName">RobotGame</string>
     <string name="title">RobotGame</string>
+    <string name="menu_icon_preferences_title">Preferences</string>
     <string name="menu_icon_light_title">Light</string>
     <string name="menu_icon_evolve_title">Evolve</string>
+    <string name="preferences_title">Preferences</string>
+    <string name="preferences_mapLocation_title">Maps location</string>
+    <string name="preferences_mapLocation_summary">Select folder containing maps</string>
+    <string name="preferences_programsLocation_title">Programs location</string>
+    <string name="preferences_programsLocation_summary">Select folder containing robot programs</string>
+    <string name="preferences_map_title">Map</string>
+    <string name="preferences_map_summary">Select world map</string>
 </resources>

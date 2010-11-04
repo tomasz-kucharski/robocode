@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:key="activation_preferences"
+		android:title="@string/preferences_title">
+
+	<EditTextPreference
+			android:key="mapLocation"
+			android:title="@string/preferences_mapLocation_title"
+            android:defaultValue="/sdcard/robotgame/maps"
+			android:summary="@string/preferences_mapLocation_summary"/>
+    <EditTextPreference
+            android:key="programsLocation"
+            android:title="@string/preferences_programsLocation_title"
+            android:defaultValue="/sdcard/robotgame/programs"
+            android:summary="@string/preferences_programsLocation_summary"/>
+
+    <EditTextPreference
+            android:key="map"
+            android:title="@string/preferences_map_title"
+            android:defaultValue="sampleMap.txt"
+            android:summary="@string/preferences_map_summary"/>
+</PreferenceScreen>

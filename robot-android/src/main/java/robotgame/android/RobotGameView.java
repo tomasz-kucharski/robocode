@@ -1,7 +1,9 @@
 package robotgame.android;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.opengl.GLSurfaceView;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import robotgame.WorldService;
@@ -33,10 +35,14 @@ public class RobotGameView extends GLSurfaceView {
         AndroidTextureLoader androidTextureLoader = new AndroidTextureLoader();
         androidTextureLoader.setResources(context.getResources());
         worldService.setTextureLoader(androidTextureLoader);
-
         try {
-            DeployWorld deployWorld = new DeployWorld(new BufferedReader(new FileReader("/sdcard/robotgame/maps/smallMap.txt")));
-            deployWorld.setContextPath("/sdcard/robotgame");
+            SharedPreferences myPreference = PreferenceManager.getDefaultSharedPreferences(context);
+            String mapsLocation = myPreference.getString("mapsLocation",null);
+            String programsLocation = myPreference.getString("programsLocation",null);
+            String map = myPreference.getString("map",null);
+
+            DeployWorld deployWorld = new DeployWorld(new BufferedReader(new FileReader(mapsLocation+"/"+map)));
+            deployWorld.setContextPath(programsLocation);
             worldService.onMapLoad(deployWorld.loadWorld());
             worldService.setMainRobot(deployWorld.getRobot());
         } catch (IOException e) {

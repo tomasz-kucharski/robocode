@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menuPreferences"
+          android:title="@string/menu_icon_preferences_title"
+          android:icon="@android:drawable/ic_menu_preferences"
+    />
     <item android:id="@+id/light"
           android:icon="@drawable/menu_icon_light"
           android:title="@string/menu_icon_light_title" />

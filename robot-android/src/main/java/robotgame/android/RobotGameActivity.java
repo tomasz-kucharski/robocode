@@ -1,6 +1,7 @@
 package robotgame.android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -40,15 +41,20 @@ public class RobotGameActivity extends Activity {
         return true;
     }
 
-    	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		if (item.getItemId() == R.id.evolve) {
-			view.getConfiguration().setEvolve(!view.getConfiguration().isEvolve());
-			return true;
-		} else if (item.getItemId() == R.id.light) {
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.evolve :
+                view.getConfiguration().setEvolve(!view.getConfiguration().isEvolve());
+                break;
+            case R.id.light :
                 view.getConfiguration().changeLightEnabled();
-                return true;
-            }
-		return super.onOptionsItemSelected(item);
-	}
+                break;
+            case R.id.menuPreferences :
+                startActivity(new Intent(this,Preferences.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
