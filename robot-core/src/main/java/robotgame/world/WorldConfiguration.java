@@ -24,6 +24,7 @@ public class WorldConfiguration {
     private float rotateX;
     private float rotateY;
     private float rotateZ;
+    private boolean light = true;
 
     public boolean isRobotView() {
         return robotView;
@@ -119,5 +120,17 @@ public class WorldConfiguration {
 
     public float getRotateZ() {
         return rotateZ;
+    }
+
+    public void changeLightEnabled() {
+        this.light = !this.light;
+    }
+
+    public boolean isLight() {
+        return light;
+    }
+
+    public void setLight(boolean selected) {
+        this.light = selected;
     }
 }

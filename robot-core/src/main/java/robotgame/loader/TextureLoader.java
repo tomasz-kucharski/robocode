@@ -11,10 +11,10 @@ import java.util.Map;
  */
 public abstract class TextureLoader {
 
-    protected List<Object> textures = new ArrayList<Object>();
+    protected List<String> textures = new ArrayList<String>();
     protected int[] array;
 
-    public void initTexture(Object textureKey) {
+    public void initTexture(String textureKey) {
         if (!textures.contains(textureKey)) {
             textures.add(textureKey);
         }
@@ -25,7 +25,7 @@ public abstract class TextureLoader {
         loadTextures();
     }
 
-    public int getTexture(Object textureKey) {
+    public int getTexture(String textureKey) {
         return array[textures.indexOf(textureKey)];
     }
 

@@ -7,7 +7,9 @@ import robotgame.object.WorldObjectRenderer;
  * @since 2010-11-04, 00:36:13
  */
 public class RubbishGL extends DefaultWorldObjectGL {
+    public static final String RUBBISH = "Rubbish";
+
     public RubbishGL() {
-        super("Rubbish", 0.5f);
+        super(RUBBISH, 0.5f);
     }
 }

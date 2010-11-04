@@ -7,7 +7,9 @@ import robotgame.object.WorldObjectRenderer;
  * @since 2010-11-04, 00:37:21
  */
 public class FurnitureGL extends DefaultWorldObjectGL {
+    public static final String FURNITURE = "Furniture";
+
     public FurnitureGL() {
-        super("Furniture", 0.8f);
+        super(FURNITURE, 0.8f);
     }
 }

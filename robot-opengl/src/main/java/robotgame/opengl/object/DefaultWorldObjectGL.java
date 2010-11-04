@@ -12,10 +12,10 @@ public class DefaultWorldObjectGL implements WorldObjectRenderer {
     protected TextureLoader textureLoader;
 
     protected CubeGL cube;
-    protected Object textureKey;
+    protected String textureKey;
 
 
-    public DefaultWorldObjectGL(Object textureKey, float scale) {
+    public DefaultWorldObjectGL(String textureKey, float scale) {
         this.textureKey = textureKey;
         cube = new CubeGL(scale);
     }

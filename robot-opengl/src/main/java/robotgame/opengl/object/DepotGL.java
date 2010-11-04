@@ -7,7 +7,9 @@ import robotgame.object.WorldObjectRenderer;
  * @since 2010-11-04, 00:37:53
  */
 public class DepotGL extends DefaultWorldObjectGL {
+    public static final String DEPOT = "Depot";
+
     public DepotGL() {
-        super("Depot", 0.9f);
+        super(DEPOT, 0.9f);
     }
 }

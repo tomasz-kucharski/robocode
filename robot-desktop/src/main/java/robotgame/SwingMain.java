@@ -180,6 +180,15 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
             });
             add(antyaliasing);
 
+            final JCheckBoxMenuItem light= new JCheckBoxMenuItem("Light");
+            light.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    worldService.getConfiguration().setLight(light.isSelected());
+                }
+            });
+            add(light);
+
             addSeparator();
 
             final JCheckBoxMenuItem evolve = new JCheckBoxMenuItem("Start");

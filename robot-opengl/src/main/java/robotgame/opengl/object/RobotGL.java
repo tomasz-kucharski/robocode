@@ -4,9 +4,10 @@ import robotgame.object.WorldObject;
 import robotgame.object.robot.Robot;
 
 public class RobotGL extends DefaultWorldObjectGL {
+    public static final String ROBOT = "Robot";
 
     public RobotGL() {
-        super("Robot", 0.8f);
+        super(ROBOT, 0.8f);
     }
 
     @Override

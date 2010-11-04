@@ -13,8 +13,6 @@ public class WorldGL extends WorldRenderer {
 
     private float posX;
     private float posY;
-//    private int worldTableGLList = 100;
-//    private static final String TABLE = "table";
 
     public void resize() {
         int screenWidth = worldConfiguration.getScreenWidth();
@@ -41,15 +39,19 @@ public class WorldGL extends WorldRenderer {
     }
 
     private void setUpLighting() {
-        float[] lightAmbient = {0.3f, 0.3f, 0.3f, 1f};
-        float[] lightDiffuse = {1.0f, 1.0f, 1.0f, 1.0f};
-        float[] lightPosition = {1.0f, 1.0f, 10.0f,0f};
+        if(worldConfiguration.isLight()) {
+            gl.glEnable(GL10.GL_LIGHTING);
+            gl.glEnable(GL10.GL_LIGHT0);
+            float[] lightAmbient = {0.3f, 0.3f, 0.3f, 1f};
+            float[] lightDiffuse = {1.0f, 1.0f, 1.0f, 1.0f};
+            float[] lightPosition = {1.0f, 1.0f, 10.0f,0f};
+            gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_AMBIENT, lightAmbient, 0);
+            gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_DIFFUSE, lightDiffuse, 0);
+            gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, lightPosition, 0);
+        } else {
+            gl.glDisable(GL10.GL_LIGHTING);
+        }
 
-        gl.glEnable(GL10.GL_LIGHTING);
-        gl.glEnable(GL10.GL_LIGHT0);
-        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_AMBIENT, lightAmbient, 0);
-        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_DIFFUSE, lightDiffuse, 0);
-        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, lightPosition, 0);
     }
 
     public void init() {
@@ -77,7 +79,7 @@ public class WorldGL extends WorldRenderer {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
         setUpLighting();
-        
+
         initRenderLocation();
 //        drawWorldTable();
         gl.glColor4f(0f,1f,1f,0f);

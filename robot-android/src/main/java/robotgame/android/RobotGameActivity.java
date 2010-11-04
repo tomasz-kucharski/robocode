@@ -6,17 +6,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Toast;
-import robotgame.android.loader.TextureLoader;
-
-import java.net.MalformedURLException;
+import robotgame.android.loader.AndroidTextureLoader;
 
 /**
  * @author tomekk
  * @since 2010-10-17, 00:04:01
  */
-public class RobotGameActivity extends Activity implements OnClickListener {
+public class RobotGameActivity extends Activity {
 
     private RobotGameView view;
 
@@ -36,16 +33,5 @@ public class RobotGameActivity extends Activity implements OnClickListener {
         
         view = new RobotGameView(this);
         setContentView(view);
-    }
-
-    @Override
-    public void onClick(View view) {
-
-        TextureLoader loader = new TextureLoader();
-        loader.setResources(this.getResources());
-        loader.loadTextures();
-
-        Toast toast = Toast.makeText(this, "RobtoGame PoC", Toast.LENGTH_SHORT);
-        toast.show();
     }
 }

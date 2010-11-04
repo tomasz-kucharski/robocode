@@ -10,7 +10,7 @@ import java.nio.FloatBuffer;
 public class FloorGL implements WorldObjectRenderer {
 
     private GL10 gl;
-    private static final String floor = "Floor";
+    public static final String FLOOR = "Floor";
     private TextureLoader textureLoader;
     private TileGL tile;
 
@@ -26,7 +26,7 @@ public class FloorGL implements WorldObjectRenderer {
 
     @Override
     public void init() {
-        textureLoader.initTexture(floor);
+        textureLoader.initTexture(FLOOR);
 
         tile = new TileGL(0.95f);
 
@@ -45,7 +45,7 @@ public class FloorGL implements WorldObjectRenderer {
     @Override
     public void draw(WorldObject object) {
         gl.glTranslatef(0,0,.4f);
-        tile.draw(gl,textureLoader.getTexture(floor));
+        tile.draw(gl,textureLoader.getTexture(FLOOR));
         gl.glTranslatef(0,0,-.4f);
     }
 }
