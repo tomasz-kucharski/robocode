@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/light"
+          android:icon="@drawable/menu_icon_light"
+          android:title="@string/menu_icon_light_title" />
+    <item android:id="@+id/evolve"
+          android:icon="@drawable/menu_icon_evolve"
+          android:title="@string/menu_icon_evolve_title" />
+</menu>
