@@ -3,6 +3,8 @@ package robotgame.android;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import robotgame.WorldService;
+import robotgame.android.loader.TextureLoader;
+import robotgame.opengl.WorldServiceOpenGL;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -13,11 +15,12 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class RobotGameView extends GLSurfaceView {
 
-    private WorldService worldService = new WorldService();
+    private WorldService worldService = new WorldServiceOpenGL();
 
     public RobotGameView(Context context) {
         super(context);
         setRenderer(new GLRenderer());
+        worldService.setTextureLoader(new TextureLoader());
     }
 
         class GLRenderer implements GLSurfaceView.Renderer {

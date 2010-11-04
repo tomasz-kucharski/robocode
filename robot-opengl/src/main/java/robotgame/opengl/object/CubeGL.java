@@ -1,8 +1,6 @@
-package robotgame.object;
+package robotgame.opengl.object;
 
-import robotgame.loader.TextureLoader;
-
-import javax.media.opengl.GL;
+import javax.microedition.khronos.opengles.GL10;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -156,42 +154,41 @@ public class CubeGL {
                 20,21,23, 20,23,22,
         };
         indexBuffer = ByteBuffer.allocateDirect(indices.length);
-        indexBuffer.order(ByteOrder.nativeOrder());
         indexBuffer.put(indices);
         indexBuffer.position(0);
 
 
     }
 
-    public void draw(GL gl, int textureKey) {
+    public void draw(GL10 gl, int textureKey) {
 
 //        gl.glPushMatrix();
 //        gl.glScalef(0.5f, .5f, .5f);
 
         //Bind our only previously generated texture in this case
-        gl.glBindTexture(GL.GL_TEXTURE_2D, textureKey);
+        gl.glBindTexture(GL10.GL_TEXTURE_2D, textureKey);
 
         //Point to our buffers
-        gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
-        gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY);
-        gl.glEnableClientState(GL.GL_NORMAL_ARRAY);
+        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+        gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+        gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
 
         //Set the face rotation
-        gl.glFrontFace(GL.GL_CCW);
+        gl.glFrontFace(GL10.GL_CCW);
 
         //Enable the vertex and texture state
-        gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertexBuffer);
-        gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, textureBuffer);
-        gl.glNormalPointer(GL.GL_FLOAT, 0, normalBuffer);
+        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+        gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
+        gl.glNormalPointer(GL10.GL_FLOAT, 0, normalBuffer);
 
 
         //Draw the vertices as triangles, based on the Index Buffer information
-        gl.glDrawElements(GL.GL_TRIANGLES, indices.length, GL.GL_UNSIGNED_BYTE, indexBuffer);
+        gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_BYTE, indexBuffer);
 
         //Disable the client state before leaving
-        gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
-        gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY);
-        gl.glDisableClientState(GL.GL_NORMAL_ARRAY);
+        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+        gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+        gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
 //        gl.glPopMatrix();
 
     }
@@ -207,7 +204,7 @@ public class CubeGL {
     }
 
 
-    public void applyMaterial(GL gl) {
+    public void applyMaterial(GL10 gl) {
 
         FloatBuffer material03Amb  = FloatBuffer.wrap(new float[]{0.00784300f,0.0705880f,0.650980f,1.0f});
         FloatBuffer material03Dif  = FloatBuffer.wrap(new float[]{0.0117650f,0.109804f,0.560784f,1.0f});
@@ -215,9 +212,9 @@ public class CubeGL {
         FloatBuffer material03Shn  = FloatBuffer.wrap(new float[]{128.000f});
 
 
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, material03Amb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, material03Dif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, material03Spc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, material03Shn);
+        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, material03Amb);
+        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, material03Dif);
+        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, material03Spc);
+        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, material03Shn);
     }
 }

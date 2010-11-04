@@ -8,6 +8,7 @@
     <name>robot-project</name>
     <modules>
         <module>robot-core</module>
+        <module>robot-opengl</module>
         <module>robot-desktop</module>
         <module>robot-android</module>
     </modules>
@@ -18,6 +19,11 @@
             <dependency>
                 <groupId>robotgame</groupId>
                 <artifactId>robot-core</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>robotgame</groupId>
+                <artifactId>robot-opengl</artifactId>
                 <version>${version}</version>
             </dependency>
 

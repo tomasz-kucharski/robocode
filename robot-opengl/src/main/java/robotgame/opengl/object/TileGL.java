@@ -1,6 +1,6 @@
-package robotgame.object;
+package robotgame.opengl.object;
 
-import javax.media.opengl.GL;
+import javax.microedition.khronos.opengles.GL10;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -70,32 +70,32 @@ public class TileGL {
         indexBuffer.position(0);
     }
 
-    public void draw(GL gl, int textureKey) {
+    public void draw(GL10 gl, int textureKey) {
         applyMaterial(gl);
         //Bind our only previously generated texture in this case
-        gl.glBindTexture(GL.GL_TEXTURE_2D, textureKey);
+        gl.glBindTexture(GL10.GL_TEXTURE_2D, textureKey);
 
         //Point to our buffers
-        gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
-        gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY);
-        gl.glEnableClientState(GL.GL_NORMAL_ARRAY);
+        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+        gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+        gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
 
         //Set the face rotation
-        gl.glFrontFace(GL.GL_CCW);
+        gl.glFrontFace(GL10.GL_CCW);
 
         //Enable the vertex and texture state
-        gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertexBuffer);
-        gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, textureBuffer);
-        gl.glNormalPointer(GL.GL_FLOAT, 0, normalBuffer);
+        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+        gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
+        gl.glNormalPointer(GL10.GL_FLOAT, 0, normalBuffer);
 
 
         //Draw the vertices as triangles, based on the Index Buffer information
-        gl.glDrawElements(GL.GL_TRIANGLES, indices.length, GL.GL_UNSIGNED_BYTE, indexBuffer);
+        gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_BYTE, indexBuffer);
 
         //Disable the client state before leaving
-        gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
-        gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY);
-        gl.glDisableClientState(GL.GL_NORMAL_ARRAY);
+        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+        gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+        gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
 //        gl.glPopMatrix();
 
     }
@@ -110,11 +110,11 @@ public class TileGL {
         return buffer;
     }
 
-    public void applyMaterial(GL gl) {
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, dechaAmb);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, dechaDif);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, dechaSpc);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, dechaShn);
+    public void applyMaterial(GL10 gl) {
+        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, dechaAmb);
+        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, dechaDif);
+        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, dechaSpc);
+        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, dechaShn);
     }
 
     public void setDechaAmb(FloatBuffer dechaAmb) {

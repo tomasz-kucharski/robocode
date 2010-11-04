@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
+import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL10Impl;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +26,10 @@ public class FileTextureLoader extends TextureLoader {
     private GL gl;
 
     private String contextPath;
+
+    public FileTextureLoader(String contextPath) {
+        this.contextPath = contextPath;
+    }
 
     public void loadTextures() {
         gl.glGenTextures(array.length,array,0);
@@ -55,6 +61,6 @@ public class FileTextureLoader extends TextureLoader {
     }
 
     public void setGraphicsContext(Object gl) {
-        this.gl = (GL) gl;
+        this.gl = ((GL10Impl) gl).getGl();
     }
 }

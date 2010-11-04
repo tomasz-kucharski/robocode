@@ -3,13 +3,15 @@ package robotgame;
 import com.sun.opengl.util.Animator;
 import robotgame.loader.DeployWorld;
 import robotgame.loader.FileTextureLoader;
-import robotgame.loader.TextureLoader;
-import robotgame.object.*;
-import robotgame.world.MapObject;
+import robotgame.opengl.WorldServiceOpenGL;
 import robotgame.world.WorldGL;
-import robotgame.world.WorldRenderer;
 
-import javax.media.opengl.*;
+import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLCanvas;
+import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.GLEventListener;
+import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL10Impl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -17,35 +19,20 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 
 public class SwingMain implements GLEventListener, KeyListener, MouseWheelListener, MouseMotionListener {
 
     private Point mousePoint;
     private JPopupMenu popupMenu = new PopUpDemo();
 
-    private WorldService worldService = new WorldService();
+    private WorldService worldService;
     private JFrame frame = new JFrame("Robot Application");
+    private GL10 gl10;
 
 
     public SwingMain(String contextPath) {
-
-        HashMap<MapObject, WorldObjectRenderer> rendererHashMap = new HashMap<MapObject, WorldObjectRenderer>();
-        rendererHashMap.put(MapObject.DEPOT,new DepotGL());
-        rendererHashMap.put(MapObject.FURNITURE,new FurnitureGL());
-        rendererHashMap.put(MapObject.RUBBISH,new RubbishGL());
-        rendererHashMap.put(MapObject.ROBOT,new RobotGL());
-        rendererHashMap.put(MapObject.FLOOR,new FloorGL());
-        rendererHashMap.put(MapObject.WALL,new WallGL());
-
-        WorldRenderer worldRenderer = new WorldGL();
-        worldRenderer.setObjectRendererMap(rendererHashMap);
-        worldService.setWorldRenderer(worldRenderer);
-
-
-        FileTextureLoader fileTextureLoader = new FileTextureLoader();
-        fileTextureLoader.setContextPath(contextPath);
-        worldService.setTextureLoader(fileTextureLoader);
+        worldService = new WorldServiceOpenGL(new WorldGL());
+        worldService.setTextureLoader(new FileTextureLoader(contextPath));
     }
 
     private void init() {
@@ -102,18 +89,17 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     }
 
     public void init(GLAutoDrawable gLDrawable) {
+        gl10 = new GL10Impl(gLDrawable.getGL());
 //        gLDrawable.setGL(new TraceGL(gLDrawable.getGL(),System.out));
-        worldService.setGraphicsContext(gLDrawable.getGL());
+        worldService.setGraphicsContext(gl10);
         worldService.onInit(frame.getWidth(),frame.getHeight());
     }
 
     public void display(GLAutoDrawable gLDrawable) {
-        worldService.setGraphicsContext(gLDrawable.getGL());
         worldService.onDraw();
     }
 
     public void reshape(GLAutoDrawable gLDrawable, int x, int y, int width, int height) {
-        worldService.setGraphicsContext(gLDrawable.getGL());
         worldService.onResize(width,height);
         System.out.println("onResize:"+width+", "+height);
     }

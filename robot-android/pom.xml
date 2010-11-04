@@ -17,6 +17,10 @@
             <groupId>robotgame</groupId>
             <artifactId>robot-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>robotgame</groupId>
+            <artifactId>robot-opengl</artifactId>
+        </dependency>
 		
 		<!--ANDROID-->
 		<dependency>

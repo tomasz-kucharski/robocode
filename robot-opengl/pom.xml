@@ -6,29 +6,23 @@
 		<artifactId>robot-project</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-    <artifactId>robot-desktop</artifactId>
+    <artifactId>robot-opengl</artifactId>
     <packaging>jar</packaging>
-    <name>robot-desktop</name>
+    <name>robot-opengl</name>
 
 
     <dependencies>
         <!--CORE-->
         <dependency>
             <groupId>robotgame</groupId>
-            <artifactId>robot-opengl</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.android</groupId>
-                    <artifactId>android</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>robot-core</artifactId>
         </dependency>
         
         <!--OPENGL-->
-        <dependency>
-          <groupId>net.java.dev.jogl</groupId>
-          <artifactId>jogl</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+		</dependency>		
 
         <!--COMMONS-->
         <dependency>
