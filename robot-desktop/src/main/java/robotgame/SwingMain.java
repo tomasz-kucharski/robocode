@@ -26,11 +26,15 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     private JPopupMenu popupMenu = new PopUpDemo();
 
     private WorldService worldService;
-    private JFrame frame = new JFrame("Robot Application");
+    private JFrame frame = new JFrame(ROBOT_APPLICATION);
     private GL10 gl10;
 
+    private long numFrames;
+    private long fpsStartTime;
+    public static final String ROBOT_APPLICATION = "Robot Application";
 
     public SwingMain(String contextPath) {
+        fpsStartTime = System.currentTimeMillis();
         worldService = new WorldServiceOpenGL(new WorldGL());
         worldService.setTextureLoader(new FileTextureLoader(contextPath));
     }
@@ -97,6 +101,18 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
 
     public void display(GLAutoDrawable gLDrawable) {
         worldService.onDraw();
+        logTime();
+    }
+
+    private void logTime() {
+        numFrames++;
+        long fpsElapsed = System.currentTimeMillis() - fpsStartTime;
+        if (fpsElapsed > 1000) { 
+            float fps = (numFrames * 1000.0F) / fpsElapsed;
+            fpsStartTime = System.currentTimeMillis();
+            numFrames = 0;
+            frame.setTitle(ROBOT_APPLICATION+" ("+fps+" fps)");
+        }
     }
 
     public void reshape(GLAutoDrawable gLDrawable, int x, int y, int width, int height) {

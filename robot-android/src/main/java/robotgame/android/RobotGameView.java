@@ -8,6 +8,7 @@ import robotgame.WorldService;
 import robotgame.android.loader.AndroidTextureLoader;
 import robotgame.loader.DeployWorld;
 import robotgame.opengl.WorldServiceOpenGL;
+import robotgame.world.WorldConfiguration;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -20,6 +21,7 @@ import java.io.IOException;
  * @since 2010-11-01, 12:51:18
  */
 public class RobotGameView extends GLSurfaceView {
+    private static final String LOG_TAG = RobotGameView.class.getSimpleName();
 
     private WorldService worldService = new WorldServiceOpenGL();
     private float oldX;
@@ -62,8 +64,8 @@ public class RobotGameView extends GLSurfaceView {
 
                 //Rotate around the axis otherwise
             } else {
-                worldService.getConfiguration().changeRotateX(dy);
-                worldService.getConfiguration().changeRotateY(dx);
+                worldService.getConfiguration().changeRotateX(dx);
+                worldService.getConfiguration().changeRotateY(dy);
             }
 
             //A press on the screen
@@ -86,7 +88,17 @@ public class RobotGameView extends GLSurfaceView {
         return true;
     }
 
+    public WorldConfiguration getConfiguration() {
+        return worldService.getConfiguration();
+    }
+
     class GLRenderer implements GLSurfaceView.Renderer {
+        private long numFrames;
+        private long fpsStartTime;
+
+        public GLRenderer() {
+            fpsStartTime = System.currentTimeMillis();
+        }
 
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
             worldService.setGraphicsContext(gl);
@@ -100,6 +112,18 @@ public class RobotGameView extends GLSurfaceView {
 
         public void onDrawFrame(GL10 gl) {
             worldService.onDraw();
+            numFrames++;
+            logTime();
+        }
+
+        private void logTime() {
+            long fpsElapsed = System.currentTimeMillis() - fpsStartTime;
+            if (fpsElapsed > 5 * 1000) { // every 5 seconds
+                float fps = (numFrames * 1000.0F) / fpsElapsed;
+                Log.d(LOG_TAG, "Frames per second: " + fps + " (" + numFrames + " frames in " + fpsElapsed + " ms)");
+                fpsStartTime = System.currentTimeMillis();
+                numFrames = 0;
+            }
         }
     }
 }
