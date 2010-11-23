@@ -1,7 +1,6 @@
 package robotgame.opengl.loader.obj;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author tomekk
@@ -9,11 +8,19 @@ import java.util.List;
  */
 public class OBJModel {
 
-    private List<Float> vertices = new ArrayList<Float>();
+    private Map<String,OBJGroup> groups = new HashMap<String,OBJGroup>();
+    private OBJGroup currentGroup;
 
     public void addVertex(float vertexX, float vertexY, float vertexZ) {
-        vertices.add(vertexX);
-        vertices.add(vertexY);
-        vertices.add(vertexZ);
+        if (currentGroup != null) {
+            currentGroup.addVertex(vertexX,vertexY, vertexZ);
+        }
+    }
+
+    public void checkCurrentGroupAndInitializeDefaultGroup() {
+        if (currentGroup == null) {
+            currentGroup = new OBJGroup();
+            groups.put(null,currentGroup);
+        }
     }
 }
