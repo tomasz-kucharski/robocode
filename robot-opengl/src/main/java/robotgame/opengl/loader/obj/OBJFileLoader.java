@@ -9,7 +9,11 @@ import java.io.IOException;
  */
 public class OBJFileLoader {
 
-    private LineParserFactory parserFactory;
+    private LineParserFactory parserFactory = new LineParserFactory();
+    {
+        parserFactory.addNewLineParser(new VertexLineParser());
+        parserFactory.addNewLineParser(new FaceLineParser());
+    }
 
     private OBJModel model;
 
@@ -43,5 +47,9 @@ public class OBJFileLoader {
     private void parseLine(String currentLine) {
         LineParser lineParser = parserFactory.chooseParserForTheLine(currentLine);
         lineParser.loadLine(currentLine);
+    }
+
+    public OBJModel getModel() {
+        return model;
     }
 }

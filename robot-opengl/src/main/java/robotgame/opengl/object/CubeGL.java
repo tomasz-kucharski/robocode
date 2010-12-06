@@ -183,7 +183,7 @@ public class CubeGL {
 
 
         //Draw the vertices as triangles, based on the Index Buffer information
-        gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_BYTE, indexBuffer);
+        gl.glDrawElements(GL10.GL_POINTS, indices.length, GL10.GL_UNSIGNED_BYTE, indexBuffer);
 
         //Disable the client state before leaving
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);

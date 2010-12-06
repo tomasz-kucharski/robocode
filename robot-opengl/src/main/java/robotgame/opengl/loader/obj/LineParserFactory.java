@@ -11,6 +11,10 @@ import java.util.Set;
 public class LineParserFactory {
     private Set<LineParser> parsers = new LinkedHashSet<LineParser>();
 
+    public void addNewLineParser(LineParser parser) {
+        this.parsers.add(parser);
+    }
+
     public void initializeParsers(OBJModel model) {
         for (LineParser parser : parsers) {
             parser.setModel(model);

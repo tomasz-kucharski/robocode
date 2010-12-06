@@ -1,5 +1,8 @@
 package robotgame.opengl.loader.obj;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,15 +13,42 @@ import java.util.List;
 public class OBJGroup {
 
     private Material material;
-    private List<Float> vertices = new ArrayList<Float>();
+                                                                                                                                             
+    private List<Vertex> vertices = new ArrayList<Vertex>();
+    private List<Vertex> normals = new ArrayList<Vertex>();
+    private List<IndexVertex> indices = new ArrayList<IndexVertex>();
 
-    public void addVertex(float vertexX, float vertexY, float vertexZ) {
-        vertices.add(vertexX);
-        vertices.add(vertexY);
-        vertices.add(vertexZ);
+    private OBJIndexType indexType;
+
+    public void setIndexType(OBJIndexType indexType) {
+        this.indexType = indexType;
+    }
+
+    public void addVertex(Vertex vertex) {
+        vertices.add(vertex);
+    }
+
+    public void addNormal(Vertex normal) {
+        normals.add(normal);
+    }
+    
+    public void addIndexf3G4HRN(IndexVertex index) {
+        indices.add(index);
+    }
+
+
+    private FloatBuffer loadToBuffer(float[] intArray) {
+        ByteBuffer tbb = ByteBuffer.allocateDirect(intArray.length * Float.SIZE/8);
+        tbb.order(ByteOrder.nativeOrder());
+        FloatBuffer buffer = tbb.asFloatBuffer();
+
+        buffer.put(intArray);
+        buffer.position(0);
+        return buffer;
     }
 
     public void setMaterial(Material material) {
         this.material = material;
     }
+
 }

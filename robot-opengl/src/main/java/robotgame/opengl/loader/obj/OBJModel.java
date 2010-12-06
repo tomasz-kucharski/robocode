@@ -11,10 +11,9 @@ public class OBJModel {
     private Map<String,OBJGroup> groups = new HashMap<String,OBJGroup>();
     private OBJGroup currentGroup;
 
-    public void addVertex(float vertexX, float vertexY, float vertexZ) {
-        if (currentGroup != null) {
-            currentGroup.addVertex(vertexX,vertexY, vertexZ);
-        }
+    public OBJGroup getCurrentGroup() {
+        checkCurrentGroupAndInitializeDefaultGroup();
+        return currentGroup;
     }
 
     public void checkCurrentGroupAndInitializeDefaultGroup() {
@@ -22,5 +21,9 @@ public class OBJModel {
             currentGroup = new OBJGroup();
             groups.put(null,currentGroup);
         }
+    }
+
+    public OBJGroup getGroupByName(String name) {
+        return groups.get(name);
     }
 }
