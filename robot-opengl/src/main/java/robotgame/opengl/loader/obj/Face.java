@@ -4,7 +4,7 @@ package robotgame.opengl.loader.obj;
  * @author tomekk
  * @since 2010-12-03, 00:04:18
  */
-public class OBJIndex {
+public class Face {
     
     private Integer vertex;
     private Integer texture;
@@ -34,18 +34,18 @@ public class OBJIndex {
         this.normal = normal;
     }
 
-    public OBJIndexType getType() {
+    public FaceType getType() {
         if (texture != null) {
             if (normal != null) {
-                return OBJIndexType.VERTEX_TEXTURE_NORMAL;
+                return FaceType.VERTEX_TEXTURE_NORMAL;
             } else {
-                return OBJIndexType.VERTEX_TEXTURE;
+                return FaceType.VERTEX_TEXTURE;
             }
         } else {
             if (normal != null) {
-                return OBJIndexType.VERTEX_NORMAL;
+                return FaceType.VERTEX_NORMAL;
             } else {
-                return OBJIndexType.VERTEX;
+                return FaceType.VERTEX;
             }
         }
     }

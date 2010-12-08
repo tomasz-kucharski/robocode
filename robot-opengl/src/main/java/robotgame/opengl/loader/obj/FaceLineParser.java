@@ -8,6 +8,7 @@ public class FaceLineParser extends LineParser {
     public static final int VERTEX_INDEX = 0;
     public static final int TEXTURE_INDEX = 1;
     public static final int NORMAL_INDEX = 2;
+    public static final int NUMBER_OF_FACES = 3;
 
     @Override
     public boolean canParseThisLine(String currentLine) {
@@ -15,26 +16,25 @@ public class FaceLineParser extends LineParser {
     }
 
     @Override
-    public void loadLine(String currentLine) {
+    public void loadLine(String currentLine) throws InvalidLineException {
         String[] mainFragments = currentLine.split(" ");
-        for (int i= TEXTURE_INDEX; i<mainFragments.length; i++) {
-            parseSingleIndexItem(mainFragments[i]);
-            if (i == TEXTURE_INDEX) {
-                setFaceType();
-            }
+        if (mainFragments.length != NUMBER_OF_FACES) {
+            throw new InvalidLineException("Expected number of faces:"+NUMBER_OF_FACES+", was: "+mainFragments.length);
         }
+        FaceVertex faceVertex = new FaceVertex();
+        faceVertex.setFaceX(parseSingleIndexItem(mainFragments[0]));
+        faceVertex.setFaceY(parseSingleIndexItem(mainFragments[1]));
+        faceVertex.setFaceZ(parseSingleIndexItem(mainFragments[2]));
+        model.getCurrentGroup().addFaceVertex(faceVertex);
     }
 
-    private void setFaceType() {
-        //To change body of created methods use File | Settings | File Templates.
-    }
-
-    private void parseSingleIndexItem(String mainFragment) {
+    private Face parseSingleIndexItem(String mainFragment) {
         String[] indexValues = mainFragment.split("/");
-        OBJIndex objIndex = new OBJIndex();
-        objIndex.setVertex(parseNumber(indexValues[VERTEX_INDEX]));
-        objIndex.setVertex(parseNumber(indexValues[TEXTURE_INDEX]));
-        objIndex.setNormal(parseNumber(indexValues[NORMAL_INDEX]));
+        Face face = new Face();
+        face.setVertex(parseNumber(indexValues[VERTEX_INDEX]));
+        face.setVertex(parseNumber(indexValues[TEXTURE_INDEX]));
+        face.setNormal(parseNumber(indexValues[NORMAL_INDEX]));
+        return face;
     }
 
     private Integer parseNumber(String value) {

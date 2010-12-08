@@ -14,5 +14,5 @@ public abstract class LineParser {
 
     public abstract boolean canParseThisLine(String currentLine);
 
-    public abstract void loadLine(String currentLine);
+    public abstract void loadLine(String currentLine) throws InvalidLineException;
 }

@@ -16,12 +16,13 @@ public class OBJGroup {
                                                                                                                                              
     private List<Vertex> vertices = new ArrayList<Vertex>();
     private List<Vertex> normals = new ArrayList<Vertex>();
-    private List<IndexVertex> indices = new ArrayList<IndexVertex>();
+    private List<FaceVertex> faces = new ArrayList<FaceVertex>();
 
-    private OBJIndexType indexType;
+    private FaceType faceType;
+    public static final int VERTEX_ELEMENTS = 3;
 
-    public void setIndexType(OBJIndexType indexType) {
-        this.indexType = indexType;
+    public void setFaceType(FaceType faceType) {
+        this.faceType = faceType;
     }
 
     public void addVertex(Vertex vertex) {
@@ -32,18 +33,21 @@ public class OBJGroup {
         normals.add(normal);
     }
     
-    public void addIndexf3G4HRN(IndexVertex index) {
-        indices.add(index);
+    public void addFaceVertex(FaceVertex face) {
+        setUnifiedFaceType(face);
+        faces.add(face);
     }
 
+    private void setUnifiedFaceType(FaceVertex face) {
+        if (faces.size() == 0) {
+            this.faceType = face.getFaceX().getType();
+        }
+    }
 
-    private FloatBuffer loadToBuffer(float[] intArray) {
-        ByteBuffer tbb = ByteBuffer.allocateDirect(intArray.length * Float.SIZE/8);
+    private FloatBuffer initFloatBuffer(int bufferSize) {
+        ByteBuffer tbb = ByteBuffer.allocateDirect(bufferSize * Float.SIZE/8);
         tbb.order(ByteOrder.nativeOrder());
         FloatBuffer buffer = tbb.asFloatBuffer();
-
-        buffer.put(intArray);
-        buffer.position(0);
         return buffer;
     }
 
@@ -51,4 +55,33 @@ public class OBJGroup {
         this.material = material;
     }
 
+    public FloatBuffer getVertexBuffer() {
+        FloatBuffer floatBuffer = initFloatBuffer(vertices.size() * VERTEX_ELEMENTS);
+        for (Vertex vertex : vertices) {
+            floatBuffer.put(vertex.getX());
+            floatBuffer.put(vertex.getY());
+            floatBuffer.put(vertex.getZ());
+        }
+        floatBuffer.position(0);
+        return floatBuffer;
+    }
+
+    public FloatBuffer getNormalBuffer() {
+        FloatBuffer floatBuffer = initFloatBuffer(normals.size() * VERTEX_ELEMENTS);
+        for (Vertex vertex : normals) {
+            floatBuffer.put(vertex.getX());
+            floatBuffer.put(vertex.getY());
+            floatBuffer.put(vertex.getZ());
+        }
+        floatBuffer.position(0);
+        return floatBuffer;
+    }
+
+    public ByteBuffer getFacesBuffer() {
+        ByteBuffer buffer = ByteBuffer.allocateDirect(faces.size() * VERTEX_ELEMENTS * faceType.getNumberOfElements());
+        for (FaceVertex faceVertex : faces) {
+        }
+        buffer.position(0);
+        return buffer;
+    }
 }
