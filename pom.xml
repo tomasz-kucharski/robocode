@@ -11,7 +11,7 @@
         <module>robot-opengl</module>
         <module>robot-desktop</module>
         <module>robot-android</module>
-        <module>objimport</module>
+        <module>robot-objimport</module>
     </modules>
 
     <dependencyManagement>
@@ -29,7 +29,7 @@
             </dependency>
             <dependency>
                 <groupId>robotgame</groupId>
-                <artifactId>objimport</artifactId>
+                <artifactId>robot-objimport</artifactId>
                 <version>${version}</version>
             </dependency>
 
