@@ -2,51 +2,37 @@ package robotgame.opengl.loader.obj;
 
 /**
  * @author tomekk
- * @since 2010-12-03, 00:04:18
+ * @since 2010-12-05, 00:23:31
  */
 public class Face {
-    
-    private Integer vertex;
-    private Integer texture;
-    private Integer normal;
 
-    public int getVertex() {
-        return vertex;
+    public static final int NUMBER_OF_ELEMENTS = 3;
+
+    private FaceElement faceElementX;
+    private FaceElement faceElementY;
+    private FaceElement faceElementZ;
+
+    public FaceElement getFaceX() {
+        return faceElementX;
     }
 
-    public void setVertex(int vertex) {
-        this.vertex = vertex;
+    public void setFaceX(FaceElement faceElementX) {
+        this.faceElementX = faceElementX;
     }
 
-    public int getTexture() {
-        return texture;
+    public FaceElement getFaceY() {
+        return faceElementY;
     }
 
-    public void setTexture(int texture) {
-        this.texture = texture;
+    public void setFaceY(FaceElement faceElementY) {
+        this.faceElementY = faceElementY;
     }
 
-    public int getNormal() {
-        return normal;
+    public FaceElement getFaceZ() {
+        return faceElementZ;
     }
 
-    public void setNormal(int normal) {
-        this.normal = normal;
-    }
-
-    public FaceType getType() {
-        if (texture != null) {
-            if (normal != null) {
-                return FaceType.VERTEX_TEXTURE_NORMAL;
-            } else {
-                return FaceType.VERTEX_TEXTURE;
-            }
-        } else {
-            if (normal != null) {
-                return FaceType.VERTEX_NORMAL;
-            } else {
-                return FaceType.VERTEX;
-            }
-        }
+    public void setFaceZ(FaceElement faceElementZ) {
+        this.faceElementZ = faceElementZ;
     }
 }

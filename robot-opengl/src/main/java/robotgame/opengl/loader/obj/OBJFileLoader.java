@@ -12,6 +12,7 @@ public class OBJFileLoader {
     private LineParserFactory parserFactory = new LineParserFactory();
     {
         parserFactory.addNewLineParser(new VertexLineParser());
+        parserFactory.addNewLineParser(new NormalLineParser());
         parserFactory.addNewLineParser(new FaceLineParser());
     }
 
@@ -32,19 +33,21 @@ public class OBJFileLoader {
     }
 
     private void parseFile(BufferedReader objFile) throws IOException {
-        String currentLine;
+        String currentLine = null;
+        int lineNumber = 0;
         try {
             while((currentLine = objFile.readLine()) != null) {
+                lineNumber++;
                 parseLine(currentLine);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException("Error in line: "+lineNumber+":'"+currentLine+"'. Message:'"+e.getMessage()+"'",e);
         } finally {
             objFile.close();
         }
     }
 
-    private void parseLine(String currentLine) {
+    private void parseLine(String currentLine) throws InvalidLineException {
         LineParser lineParser = parserFactory.chooseParserForTheLine(currentLine);
         lineParser.loadLine(currentLine);
     }

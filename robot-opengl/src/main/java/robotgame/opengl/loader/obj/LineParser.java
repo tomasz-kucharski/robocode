@@ -12,7 +12,12 @@ public abstract class LineParser {
         this.model = model;
     }
 
-    public abstract boolean canParseThisLine(String currentLine);
+    public boolean canParseThisLine(String currentLine) {
+        String[] fragments = currentLine.split(" ");
+        return getLinePrefix().equals(fragments[0]);
+    }
+
+    protected abstract String getLinePrefix();
 
     public abstract void loadLine(String currentLine) throws InvalidLineException;
 }

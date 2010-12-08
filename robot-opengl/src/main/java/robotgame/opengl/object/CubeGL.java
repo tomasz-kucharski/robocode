@@ -146,8 +146,8 @@ public class CubeGL {
         /** The initial indices definition */
         indices = new byte[]{
                 //Faces definition
-                0,1,3, 0,3,2, 			//Face front
-                4,5,7, 4,7,6, 			//Face right
+                0,1,3, 0,3,2, 			//FaceElement front
+                4,5,7, 4,7,6, 			//FaceElement right
                 8,9,11, 8,11,10, 		//...
                 12,13,15, 12,15,14,
                 16,17,19, 16,19,18,

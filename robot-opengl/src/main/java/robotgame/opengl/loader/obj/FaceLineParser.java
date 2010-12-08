@@ -8,40 +8,54 @@ public class FaceLineParser extends LineParser {
     public static final int VERTEX_INDEX = 0;
     public static final int TEXTURE_INDEX = 1;
     public static final int NORMAL_INDEX = 2;
-    public static final int NUMBER_OF_FACES = 3;
+    public static final int NUMBER_OF_FACES_PLUS_LINE_PREFIX = 4;
 
     @Override
-    public boolean canParseThisLine(String currentLine) {
-        return currentLine.startsWith("f");
+    protected String getLinePrefix() {
+        return "f";
     }
 
     @Override
     public void loadLine(String currentLine) throws InvalidLineException {
         String[] mainFragments = currentLine.split(" ");
-        if (mainFragments.length != NUMBER_OF_FACES) {
-            throw new InvalidLineException("Expected number of faces:"+NUMBER_OF_FACES+", was: "+mainFragments.length);
+        if (mainFragments.length != NUMBER_OF_FACES_PLUS_LINE_PREFIX) {
+            throw new InvalidLineException("Expected number of faces:"+ NUMBER_OF_FACES_PLUS_LINE_PREFIX +", was: "+mainFragments.length);
         }
-        FaceVertex faceVertex = new FaceVertex();
-        faceVertex.setFaceX(parseSingleIndexItem(mainFragments[0]));
-        faceVertex.setFaceY(parseSingleIndexItem(mainFragments[1]));
-        faceVertex.setFaceZ(parseSingleIndexItem(mainFragments[2]));
-        model.getCurrentGroup().addFaceVertex(faceVertex);
-    }
-
-    private Face parseSingleIndexItem(String mainFragment) {
-        String[] indexValues = mainFragment.split("/");
         Face face = new Face();
-        face.setVertex(parseNumber(indexValues[VERTEX_INDEX]));
-        face.setVertex(parseNumber(indexValues[TEXTURE_INDEX]));
-        face.setNormal(parseNumber(indexValues[NORMAL_INDEX]));
-        return face;
+        face.setFaceX(parseSingleIndexItem(mainFragments[1]));
+        face.setFaceY(parseSingleIndexItem(mainFragments[2]));
+        face.setFaceZ(parseSingleIndexItem(mainFragments[3]));
+        model.getCurrentGroup().addFaceVertex(face);
     }
 
-    private Integer parseNumber(String value) {
-        if (value == null) {
-            return null;
+    public FaceElement parseSingleIndexItem(String mainFragment) {
+        String[] indexValues = mainFragment.split("/");
+        if (isParameterProvided(indexValues,NORMAL_INDEX)) {
+            if (isParameterProvided(indexValues,TEXTURE_INDEX)) {
+                FaceElementVertexTextureNormal faceElement = new FaceElementVertexTextureNormal();
+                faceElement.setVertex(decodeIndexValue(indexValues[VERTEX_INDEX]));
+                faceElement.setNormal(decodeIndexValue(indexValues[NORMAL_INDEX]));
+                faceElement.setTexture(decodeIndexValue(indexValues[TEXTURE_INDEX]));
+                return faceElement;
+            } else {
+                FaceElementVertexNormal faceElement = new FaceElementVertexNormal();
+                faceElement.setVertex(decodeIndexValue(indexValues[VERTEX_INDEX]));
+                faceElement.setNormal(decodeIndexValue(indexValues[NORMAL_INDEX]));
+                return faceElement;
+            }
         } else {
-            return Integer.parseInt(value);
+            FaceElementVertexOnly faceElement = new FaceElementVertexOnly();
+            faceElement.setVertex(decodeIndexValue(indexValues[VERTEX_INDEX]));
+            return faceElement;
         }
+    }
+
+    private int decodeIndexValue(String indexValue) {
+        // values in obj files start from 1 instead of 0
+        return Integer.parseInt(indexValue) - 1;
+    }
+
+    private boolean isParameterProvided(String[] indexValue, int index) {
+        return indexValue.length > index && indexValue[index] != null && !indexValue[index].isEmpty();
     }
 }

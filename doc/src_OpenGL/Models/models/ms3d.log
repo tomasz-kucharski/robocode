@@ -452,29 +452,29 @@ Undo: Select
 Undo: Select
 Undo: Create Vertex
 Undo: Snap To Grid
-Create Face: vertex 8 selected (1. vertex in face)
+Create Face: vertex 8 selected (1. vertex in faceElement)
 
 Create Face: no vertex selected, aborted!
 
 Create Face: no vertex selected, aborted!
 
-Create Face: vertex 8 selected (1. vertex in face)
+Create Face: vertex 8 selected (1. vertex in faceElement)
 
 Create Face: no vertex selected, aborted!
 
 Undo: Unhide All
-Create Face: vertex 8 selected (1. vertex in face)
+Create Face: vertex 8 selected (1. vertex in faceElement)
 
-Create Face: vertex 4 selected (2. vertex in face)
+Create Face: vertex 4 selected (2. vertex in faceElement)
 
-Create Face: vertex 6 selected (3. vertex in face)
+Create Face: vertex 6 selected (3. vertex in faceElement)
 
 Undo: Create Face
-Create Face: vertex 8 selected (1. vertex in face)
+Create Face: vertex 8 selected (1. vertex in faceElement)
 
-Create Face: vertex 6 selected (2. vertex in face)
+Create Face: vertex 6 selected (2. vertex in faceElement)
 
-Create Face: vertex 0 selected (3. vertex in face)
+Create Face: vertex 0 selected (3. vertex in faceElement)
 
 Undo: Create Face
 Undo: Unhide All
@@ -487,32 +487,32 @@ Undo: Move
 Undo: Move
 Undo: Select
 Undo: Hide Selection
-Create Face: vertex 8 selected (1. vertex in face)
+Create Face: vertex 8 selected (1. vertex in faceElement)
 
-Create Face: vertex 4 selected (2. vertex in face)
+Create Face: vertex 4 selected (2. vertex in faceElement)
 
-Create Face: vertex 6 selected (3. vertex in face)
-
-Undo: Create Face
-Create Face: vertex 8 selected (1. vertex in face)
-
-Create Face: vertex 6 selected (2. vertex in face)
-
-Create Face: vertex 0 selected (3. vertex in face)
+Create Face: vertex 6 selected (3. vertex in faceElement)
 
 Undo: Create Face
-Create Face: vertex 0 selected (1. vertex in face)
+Create Face: vertex 8 selected (1. vertex in faceElement)
 
-Create Face: vertex 2 selected (2. vertex in face)
+Create Face: vertex 6 selected (2. vertex in faceElement)
 
-Create Face: vertex 8 selected (3. vertex in face)
+Create Face: vertex 0 selected (3. vertex in faceElement)
 
 Undo: Create Face
-Create Face: vertex 2 selected (1. vertex in face)
+Create Face: vertex 0 selected (1. vertex in faceElement)
 
-Create Face: vertex 4 selected (2. vertex in face)
+Create Face: vertex 2 selected (2. vertex in faceElement)
 
-Create Face: vertex 8 selected (3. vertex in face)
+Create Face: vertex 8 selected (3. vertex in faceElement)
+
+Undo: Create Face
+Create Face: vertex 2 selected (1. vertex in faceElement)
+
+Create Face: vertex 4 selected (2. vertex in faceElement)
+
+Create Face: vertex 8 selected (3. vertex in faceElement)
 
 Undo: Create Face
 Undo: Select
@@ -554,50 +554,50 @@ Undo: Flatten
 Undo: Flatten
 Undo: Move
 Undo: Move
-Create Face: vertex 8 selected (1. vertex in face)
+Create Face: vertex 8 selected (1. vertex in faceElement)
 
-Create Face: vertex 6 selected (2. vertex in face)
+Create Face: vertex 6 selected (2. vertex in faceElement)
 
-Create Face: vertex 0 selected (3. vertex in face)
-
-Undo: Create Face
-Create Face: vertex 2 selected (1. vertex in face)
-
-Create Face: vertex 4 selected (2. vertex in face)
-
-Create Face: vertex 9 selected (3. vertex in face)
+Create Face: vertex 0 selected (3. vertex in faceElement)
 
 Undo: Create Face
-Create Face: vertex 0 selected (1. vertex in face)
+Create Face: vertex 2 selected (1. vertex in faceElement)
 
-Create Face: vertex 2 selected (2. vertex in face)
+Create Face: vertex 4 selected (2. vertex in faceElement)
 
-Create Face: vertex 8 selected (3. vertex in face)
+Create Face: vertex 9 selected (3. vertex in faceElement)
 
 Undo: Create Face
-Create Face: vertex 8 selected (1. vertex in face)
+Create Face: vertex 0 selected (1. vertex in faceElement)
+
+Create Face: vertex 2 selected (2. vertex in faceElement)
+
+Create Face: vertex 8 selected (3. vertex in faceElement)
+
+Undo: Create Face
+Create Face: vertex 8 selected (1. vertex in faceElement)
 
 Create Face: no vertex selected, aborted!
 
-Create Face: vertex 9 selected (1. vertex in face)
+Create Face: vertex 9 selected (1. vertex in faceElement)
 
-Create Face: vertex 8 selected (2. vertex in face)
+Create Face: vertex 8 selected (2. vertex in faceElement)
 
-Create Face: vertex 2 selected (3. vertex in face)
-
-Undo: Create Face
-Create Face: vertex 9 selected (1. vertex in face)
-
-Create Face: vertex 4 selected (2. vertex in face)
-
-Create Face: vertex 8 selected (3. vertex in face)
+Create Face: vertex 2 selected (3. vertex in faceElement)
 
 Undo: Create Face
-Create Face: vertex 8 selected (1. vertex in face)
+Create Face: vertex 9 selected (1. vertex in faceElement)
 
-Create Face: vertex 4 selected (2. vertex in face)
+Create Face: vertex 4 selected (2. vertex in faceElement)
 
-Create Face: vertex 6 selected (3. vertex in face)
+Create Face: vertex 8 selected (3. vertex in faceElement)
+
+Undo: Create Face
+Create Face: vertex 8 selected (1. vertex in faceElement)
+
+Create Face: vertex 4 selected (2. vertex in faceElement)
+
+Create Face: vertex 6 selected (3. vertex in faceElement)
 
 Undo: Create Face
 Undo: Select

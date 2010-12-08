@@ -7,8 +7,8 @@ package robotgame.opengl.loader.obj;
 public class NormalLineParser extends LineParser {
 
     @Override
-    public boolean canParseThisLine(String currentLine) {
-        return currentLine.startsWith("vn");
+    protected String getLinePrefix() {
+        return "vn";
     }
 
     @Override

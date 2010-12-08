@@ -5,6 +5,9 @@ package robotgame.opengl.loader.obj;
  * @since 2010-12-03, 00:11:21
  */
 public class Vertex {
+
+    public static final int NUMBER_OF_FLOATS = 3;
+
     private float x;
     private float y;
     private float z;

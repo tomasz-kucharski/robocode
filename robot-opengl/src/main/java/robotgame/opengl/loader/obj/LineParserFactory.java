@@ -27,6 +27,6 @@ public class LineParserFactory {
                 return parser;
             }
         }
-        return new DummyLineParser();
+        return null;
     }
 }

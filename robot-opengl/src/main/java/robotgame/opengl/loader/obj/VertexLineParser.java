@@ -7,8 +7,8 @@ package robotgame.opengl.loader.obj;
 public class VertexLineParser extends LineParser {
 
     @Override
-    public boolean canParseThisLine(String currentLine) {
-        return currentLine.startsWith("v");
+    protected String getLinePrefix() {
+        return "v";
     }
 
     @Override
