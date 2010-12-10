@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>robotgame</groupId>
-    <artifactId>robot-project</artifactId>
+    <groupId>robocode</groupId>
+    <artifactId>robocode-project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>robot-project</name>
+    <name>robocode-project</name>
     <modules>
         <module>robot-core</module>
         <module>robot-opengl</module>
@@ -18,18 +18,18 @@
         <dependencies>
             <!--CORE-->
             <dependency>
-                <groupId>robotgame</groupId>
-                <artifactId>robot-core</artifactId>
+                <groupId>robocode</groupId>
+                <artifactId>robocode-core</artifactId>
                 <version>${version}</version>
             </dependency>
             <dependency>
-                <groupId>robotgame</groupId>
-                <artifactId>robot-opengl</artifactId>
+                <groupId>robocode</groupId>
+                <artifactId>robocode-opengl</artifactId>
                 <version>${version}</version>
             </dependency>
             <dependency>
-                <groupId>robotgame</groupId>
-                <artifactId>robot-objimport</artifactId>
+                <groupId>robocode</groupId>
+                <artifactId>robocode-objimport</artifactId>
                 <version>${version}</version>
             </dependency>
 

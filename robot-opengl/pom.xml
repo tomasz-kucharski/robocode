@@ -2,27 +2,32 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>robotgame</groupId>
-		<artifactId>robot-project</artifactId>
+		<groupId>robocode</groupId>
+		<artifactId>robocode-project</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-    <artifactId>robot-opengl</artifactId>
+    <artifactId>robocode-opengl</artifactId>
     <packaging>jar</packaging>
     <name>robot-opengl</name>
+    <description>UI for robot-core based on OpenGL ES 1.0 implementation, focused on Android performance. Therefore microedition. khronos library is used.</description>
 
 
     <dependencies>
         <!--CORE-->
         <dependency>
-            <groupId>robotgame</groupId>
-            <artifactId>robot-core</artifactId>
+            <groupId>robocode</groupId>
+            <artifactId>robocode-core</artifactId>
         </dependency>
-        
+
         <!--OPENGL-->
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-		</dependency>		
+		</dependency>
+        <dependency>
+            <groupId>robocode</groupId>
+            <artifactId>robocode-objimport</artifactId>
+        </dependency>
 
         <!--COMMONS-->
         <dependency>

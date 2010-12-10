@@ -2,20 +2,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>robotgame</groupId>
-		<artifactId>robot-project</artifactId>
+		<groupId>robocode</groupId>
+		<artifactId>robocode-project</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-    <artifactId>robot-desktop</artifactId>
+    <artifactId>robocode-desktop</artifactId>
     <packaging>jar</packaging>
-    <name>robot-desktop</name>
+    <name>robocode-desktop</name>
 
 
     <dependencies>
         <!--CORE-->
         <dependency>
-            <groupId>robotgame</groupId>
-            <artifactId>robot-opengl</artifactId>
+            <groupId>robocode</groupId>
+            <artifactId>robocode-opengl</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.android</groupId>

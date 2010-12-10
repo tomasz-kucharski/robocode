@@ -2,13 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>robotgame</groupId>
-		<artifactId>robot-project</artifactId>
+		<groupId>robocode</groupId>
+		<artifactId>robocode-project</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-    <artifactId>robot-objimport</artifactId>
+    <artifactId>robocode-objimport</artifactId>
     <packaging>jar</packaging>
-    <name>robot-objimport</name>
+    <name>robocode-objimport</name>
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>

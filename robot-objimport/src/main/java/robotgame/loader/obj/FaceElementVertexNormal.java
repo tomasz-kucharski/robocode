@@ -14,6 +14,11 @@ public class FaceElementVertexNormal extends FaceElementVertexOnly {
 
     @Override
     public short[] toArray() {
-        return new short[]{vertex,normal};
+//        return new short[]{vertex,normal};
+        return new short[]{vertex};
+    }
+
+    public short getNormal() {
+        return normal;
     }
 }

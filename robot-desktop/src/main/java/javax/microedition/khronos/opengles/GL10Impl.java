@@ -160,6 +160,11 @@ public class GL10Impl implements GL10 {
         gl.glPopMatrix();
     }
 
+    @Override
+    public void glScalef(float x, float y, float z) {
+        gl.glScalef(x,y,z);
+    }
+
     public GL getGl() {
         return gl;
     }

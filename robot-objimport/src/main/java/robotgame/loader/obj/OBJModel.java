@@ -23,7 +23,7 @@ public class OBJModel {
         }
     }
 
-    public OBJGroup getGroupByName(String name) {
-        return groups.get(name);
+    public Map<String, OBJGroup> getGroups() {
+        return groups;
     }
 }

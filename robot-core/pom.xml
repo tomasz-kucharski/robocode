@@ -2,13 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>robotgame</groupId>
-		<artifactId>robot-project</artifactId>
+		<groupId>robocode</groupId>
+		<artifactId>robocode-project</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-    <artifactId>robot-core</artifactId>
+    <artifactId>robocode-core</artifactId>
     <packaging>jar</packaging>
-    <name>robot-core</name>  
+    <name>robocode-core</name>  
     <description>Provides core robotgame functionality with no relation to UI.</description>
 
     <dependencies>

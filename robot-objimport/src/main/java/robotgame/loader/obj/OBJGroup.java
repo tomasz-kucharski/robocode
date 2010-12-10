@@ -28,12 +28,6 @@ public class OBJGroup {
         faces.add(face);
     }
 
-    private FloatBuffer initFloatBuffer(int bufferSize) {
-        ByteBuffer tbb = ByteBuffer.allocateDirect(bufferSize * Float.SIZE/8);
-        tbb.order(ByteOrder.nativeOrder());
-        return tbb.asFloatBuffer();
-    }
-
     public void setMaterial(Material material) {
         this.material = material;
     }
@@ -51,6 +45,7 @@ public class OBJGroup {
     }
 
     public FloatBuffer getNormalBuffer() {
+        reorderNormalsBasedOnFaces();
         FloatBuffer floatBuffer = initFloatBuffer(normals.size() * Vertex.NUMBER_OF_FLOATS);
         for (Vertex vertex : normals) {
             floatBuffer.put(vertex.getX());
@@ -60,6 +55,24 @@ public class OBJGroup {
         floatBuffer.position(0);
         return floatBuffer;
     }
+
+    public void reorderNormalsBasedOnFaces() {
+        if (facesContainNormals()) {
+            ArrayList<Vertex> newNormals = new ArrayList<Vertex>();
+            for (Face face : faces) {
+                // focused only on first normal value as we have one normal (3points) per one Vertex(3 points)
+                FaceElementVertexNormal faceElement = (FaceElementVertexNormal) face.getFaceX();
+                short normalIndex = faceElement.getNormal();
+                newNormals.add(normals.get(normalIndex));
+            }
+            normals = newNormals;
+        }
+    }
+
+    private boolean facesContainNormals() {
+        return (faces.get(0).getFaceX().getClass().isAssignableFrom(FaceElementVertexNormal.class));
+    }
+
 
     public ShortBuffer getFaceBuffer() {
         if (faces.size() ==0) {
@@ -79,5 +92,11 @@ public class OBJGroup {
 
     private int getFaceElementLengthInBytes() {
         return faces.get(0).getFaceX().toArray().length * Short.SIZE/8;
+    }
+
+    private FloatBuffer initFloatBuffer(int bufferSize) {
+        ByteBuffer tbb = ByteBuffer.allocateDirect(bufferSize * Float.SIZE/8);
+        tbb.order(ByteOrder.nativeOrder());
+        return tbb.asFloatBuffer();
     }
 }

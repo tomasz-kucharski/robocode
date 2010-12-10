@@ -97,4 +97,6 @@ public interface GL10 {
     void glPushMatrix();
 
     void glPopMatrix();
+
+    void glScalef(float x, float y, float z);
 }
