@@ -2,10 +2,5 @@
 *.iws
 *.iml
 .idea
-robot-android/gen
-robot-android/target
-robot-core/target
-robot-desktop/target
-robot-opengl/target
-robot-objimport/target
-
+*/gen
+*/target
