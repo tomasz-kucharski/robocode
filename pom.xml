@@ -7,11 +7,11 @@
     <packaging>pom</packaging>
     <name>robocode-project</name>
     <modules>
-        <module>robot-core</module>
-        <module>robot-opengl</module>
-        <module>robot-desktop</module>
-        <module>robot-android</module>
-        <module>robot-objimport</module>
+        <module>robocode-core</module>
+        <module>robocode-opengl</module>
+        <module>robocode-desktop</module>
+        <module>robocode-android</module>
+        <module>robocode-objimport</module>
     </modules>
 
     <dependencyManagement>

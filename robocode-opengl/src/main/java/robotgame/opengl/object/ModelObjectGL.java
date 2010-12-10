@@ -30,8 +30,8 @@ public class ModelObjectGL implements WorldObjectRenderer {
     protected GL10 gl;
 
     private Map<String, ModelGroupGL> groups = new HashMap<String, ModelGroupGL>();
-	
-	private BufferedReader modelFile;
+
+    private BufferedReader modelFile;
 
     @Override
     public void setTextureLoader(TextureLoader textureLoader) {
@@ -46,17 +46,13 @@ public class ModelObjectGL implements WorldObjectRenderer {
     @Override
     public void init() {
         OBJFileLoader fileLoader = new OBJFileLoader();
-        try {
-            fileLoader.load(modelFile);
-            for (Map.Entry<String, OBJGroup> group : fileLoader.getModel().getGroups().entrySet()) {
-                ModelGroupGL modelGroup = new ModelGroupGL();
-                modelGroup.setVertexBuffer(group.getValue().getVertexBuffer());
-                modelGroup.setNormalBuffer(group.getValue().getNormalBuffer());
-                modelGroup.setIndexBuffer(group.getValue().getFaceBuffer());
-                groups.put(group.getKey(),modelGroup);
-            }
-        } catch (FileNotFoundException e) {
-            log.warn("Robot model not found",e);
+        fileLoader.load(modelFile);
+        for (Map.Entry<String, OBJGroup> group : fileLoader.getModel().getGroups().entrySet()) {
+            ModelGroupGL modelGroup = new ModelGroupGL();
+            modelGroup.setVertexBuffer(group.getValue().getVertexBuffer());
+            modelGroup.setNormalBuffer(group.getValue().getNormalBuffer());
+            modelGroup.setIndexBuffer(group.getValue().getFaceBuffer());
+            groups.put(group.getKey(),modelGroup);
         }
     }
 

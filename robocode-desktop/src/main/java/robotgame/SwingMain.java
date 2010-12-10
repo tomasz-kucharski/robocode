@@ -1,6 +1,8 @@
 package robotgame;
 
 import com.sun.opengl.util.Animator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import robotgame.loader.DeployWorld;
 import robotgame.loader.FileTextureLoader;
 import robotgame.opengl.WorldServiceOpenGL;
@@ -21,6 +23,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class SwingMain implements GLEventListener, KeyListener, MouseWheelListener, MouseMotionListener {
+    private static final Logger log = LoggerFactory.getLogger(SwingMain.class);
 
     private Point mousePoint;
     private JPopupMenu popupMenu = new PopUpDemo();
@@ -126,6 +129,10 @@ public class SwingMain implements GLEventListener, KeyListener, MouseWheelListen
     }
 
     public static void main(String[] args) throws IOException {
+        if (args.length == 0) {
+            log.warn("You must provide scenario location as a first argument");
+            System.exit(0);
+        }
         SwingMain swingMain = new SwingMain(args[0]);
         swingMain.loadWorld(args[0], new File(args[0]+"\\maps\\smallMap.txt"));
         swingMain.init();

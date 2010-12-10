@@ -8,7 +8,7 @@
 	</parent>
     <artifactId>robocode-opengl</artifactId>
     <packaging>jar</packaging>
-    <name>robot-opengl</name>
+    <name>robocode-opengl</name>
     <description>UI for robot-core based on OpenGL ES 1.0 implementation, focused on Android performance. Therefore microedition. khronos library is used.</description>
 
 

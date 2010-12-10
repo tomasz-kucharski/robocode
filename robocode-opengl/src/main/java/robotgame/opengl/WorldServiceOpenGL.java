@@ -21,7 +21,7 @@ public class WorldServiceOpenGL extends WorldService {
         rendererHashMap.put(MapObject.DEPOT,new DepotGL());
         rendererHashMap.put(MapObject.FURNITURE,new FurnitureGL());
         rendererHashMap.put(MapObject.RUBBISH,new RubbishGL());
-        rendererHashMap.put(MapObject.ROBOT,new ModelObjectGL());
+        rendererHashMap.put(MapObject.ROBOT,new RobotGL());
         rendererHashMap.put(MapObject.FLOOR,new FloorGL());
         rendererHashMap.put(MapObject.WALL,new WallGL());
 
